@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brainx Team | منصة مشروع التخرج</title>
+  <!-- Google Fonts: Cairo, Tajawal, Orbitron -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            cairo: ['Cairo', 'sans-serif'],
+            tajawal: ['Tajawal', 'sans-serif'],
+            orbitron: ['Orbitron', 'sans-serif'],
+          },
+          colors: {
+            cosmic: {
+              950: '#050814',
+              900: '#070B19',
+              800: '#0B1120',
+              700: '#111930',
+            },
+            neon: {
+              cyan: '#00F0FF',
+              purple: '#7C3AED',
+              gold: '#F59E0B',
+              emerald: '#10B981',
+              crimson: '#EF4444',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --bg-deep: #070B19;
+      --glass-bg: rgba(17, 25, 48, 0.72);
+      --glass-border: rgba(0, 240, 255, 0.18);
+      --cyan-glow: 0 0 25px rgba(0, 240, 255, 0.35);
+      --gold-glow: 0 0 25px rgba(245, 158, 11, 0.35);
+      --purple-glow: 0 0 25px rgba(124, 58, 237, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-deep);
+      color: #F8FAFC;
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #070B19;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #00F0FF, #7C3AED);
+      border-radius: 999px;
+    }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    }
+
+    .glass-card-neon {
+      background: linear-gradient(145deg, rgba(17, 25, 48, 0.85), rgba(11, 17, 32, 0.9));
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(0, 240, 255, 0.22);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    /* Animated Gradient Text */
+    .text-gradient-brand {
+      background: linear-gradient(135deg, #00F0FF 0%, #8B5CF6 50%, #F59E0B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shineText 5s linear infinite;
+    }
+
+    @keyframes shineText {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    /* Floating & Pulse Animations */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-float {
+      animation: floatSlow 4s ease-in-out infinite;
+    }
+
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); opacity: 0.7; }
+      70% { transform: scale(1.15); opacity: 0; }
+      100% { transform: scale(1.15); opacity: 0; }
+    }
+    .pulse-ring::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: inherit;
+      border: 2px solid #00F0FF;
+      animation: pulseRing 2.5s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+
+    /* Shake Error Animation */
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      15%, 45%, 75% { transform: translateX(-10px); }
+      30%, 60%, 90% { transform: translateX(10px); }
+    }
+    .animate-shake {
+      animation: shakeError 0.55s cubic-bezier(.36,.07,.19,.97) both;
+      border-color: rgba(239, 68, 68, 0.7) !important;
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.35) !important;
+    }
+
+    /* Smooth Tab Entry */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .tab-panel-enter {
+      animation: fadeSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Conveyor Belt SVG Animation */
+    @keyframes beltMove {
+      from { stroke-dashoffset: 24; }
+      to { stroke-dashoffset: 0; }
+    }
+    .conveyor-dash {
+      animation: beltMove 0.8s linear infinite;
+    }
+
+    @keyframes sensorBeam {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 0.95; }
+    }
+    .sensor-beam {
+      animation: sensorBeam 1.6s ease-in-out infinite;
+    }
+
+    /* Ambient Glow Blobs */
+    .ambient-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(110px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+  </style>
+</head>
+<body class="selection:bg-cyan-400 selection:text-slate-950">
+
+  <!-- Interactive Particle Network Background -->
+  <canvas id="neural-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+  <!-- Ambient Lighting Orbs -->
+  <div class="ambient-orb w-96 h-96 bg-cyan-500 -top-24 -right-24"></div>
+  <div class="ambient-orb w-[28rem] h-[28rem] bg-purple-700 bottom-0 -left-28"></div>
+  <div class="ambient-orb w-72 h-72 bg-amber-500/40 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+
+  <!-- ========================================================= -->
+  <!-- 1. LOGIN PORTAL VIEW (بوابة تسجيل الدخول)                 -->
+  <!-- ========================================================= -->
+  <main id="login-view" class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-10">
+    
+    <!-- Top University Pill -->
+    <div class="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-cyan-400/25 text-xs sm:text-sm text-cyan-200 shadow-lg">
+      <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+      <span>جامعة برج العرب التكنولوجية • قسم تكنولوجيا المعلومات (IT)</span>
+    </div>
+
+    <!-- Login Card -->
+    <div id="login-card" class="w-full max-w-md glass-card-neon rounded-3xl p-7 sm:p-9 relative overflow-hidden transition-all duration-300">
+      <!-- Top Decorative Neon Line -->
+      <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-amber-400"></div>
+
+      <!-- Custom Animated Brand Logo -->
+      <div class="flex flex-col items-center text-center mb-8">
+        <div class="relative w-24 h-24 mb-4 animate-float flex items-center justify-center">
+          <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-cyan-500/25 via-purple-600/25 to-amber-400/25 blur-xl"></div>
+          <!-- Brainx Team Custom SVG Logo -->
+          <svg viewBox="0 0 120 120" class="w-24 h-24 relative z-10 drop-shadow-[0_0_15px_rgba(0,240,255,0.5)]" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brainGrad" x1="15" y1="15" x2="105" y2="105" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#00F0FF"/>
+                <stop offset="55%" stop-color="#8B5CF6"/>
+                <stop offset="100%" stop-color="#F59E0B"/>
+              </linearGradient>
+              <linearGradient id="boltGrad" x1="45" y1="25" x2="75" y2="95" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FDE047"/>
+                <stop offset="100%" stop-color="#F59E0B"/>
+              </linearGradient>
+            </defs>
+            <!-- Outer Hexagon Tech Ring -->
+            <polygon points="60,6 108,33 108,87 60,114 12,87 12,33" stroke="url(#brainGrad)" stroke-width="2.5" fill="rgba(7,11,25,0.85)"/>
+            <polygon points="60,14 100,37 100,83 60,106 20,83 20,37" stroke="rgba(0,240,255,0.25)" stroke-width="1" stroke-dasharray="4 4"/>
+            <!-- Stylized Left & Right Brain Circuits -->
+            <path d="M52 34C40 34 32 42 32 52C32 56 34 60 36 62C33 65 32 69 33 74C35 81 42 86 50 86H53V34H52Z" stroke="#00F0FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="rgba(0,240,255,0.08)"/>
+            <path d="M68 34C80 34 88 42 88 52C88 56 86 60 84 62C87 65 88 69 87 74C85 81 78 86 70 86H67V34H68Z" stroke="#A855F7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="rgba(168,85,247,0.08)"/>
+            <!-- Circuit Nodes -->
+            <circle cx="42" cy="50" r="2.5" fill="#00F0FF"/>
+            <circle cx="42" cy="70" r="2.5" fill="#00F0FF"/>
+            <path d="M42 50H48M42 70H48" stroke="#00F0FF" stroke-width="1.8"/>
+            <circle cx="78" cy="50" r="2.5" fill="#C084FC"/>
+            <circle cx="78" cy="70" r="2.5" fill="#C084FC"/>
+            <path d="M78 50H72M78 70H72" stroke="#C084FC" stroke-width="1.8"/>
+            <!-- Central Lightning Bolt -->
+            <path d="M63 24L47 62H60L56 96L74 56H61L63 24Z" fill="url(#boltGrad)" stroke="#FFFBEB" stroke-width="1.2" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <h1 class="font-orbitron text-3xl sm:text-4xl font-black tracking-wider text-gradient-brand mb-1" dir="ltr">
+          Brainx Team
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base font-medium">
+          بوابة أعضاء فريق مشروع التخرج الذكية
+        </p>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" class="space-y-5" novalidate>
+        <div>
+          <label for="member-id-input" class="block text-sm font-bold text-cyan-300 mb-2 flex items-center justify-between">
+            <span>ادخل الايدي</span>
+            <span class="text-xs font-normal text-slate-400">الرقم التعريفي للعضو</span>
+          </label>
+          <div class="relative group">
+            <input
+              type="text"
+              id="member-id-input"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="ادخل الايدي"
+              class="w-full px-4 py-3.5 pl-12 rounded-2xl bg-slate-950/80 border border-slate-700/80 text-white placeholder-slate-500 text-lg font-bold tracking-wider focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all text-center"
+            />
+            <div class="absolute inset-y-0 left-3.5 flex items-center pointer-events-none text-cyan-400/70 group-focus-within:text-cyan-300">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Message Box (Hidden by default) -->
+        <div id="login-error-box" class="hidden rounded-2xl bg-red-500/15 border border-red-500/50 px-4 py-3 text-red-300 text-sm font-bold flex items-center justify-center gap-2 text-center shadow-lg">
+          <svg class="w-5 h-5 text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <span id="login-error-text">هذا الايدي غير موجود بالتيم</span>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-3.5 px-6 rounded-2xl font-extrabold text-base sm:text-lg text-slate-950 bg-gradient-to-r from-cyan-400 via-sky-300 to-amber-300 hover:from-cyan-300 hover:to-amber-200 active:scale-[0.98] transition-all shadow-[0_0_25px_rgba(0,240,255,0.4)] flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span>دخول البوابة</span>
+          <svg class="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </button>
+      </form>
+
+      <!-- Footer Note -->
+      <div class="mt-6 pt-5 border-t border-white/10 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span>نظام ذكي لفرز المخلفات البلاستيكية والمعدنية باستخدام سير ناقل</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- 2. MAIN DASHBOARD VIEW (صفحة المشروع الرئيسية)            -->
+  <!-- ========================================================= -->
+  <div id="dashboard-view" class="hidden relative z-10 min-h-screen flex flex-col">
+
+    <!-- Top Luxury Navbar -->
+    <header class="sticky top-0 z-40 glass-card border-b border-cyan-400/20 px-4 sm:px-8 py-3.5">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+        
+        <!-- Brand Logo & Name -->
+        <div class="flex items-center gap-3">
+          <svg viewBox="0 0 120 120" class="w-10 h-10 sm:w-11 sm:h-11 drop-shadow-[0_0_10px_rgba(0,240,255,0.45)]" fill="none">
+            <polygon points="60,6 108,33 108,87 60,114 12,87 12,33" stroke="#00F0FF" stroke-width="3" fill="#070B19"/>
+            <path d="M63 24L47 62H60L56 96L74 56H61L63 24Z" fill="#F59E0B"/>
+          </svg>
+          <div>
+            <span class="font-orbitron font-black text-lg sm:text-xl text-gradient-brand block leading-none" dir="ltr">Brainx Team</span>
+            <span class="text-[11px] text-slate-400 font-semibold">منصة مشروع التخرج • IT</span>
+          </div>
+        </div>
+
+        <!-- Logged-In Member Name Pill (Displayed Prominently at the Top) -->
+        <div class="order-3 md:order-2 w-full md:w-auto flex items-center justify-center">
+          <div class="w-full md:w-auto flex items-center justify-between md:justify-center gap-3 px-4 py-2 rounded-2xl bg-gradient-to-r from-cyan-500/15 via-purple-500/15 to-amber-500/15 border border-cyan-400/30 shadow-inner">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-slate-950 font-black text-sm shadow">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <div>
+                <span class="text-[11px] text-cyan-300 block leading-tight">مرحباً بك في مساحة العمل</span>
+                <span id="nav-user-name" class="font-extrabold text-sm sm:text-base text-white">اسم العضو</span>
+              </div>
+            </div>
+            <span id="nav-user-badge" class="hidden px-2.5 py-0.5 rounded-full text-xs font-extrabold"></span>
+          </div>
+        </div>
+
+        <!-- Logout Button -->
+        <div class="order-2 md:order-3">
+          <button
+            id="logout-btn"
+            class="px-3.5 py-2 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/40 text-red-300 hover:text-white text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span>تسجيل الخروج</span>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 sm:py-8 flex-1">
+
+      <!-- Navigation Tabs Bar -->
+      <nav aria-label="أقسام المنصة" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mb-8 p-2 rounded-3xl glass-card border border-white/10">
+        <button
+          data-tab="project"
+          class="tab-btn active-tab py-3 px-4 rounded-2xl font-extrabold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 shadow-[0_0_20px_rgba(0,240,255,0.35)]"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          <span>تفاصيل المشروع</span>
+        </button>
+
+        <button
+          data-tab="meeting"
+          class="tab-btn py-3 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-300 hover:text-white hover:bg-white/5"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <span>الميتنج</span>
+        </button>
+
+        <button
+          data-tab="grades"
+          class="tab-btn py-3 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-300 hover:text-white hover:bg-white/5"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+          </svg>
+          <span>الدرجات</span>
+        </button>
+
+        <button
+          data-tab="members"
+          class="tab-btn py-3 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-300 hover:text-white hover:bg-white/5"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+          </svg>
+          <span>أعضاء التيم (24)</span>
+        </button>
+      </nav>
+
+      <!-- ===================================================== -->
+      <!-- TAB 1: تفاصيل المشروع (PROJECT DETAILS & BLUEPRINT)    -->
+      <!-- ===================================================== -->
+      <section id="tab-project" class="tab-panel tab-panel-enter space-y-8">
+        
+        <!-- Hero Project Banner -->
+        <div class="glass-card-neon rounded-3xl p-6 sm:p-9 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-64 h-64 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="flex flex-wrap items-center gap-2.5 mb-4">
+            <span class="px-3.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/35 text-cyan-300 text-xs font-bold">
+              الفرقة الثانية - المستوى الثاني
+            </span>
+            <span class="px-3.5 py-1 rounded-full bg-purple-500/15 border border-purple-400/35 text-purple-300 text-xs font-bold">
+              برنامج تكنولوجيا المعلومات (IT)
+            </span>
+            <span class="px-3.5 py-1 rounded-full bg-amber-500/15 border border-amber-400/35 text-amber-300 text-xs font-bold">
+              موقف الفكرة: قيد مراجعة رئيس القسم
+            </span>
+          </div>
+
+          <h2 class="text-2xl sm:text-4xl font-black text-white leading-snug mb-3">
+            نظام ذكي لفرز المخلفات البلاستيكية والمعدنية باستخدام سير ناقل
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base max-w-4xl leading-relaxed">
+            مقترح مشروع التخرج المقدم من فريق <span class="text-cyan-300 font-bold">Brainx Team</span> بجامعة برج العرب التكنولوجية — نموذج أولي لنظام أتمتة صناعية وبيئية يعتمد على الحساسات الذكية والمتحكمات الدقيقة لفرز ونقل المخلفات القابلة لإعادة التدوير بكفاءة عالية.
+          </p>
+        </div>
+
+        <!-- Conceptual System Visualization (الصورة التخيلية للمشروع) -->
+        <div class="glass-card-neon rounded-3xl p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <div class="inline-flex items-center gap-2 text-cyan-400 text-xs font-extrabold uppercase tracking-wider mb-1">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>التصميم الهندسي والمخطط التخيلي</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-black text-white">الصورة التخيلية للمشروع والمحاكاة التفاعلية</h3>
+            </div>
+
+            <button
+              id="simulate-btn"
+              class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-cyan-400 to-purple-500 hover:from-cyan-300 hover:to-purple-400 text-slate-950 font-black text-sm shadow-[0_0_20px_rgba(0,240,255,0.35)] transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+              </svg>
+              <span id="simulate-btn-text">تشغيل محاكاة الفرز الحية</span>
+            </button>
+          </div>
+
+          <!-- Interactive Conceptual Diagram SVG matching Page 5 of the Proposal -->
+          <div class="relative rounded-2xl bg-[#060916] border border-cyan-500/25 p-3 sm:p-6 overflow-hidden shadow-inner">
+            <!-- Live Status Banner inside Blueprint -->
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3 text-xs">
+              <span id="sim-status-text" class="px-3 py-1 rounded-lg bg-slate-900/90 border border-cyan-400/30 text-cyan-300 font-bold">
+                الحالة: جاهز — اضغط على "تشغيل محاكاة الفرز الحية" لمشاهدة فرز البلاستيك والمعادن
+              </span>
+              <span class="text-slate-400 font-semibold">تصور فريق Brainx Team</span>
+            </div>
+
+            <div class="w-full overflow-x-auto">
+              <svg id="conceptual-svg" viewBox="0 0 960 440" class="w-full min-w-[680px] h-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="metalFrame" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#475569"/>
+                    <stop offset="100%" stop-color="#1E293B"/>
+                  </linearGradient>
+                  <linearGradient id="blueBinGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#2563EB"/>
+                    <stop offset="100%" stop-color="#1D4ED8"/>
+                  </linearGradient>
+                  <linearGradient id="sensorGlow" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.75"/>
+                    <stop offset="100%" stop-color="#00F0FF" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- Background Floor & Line Follower Track -->
+                <line x1="30" y1="395" x2="930" y2="395" stroke="#1E293B" stroke-width="3"/>
+                <!-- Line Follower Black Track Path -->
+                <path d="M580 398 H885 Q915 398 915 375 V330" stroke="#00F0FF" stroke-width="4" stroke-dasharray="10 6" fill="none" opacity="0.6"/>
+                <text x="735" y="422" fill="#94A3B8" font-size="13" font-weight="bold" text-anchor="middle" font-family="Cairo">مسار تتبع الخط (Line Follower Track)</text>
+
+                <!-- 1. Dumping Station (محطة التفريغ) on Right -->
+                <g transform="translate(835, 165)">
+                  <rect x="0" y="0" width="95" height="175" rx="8" fill="#1E293B" stroke="#64748B" stroke-width="2"/>
+                  <rect x="10" y="15" width="75" height="35" rx="4" fill="#0F172A" stroke="#00F0FF" stroke-width="1"/>
+                  <!-- Recycle Symbol -->
+                  <text x="47" y="105" fill="#94A3B8" font-size="28" text-anchor="middle">♻</text>
+                  <!-- Label Callout -->
+                  <rect x="-15" y="-52" width="125" height="40" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
+                  <text x="47" y="-35" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">محطة التفريغ</text>
+                  <text x="47" y="-20" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">Dumping Station</text>
+                  <line x1="47" y1="-12" x2="47" y2="0" stroke="#F87171" stroke-width="1.5"/>
+                </g>
+
+                <!-- 2. Conveyor Belt Structure (السير الناقل) -->
+                <g>
+                  <!-- Support Legs -->
+                  <rect x="75" y="185" width="14" height="210" fill="url(#metalFrame)"/>
+                  <rect x="330" y="185" width="14" height="210" fill="url(#metalFrame)"/>
+                  <rect x="575" y="185" width="14" height="210" fill="url(#metalFrame)"/>
+                  <!-- Belt Body -->
+                  <rect x="55" y="155" width="560" height="32" rx="16" fill="#0F172A" stroke="#64748B" stroke-width="3"/>
+                  <!-- Animated Belt Track -->
+                  <line x1="72" y1="171" x2="598" y2="171" stroke="#00F0FF" stroke-width="4" stroke-dasharray="12 12" class="conveyor-dash"/>
+                  <!-- Rollers -->
+                  <circle cx="72" cy="171" r="10" fill="#334155" stroke="#94A3B8" stroke-width="2"/>
+                  <circle cx="337" cy="171" r="10" fill="#334155" stroke="#94A3B8" stroke-width="2"/>
+                  <circle cx="598" cy="171" r="10" fill="#334155" stroke="#94A3B8" stroke-width="2"/>
+
+                  <!-- Conveyor Label Callout -->
+                  <rect x="65" y="215" width="145" height="42" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
+                  <text x="137" y="233" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">السير الناقل</text>
+                  <text x="137" y="249" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">Conveyor Belt</text>
+                  <line x1="137" y1="215" x2="137" y2="188" stroke="#F87171" stroke-width="1.5"/>
+                </g>
+
+                <!-- 3. Arduino Control Unit (وحدة التحكم) -->
+                <g transform="translate(215, 200)">
+                  <rect x="0" y="0" width="105" height="75" rx="8" fill="#E2E8F0" stroke="#00F0FF" stroke-width="2"/>
+                  <text x="52" y="34" fill="#0284C7" font-size="22" font-weight="900" text-anchor="middle" font-family="Orbitron">∞</text>
+                  <text x="52" y="53" fill="#0F172A" font-size="11" font-weight="800" text-anchor="middle" font-family="Orbitron">ARDUINO</text>
+                  <circle cx="88" cy="16" r="4" fill="#EF4444"/>
+                  <!-- Label Callout -->
+                  <rect x="-12" y="92" width="130" height="42" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
+                  <text x="53" y="110" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">وحدة التحكم</text>
+                  <text x="53" y="126" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">(Arduino)</text>
+                  <line x1="53" y1="92" x2="53" y2="75" stroke="#F87171" stroke-width="1.5"/>
+                </g>
+
+                <!-- 4. Inductive Sensor (حساس كشف المعادن) -->
+                <g transform="translate(290, 92)">
+                  <!-- Bracket -->
+                  <rect x="14" y="0" width="12" height="52" rx="3" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
+                  <rect x="11" y="42" width="18" height="10" fill="#F59E0B"/>
+                  <!-- Detection Beam -->
+                  <polygon points="10,52 30,52 38,80 2,80" fill="url(#sensorGlow)" class="sensor-beam"/>
+                  <!-- Label Callout -->
+                  <rect x="-55" y="-65" width="150" height="44" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
+                  <text x="20" y="-46" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">حساس كشف المعادن</text>
+                  <text x="20" y="-30" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">Inductive Sensor</text>
+                  <line x1="20" y1="-21" x2="20" y2="0" stroke="#F87171" stroke-width="1.5"/>
+                </g>
+
+                <!-- 5. Servo Gate (القطعة المانعة / البوابة المائلة) -->
+                <g transform="translate(385, 110)">
+                  <!-- Servo Motor Housing -->
+                  <rect x="0" y="0" width="32" height="36" rx="5" fill="#1D4ED8" stroke="#60A5FA" stroke-width="1.5"/>
+                  <!-- Animated Diverter Arm -->
+                  <rect id="servo-arm" x="12" y="32" width="10" height="46" rx="4" fill="#CBD5E1" stroke="#00F0FF" stroke-width="1.5" transform="rotate(28 16 34)" style="transition: transform 0.45s ease;"/>
+                  <!-- Label Callout -->
+                  <rect x="-15" y="-83" width="140" height="44" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
+                  <text x="55" y="-64" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">القطعة المانعة</text>
+                  <text x="55" y="-48" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">(Servo Gate)</text>
+                  <line x1="35" y1="-39" x2="18" y2="0" stroke="#F87171" stroke-width="1.5"/>
+                </g>
+
+                <!-- 6. Plastic Collection Bin (صندوق البلاستيك) -->
+                <g transform="translate(365, 245)">
+                  <polygon points="10,0 135,0 123,105 22,105" fill="url(#blueBinGrad)" stroke="#60A5FA" stroke-width="2"/>
+                  <rect x="4" y="-6" width="137" height="10" rx="4" fill="#3B82F6"/>
+                  <text x="72" y="62" fill="#FFFFFF" font-size="34" text-anchor="middle">♻</text>
+                  <!-- Label Callout -->
+                  <rect x="7" y="114" width="130" height="34" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
+                  <text x="72" y="135" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">صندوق البلاستيك</text>
+                </g>
+
+                <!-- 7. Metal Chute (مسار نزول المعادن) -->
+                <g>
+                  <path d="M610 172 L680 245 L665 256 L598 184 Z" fill="#94A3B8" stroke="#E2E8F0" stroke-width="1.5"/>
+                  <!-- Label Callout -->
+                  <rect x="615" y="112" width="145" height="42" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
+                  <text x="687" y="130" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">مسار نزول المعادن</text>
+                  <text x="687" y="146" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">(Metal Chute)</text>
+                  <line x1="665" y1="154" x2="645" y2="205" stroke="#F87171" stroke-width="1.5"/>
+                </g>
+
+                <!-- 8. Mobile Metal Collection Cart (عربة متحركة تتبع الخط + صندوق المعادن) -->
+                <g id="mobile-cart" transform="translate(635, 255)" style="transition: transform 1.2s ease-in-out;">
+                  <!-- Metal Box -->
+                  <rect x="10" y="0" width="115" height="85" rx="6" fill="#64748B" stroke="#CBD5E1" stroke-width="2"/>
+                  <text x="67" y="52" fill="#0F172A" font-size="30" text-anchor="middle">♻</text>
+                  <!-- Chassis & Wheels -->
+                  <rect x="4" y="85" width="127" height="14" rx="4" fill="#1E293B" stroke="#00F0FF" stroke-width="1.5"/>
+                  <circle cx="28" cy="105" r="14" fill="#FACC15" stroke="#0F172A" stroke-width="3"/>
+                  <circle cx="28" cy="105" r="5" fill="#0F172A"/>
+                  <circle cx="106" cy="105" r="14" fill="#FACC15" stroke="#0F172A" stroke-width="3"/>
+                  <circle cx="106" cy="105" r="5" fill="#0F172A"/>
+                  <!-- Label Callout -->
+                  <rect x="-10" y="-62" width="155" height="42" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
+                  <text x="67" y="-44" fill="#FFFFFF" font-size="11" font-weight="bold" text-anchor="middle" font-family="Cairo">صندوق تجميع المعادن (متنقل)</text>
+                  <text x="67" y="-28" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Cairo">عربة تتبع الخط (Line Follower)</text>
+                  <line x1="67" y1="-20" x2="67" y2="0" stroke="#F87171" stroke-width="1.5"/>
+                </g>
+
+                <!-- Input Waste Label -->
+                <g>
+                  <rect x="45" y="45" width="150" height="44" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
+                  <text x="120" y="64" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">قطع المخلفات</text>
+                  <text x="120" y="80" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Cairo">(بلاستيك أو معدن)</text>
+                  <line x1="120" y1="89" x2="120" y2="125" stroke="#F87171" stroke-width="1.5"/>
+                </g>
+
+                <!-- Animated Waste Item (Controlled by Simulation JS) -->
+                <g id="sim-item" transform="translate(105, 130)" opacity="1">
+                  <rect id="sim-item-shape" x="0" y="0" width="34" height="22" rx="6" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5"/>
+                  <text id="sim-item-label" x="17" y="15" fill="#0F172A" font-size="10" font-weight="900" text-anchor="middle" font-family="Cairo">بلاستيك</text>
+                </g>
+              </svg>
+            </div>
+
+            <!-- How it Works Summary Strip (طريقة العمل باختصار) -->
+            <div class="mt-5 pt-5 border-t border-white/10">
+              <h4 class="text-sm font-extrabold text-amber-300 mb-3 flex items-center gap-2">
+                <span>⚡ طريقة العمل باختصار:</span>
+              </h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs sm:text-sm">
+                <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex items-center gap-2.5">
+                  <span class="w-6 h-6 rounded-full bg-cyan-400 text-slate-950 font-black flex items-center justify-center shrink-0">1</span>
+                  <span class="text-slate-200">القطعة تمر على السير الناقل.</span>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex items-center gap-2.5">
+                  <span class="w-6 h-6 rounded-full bg-purple-400 text-slate-950 font-black flex items-center justify-center shrink-0">2</span>
+                  <span class="text-slate-200">حساس المعادن يحدد نوع القطعة.</span>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex items-center gap-2.5">
+                  <span class="w-6 h-6 rounded-full bg-sky-400 text-slate-950 font-black flex items-center justify-center shrink-0">3</span>
+                  <span class="text-slate-200">البلاستيك ينزل في الصندوق بعد الحساس.</span>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex items-center gap-2.5">
+                  <span class="w-6 h-6 rounded-full bg-amber-400 text-slate-950 font-black flex items-center justify-center shrink-0">4</span>
+                  <span class="text-slate-200">المعدن يكمل طريقه وينزل في الصندوق المتحرك.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Project Proposal Cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Card 1: وصف المشروع -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7 border-r-4 border-r-cyan-400">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-2xl bg-cyan-500/15 text-cyan-300 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <h3 class="text-xl font-black text-white">فكرة ووصف المشروع</h3>
+            </div>
+            <div class="space-y-3 text-slate-300 text-sm sm:text-base leading-relaxed">
+              <p>
+                يهدف المشروع إلى تصميم وتنفيذ نموذج أولي لنظام آلي يقوم بفرز المخلفات البلاستيكية والمعدنية باستخدام سير ناقل وحساس للكشف عن المعادن ووحدة تحكم إلكترونية.
+              </p>
+              <p>
+                تعتمد الفكرة على وضع القطع المراد فرزها على السير الناقل، حيث تمر أمام حساس الكشف عن المعادن لتحديد نوعها؛ في حالة عدم اكتشاف معدن تقوم بوابة مائلة يتم التحكم فيها بواسطة محرك سيرفو بتوجيه القطعة البلاستيكية إلى صندوق مخصص لجمع البلاستيك، أما في حالة اكتشاف قطعة معدنية فتفتح البوابة لفترة محددة لتستمر القطعة المعدنية على السير حتى تصل إلى مسار تجميع المعادن.
+              </p>
+              <p>
+                كما يتضمن المشروع صندوقًا متحركًا لجمع القطع المعدنية مثبتًا على عجلات ويتحرك على مسار محدد باستخدام نظام تتبع الخط، وعند امتلاء الصندوق يتحرك تلقائيًا إلى محطة تفريغ مخصصة ثم يعود إلى موقعه الأصلي لاستكمال التجميع.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 2: المشكلة والحل المقترح -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7 border-r-4 border-r-purple-500 flex flex-col justify-between space-y-6">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-2xl bg-red-500/15 text-red-300 flex items-center justify-center">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-black text-white">المشكلة التي يعالجها المشروع</h3>
+              </div>
+              <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                تتمثل المشكلة في صعوبة فرز المخلفات البلاستيكية والمعدنية يدويًا، وما تتطلبه هذه العملية من وقت وجهد مستمر واختلاط المواد القابلة لإعادة التدوير، بالإضافة إلى أن نقل المخلفات المعدنية إلى أماكن التجميع والتفريغ يتطلب تدخلاً بشريًا مستمرًا.
+              </p>
+            </div>
+
+            <div class="pt-5 border-t border-white/10">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-300 flex items-center justify-center">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-black text-white">الحل المقترح</h3>
+              </div>
+              <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                يقدم المشروع نظامًا آليًا منخفض التكلفة نسبيًا يساعد على فصل المخلفات البلاستيكية عن المعدنية وتقليل التدخل البشري، وتنظيم عملية جمع ونقل المعادن إلى محطة تفريغ محددة، مما يساهم في تحسين كفاءة إدارة المخلفات القابلة لإعادة التدوير.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3: أهداف المشروع -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7 border-r-4 border-r-amber-400">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-2xl bg-amber-500/15 text-amber-300 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                </svg>
+              </div>
+              <h3 class="text-xl font-black text-white">أهداف المشروع</h3>
+            </div>
+            <ul class="space-y-3 text-slate-300 text-sm sm:text-base">
+              <li class="flex items-start gap-2.5">
+                <span class="text-amber-400 font-bold mt-0.5">✦</span>
+                <span>أتمتة عملية فرز المخلفات البلاستيكية والمعدنية بدقة وسرعة.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-amber-400 font-bold mt-0.5">✦</span>
+                <span>تقليل الوقت والجهد المستخدمين في الفرز اليدوي التقليدي.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-amber-400 font-bold mt-0.5">✦</span>
+                <span>تحسين تنظيم جمع المخلفات القابلة لإعادة التدوير.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-amber-400 font-bold mt-0.5">✦</span>
+                <span>تنفيذ نظام آلي ذاتي الحركة لنقل المعادن إلى محطة تفريغ محددة.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-amber-400 font-bold mt-0.5">✦</span>
+                <span>تطبيق مفاهيم الأنظمة المدمجة (Embedded Systems) والحساسات والتحكم في نموذج عملي قابل للتطوير.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Card 4: طريقة التنفيذ -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7 border-r-4 border-r-emerald-400">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-300 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </div>
+              <h3 class="text-xl font-black text-white">طريقة تنفيذ المشروع</h3>
+            </div>
+            <div class="space-y-3 text-slate-300 text-sm sm:text-base leading-relaxed">
+              <p>
+                يتم بناء نموذج أولي يتكون من سير ناقل رئيسي، وحساس للكشف عن المعادن، وبوابة ميكانيكية بمحرك سيرفو، ووحدة تحكم إلكترونية من نوع <span class="text-cyan-300 font-bold font-orbitron">Arduino</span>.
+              </p>
+              <p>
+                عند وضع المخلفات على السير، يحدد الحساس نوع القطعة؛ فإذا كانت بلاستيكية تظل البوابة في وضعها الطبيعي لتوجيهها لصندوق البلاستيك، وإذا كانت معدنية تفتح البوابة لتمر القطعة لنهاية السير وتنزل عبر مسار مائل إلى صندوق تجميع المعادن المثبت على عربة مزودة بحساسات تتبع الخط (<span class="text-cyan-300 font-bold">Line Follower</span>).
+              </p>
+              <p>
+                عند وصول الصندوق للسعة المحددة تتحرك العربة تلقائيًا إلى محطة التفريغ، وتتوقف لفترة زمنية لتفريغ المعادن ثم تعود لموقعها الأصلي لاستكمال العمل.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===================================================== -->
+      <!-- TAB 2: الميتنج (MEETINGS & PERSONAL ATTENDANCE)        -->
+      <!-- ===================================================== -->
+      <section id="tab-meeting" class="tab-panel hidden space-y-6">
+        
+        <!-- WhatsApp Next Meeting Alert Banner -->
+        <div class="glass-card-neon rounded-3xl p-6 sm:p-7 border border-emerald-400/40 bg-gradient-to-r from-emerald-950/60 via-slate-900/80 to-cyan-950/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-4 text-center sm:text-right">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 shrink-0 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+              </svg>
+            </div>
+            <div>
+              <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-extrabold mb-1">
+                تنبيه هام للميتنج القادم
+              </span>
+              <h3 class="text-lg sm:text-xl font-black text-white">
+                تابع جروب التيم علي واتساب علشان تعرف ميعاد الميتنج القادم
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal Attendance Record Card -->
+        <div class="glass-card-neon rounded-3xl p-6 sm:p-8">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-6 mb-6 border-b border-white/10">
+            <div>
+              <h3 class="text-xl sm:text-2xl font-black text-white">سجل حضور الاجتماعات الخاص بك</h3>
+              <p class="text-slate-400 text-sm mt-1">هذا السجل خاص بك فقط ولا يظهر لأي عضو آخر</p>
+            </div>
+            <div class="px-4 py-2 rounded-2xl bg-slate-900/90 border border-cyan-400/25 text-sm font-bold text-cyan-300">
+              العضو: <span id="meeting-member-name" class="text-white"></span>
+            </div>
+          </div>
+
+          <!-- Meeting #1 Details -->
+          <div class="rounded-2xl bg-slate-950/70 border border-white/10 p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+            <div class="space-y-2">
+              <div class="flex flex-wrap items-center gap-2.5">
+                <span class="px-3 py-1 rounded-xl bg-purple-500/20 border border-purple-400/30 text-purple-300 text-xs font-extrabold">
+                  الميتنج الأول (مكتمل)
+                </span>
+                <span class="px-3 py-1 rounded-xl bg-slate-800 text-cyan-300 text-xs font-bold font-orbitron" dir="ltr">
+                  26 / 11 / 2026
+                </span>
+              </div>
+              <h4 class="text-lg sm:text-xl font-extrabold text-white">
+                الاجتماع التأسيسي ومناقشة مقترح مشروع التخرج
+              </h4>
+              <p class="text-slate-400 text-sm">
+                مراجعة تفاصيل نظام فرز المخلفات وتوزيع المهام المبدئية على أعضاء الفريق.
+              </p>
+            </div>
+
+            <!-- Dynamic Personal Attendance Status Badge -->
+            <div id="meeting-status-container" class="w-full md:w-auto flex justify-end">
+              <!-- Populated dynamically via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================== -->
+      <!-- TAB 3: الدرجات (PERSONAL GRADES & EVALUATION)         -->
+      <!-- ===================================================== -->
+      <section id="tab-grades" class="tab-panel hidden">
+        <div class="max-w-2xl mx-auto glass-card-neon rounded-3xl p-7 sm:p-10 text-center relative overflow-hidden">
+          <div class="absolute -top-24 -right-24 w-56 h-56 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -bottom-24 -left-24 w-56 h-56 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+          <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-extrabold mb-4">
+            <span>التقييم الشخصي السري</span>
+          </span>
+
+          <h3 class="text-2xl sm:text-3xl font-black text-white mb-2">تقييم ودرجات العضو</h3>
+          <p id="grades-member-name" class="text-cyan-300 font-bold text-base sm:text-lg mb-8"></p>
+
+          <!-- Circular Score Gauge -->
+          <div class="relative w-52 h-52 mx-auto mb-7 flex items-center justify-center">
+            <svg class="w-full h-full -rotate-90" viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="68" stroke="rgba(255,255,255,0.08)" stroke-width="12" fill="none"/>
+              <circle
+                id="score-ring-circle"
+                cx="80"
+                cy="80"
+                r="68"
+                stroke="#00F0FF"
+                stroke-width="12"
+                stroke-linecap="round"
+                fill="none"
+                stroke-dasharray="427.25"
+                stroke-dashoffset="0"
+                style="transition: stroke-dashoffset 1s ease-out, stroke 0.5s ease;"
+              />
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span id="score-value-display" class="font-orbitron text-4xl sm:text-5xl font-black text-white">60</span>
+              <span class="text-slate-400 text-sm font-bold mt-1">من 60 درجة</span>
+            </div>
+          </div>
+
+          <div id="score-feedback-box" class="rounded-2xl p-4 border text-sm sm:text-base font-bold">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================== -->
+      <!-- TAB 4: أعضاء التيم (TEAM ROSTER - NO IDS SHOWN)       -->
+      <!-- ===================================================== -->
+      <section id="tab-members" class="tab-panel hidden space-y-6">
+        <div class="glass-card-neon rounded-3xl p-6 sm:p-8">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div>
+              <h3 class="text-2xl font-black text-white">قائمة أعضاء فريق Brainx Team</h3>
+              <p class="text-slate-400 text-sm mt-1">إجمالي أعضاء الفريق: 24 عضوًا • تكنولوجيا المعلومات</p>
+            </div>
+
+            <!-- Search Filter -->
+            <div class="relative w-full md:w-72">
+              <input
+                type="text"
+                id="member-search-input"
+                placeholder="ابحث باسم العضو..."
+                class="w-full px-4 py-2.5 pl-10 rounded-2xl bg-slate-950/80 border border-white/15 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 transition-all"
+              />
+              <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Members Grid (Strictly NO IDs rendered anywhere) -->
+          <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-auto py-5 px-4 border-t border-white/10 text-center text-xs text-slate-400">
+      <p>جميع الحقوق محفوظة © 2026 <span class="font-orbitron text-cyan-300 font-bold" dir="ltr">Brainx Team</span> — جامعة برج العرب التكنولوجية</p>
+    </footer>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- APPLICATION LOGIC & NEURAL CANVAS SCRIPT                  -->
+  <!-- ========================================================= -->
+  <script>
+    // 1. Exact Team Members Database (24 Members)
+    const TEAM_MEMBERS = [
+      { id: "2520734", name: "مازن محمد فوزي ابراهيم عثمان", role: "ليدر التيم", roleType: "leader", attended: true, score: 60 },
+      { id: "2460146", name: "ملك محمد سيد علي", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2460108", name: "فاطمة رضا محمود ابو الفتوح", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520836", name: "محمد منير سعيد رمضان", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520885", name: "مروان عبد الغفور حسن عبد الرحيم", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2521146", name: "يوسف خميس حامد", role: "عضو بالفريق", roleType: "member", attended: false, score: 57 },
+      { id: "2520259", name: "بسنت اشرف فتحي خليل", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520281", name: "جنا محمد السيد محمد احمد موسى", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520437", name: "زياد أسامة محي محمد علي", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2521145", name: "يوسف خالد إبراهيم محمد", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2521137", name: "يوسف إسماعيل احمد إسماعيل", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520796", name: "محمد سعيد إبراهيم", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520906", name: "مريم رجب مرسي اسماعيل", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520709", name: "كمال الدين محمود محمد محمد", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520698", name: "كارما هاني محمود انور", role: "مشرف التيم", roleType: "supervisor", attended: true, score: 60 },
+      { id: "2521077", name: "هاجر حسني ابراهيم علي", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2521023", name: "ندى علي مسعود", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520402", name: "رزان محمد عبد العاطي محمد السيد رجب", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520925", name: "مريم هاني مرسي عبد النبي مرسي غنيم", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520404", name: "رفعت محمد عبد الحسيب", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2520913", name: "مريم محمد سيد علي احمد سلامه", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2521198", name: "امينه محمد عبد الستار قطب عوض", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2540038", name: "احمد مصطفى فرغلي محمد حسين", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
+      { id: "2560056", name: "جنى ايمن رزق صبرة", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 }
+    ];
+
+    let currentUser = null;
+    let simulationRunning = false;
+
+    // Normalize Arabic digits (٠-٩) to English digits (0-9) so mobile Arabic keyboards work smoothly
+    function normalizeIdInput(raw) {
+      const arabicDigits = '٠١٢٣٤٥٦٧٨٩';
+      return raw.trim().replace(/[٠-٩]/g, (d) => arabicDigits.indexOf(d));
+    }
+
+    // 2. Login Portal Logic
+    const loginForm = document.getElementById('login-form');
+    const loginCard = document.getElementById('login-card');
+    const idInput = document.getElementById('member-id-input');
+    const errorBox = document.getElementById('login-error-box');
+    const loginView = document.getElementById('login-view');
+    const dashboardView = document.getElementById('dashboard-view');
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const enteredId = normalizeIdInput(idInput.value);
+      const matchedMember = TEAM_MEMBERS.find((m) => m.id === enteredId);
+
+      if (!matchedMember) {
+        // Trigger shake animation & show exact Arabic error message
+        errorBox.classList.remove('hidden');
+        loginCard.classList.remove('animate-shake');
+        void loginCard.offsetWidth; // trigger reflow
+        loginCard.classList.add('animate-shake');
+        idInput.focus();
+        return;
+      }
+
+      // Valid login
+      errorBox.classList.add('hidden');
+      currentUser = matchedMember;
+      renderDashboardForUser(matchedMember);
+
+      loginView.classList.add('hidden');
+      dashboardView.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Hide error box when user starts typing again
+    idInput.addEventListener('input', () => {
+      if (!errorBox.classList.contains('hidden')) {
+        errorBox.classList.add('hidden');
+      }
+    });
+
+    // Logout Handler
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      currentUser = null;
+      idInput.value = '';
+      errorBox.classList.add('hidden');
+      dashboardView.classList.add('hidden');
+      loginView.classList.remove('hidden');
+      switchTab('project');
+    });
+
+    // 3. Populate Personalized Dashboard Data (Strict Privacy)
+    function renderDashboardForUser(user) {
+      // Top Navbar Name & Role Badge
+      document.getElementById('nav-user-name').textContent = user.name;
+      const navBadge = document.getElementById('nav-user-badge');
+      if (user.roleType === 'leader') {
+        navBadge.textContent = '👑 ليدر التيم';
+        navBadge.className = 'px-3 py-1 rounded-full text-xs font-black bg-amber-400/20 text-amber-300 border border-amber-400/40';
+        navBadge.classList.remove('hidden');
+      } else if (user.roleType === 'supervisor') {
+        navBadge.textContent = '⚡ مشرف التيم';
+        navBadge.className = 'px-3 py-1 rounded-full text-xs font-black bg-purple-500/20 text-purple-300 border border-purple-400/40';
+        navBadge.classList.remove('hidden');
+      } else {
+        navBadge.classList.add('hidden');
+      }
+
+      // Meeting Tab (Only Current User's Attendance)
+      document.getElementById('meeting-member-name').textContent = user.name;
+      const meetingStatusContainer = document.getElementById('meeting-status-container');
+      if (user.attended) {
+        meetingStatusContainer.innerHTML = `
+          <div class="inline-flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 font-black text-base shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>تم الحضور</span>
+          </div>
+        `;
+      } else {
+        meetingStatusContainer.innerHTML = `
+          <div class="inline-flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-red-500/15 border border-red-400/50 text-red-300 font-black text-base shadow-[0_0_20px_rgba(239,68,68,0.25)]">
+            <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+            <span>لم يتم الحضور</span>
+          </div>
+        `;
+      }
+
+      // Grades Tab (Only Current User's Score)
+      document.getElementById('grades-member-name').textContent = user.name;
+      document.getElementById('score-value-display').textContent = user.score;
+      const circle = document.getElementById('score-ring-circle');
+      const circumference = 2 * Math.PI * 68; // ~427.25
+      const percentage = user.score / 60;
+      const offset = circumference * (1 - percentage);
+      circle.style.strokeDashoffset = offset;
+
+      const feedbackBox = document.getElementById('score-feedback-box');
+      if (user.score === 60) {
+        circle.style.stroke = '#10B981';
+        feedbackBox.className = 'rounded-2xl p-4 border border-emerald-400/35 bg-emerald-500/10 text-emerald-300 text-sm sm:text-base font-bold';
+        feedbackBox.textContent = 'أداء ممتاز! لقد حصلت على الدرجة النهائية الكاملة (60 من 60) في تقييم الفريق.';
+      } else {
+        circle.style.stroke = '#F59E0B';
+        feedbackBox.className = 'rounded-2xl p-4 border border-amber-400/35 bg-amber-500/10 text-amber-300 text-sm sm:text-base font-bold';
+        feedbackBox.textContent = 'درجتك الحالية هي 57 من 60 — يرجى الالتزام بحضور الاجتماعات القادمة للحفاظ على تقييمك.';
+      }
+
+      // Render Public Members List (Without IDs)
+      renderMembersGrid('');
+    }
+
+    // 4. Render Team Members Roster (Strictly NO IDs)
+    function renderMembersGrid(filterQuery) {
+      const grid = document.getElementById('members-grid');
+      const normalizedQuery = filterQuery.trim().toLowerCase();
+
+      const filtered = TEAM_MEMBERS.map((member, idx) => ({
+        index: idx + 1,
+        name: member.name,
+        role: member.role,
+        roleType: member.roleType
+      })).filter((m) => m.name.toLowerCase().includes(normalizedQuery));
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-10 text-slate-400 font-bold">
+            لا يوجد عضو مطابق لاسم البحث "${filterQuery}"
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map((m) => {
+        const isCurrentUser = currentUser && currentUser.name === m.name;
+        let cardBorder = 'border-white/10 hover:border-cyan-400/35';
+        let badgeHtml = `<span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800/90 text-slate-300 border border-white/10">عضو بالفريق</span>`;
+
+        if (m.roleType === 'leader') {
+          cardBorder = 'border-amber-400/50 bg-gradient-to-br from-amber-500/10 via-slate-900/90 to-slate-950/90 shadow-[0_0_25px_rgba(245,158,11,0.15)]';
+          badgeHtml = `<span class="px-3 py-1 rounded-full text-xs font-black bg-amber-400/20 text-amber-300 border border-amber-400/50">👑 ليدر التيم</span>`;
+        } else if (m.roleType === 'supervisor') {
+          cardBorder = 'border-purple-400/50 bg-gradient-to-br from-purple-500/10 via-slate-900/90 to-slate-950/90 shadow-[0_0_25px_rgba(124,58,237,0.15)]';
+          badgeHtml = `<span class="px-3 py-1 rounded-full text-xs font-black bg-purple-500/20 text-purple-300 border border-purple-400/50">⚡ مشرف التيم</span>`;
+        }
+
+        return `
+          <div class="rounded-2xl bg-slate-950/75 border ${cardBorder} p-4 flex items-center justify-between gap-3 transition-all">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-9 h-9 rounded-xl bg-slate-800 border border-white/10 flex items-center justify-center text-xs font-black text-cyan-300 shrink-0 font-orbitron">
+                ${m.index}
+              </div>
+              <div class="min-w-0">
+                <p class="font-bold text-sm sm:text-base text-white truncate" title="${m.name}">
+                  ${m.name}
+                </p>
+                ${isCurrentUser ? '<span class="text-[11px] text-cyan-400 font-bold">● حسابك الحالي</span>' : ''}
+              </div>
+            </div>
+            <div class="shrink-0">
+              ${badgeHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('member-search-input').addEventListener('input', (e) => {
+      renderMembersGrid(e.target.value);
+    });
+
+    // 5. Navigation Tabs Switching
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    function switchTab(targetTab) {
+      tabButtons.forEach((btn) => {
+        const isTarget = btn.getAttribute('data-tab') === targetTab;
+        if (isTarget) {
+          btn.className = 'tab-btn active-tab py-3 px-4 rounded-2xl font-extrabold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 shadow-[0_0_20px_rgba(0,240,255,0.35)]';
+        } else {
+          btn.className = 'tab-btn py-3 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-300 hover:text-white hover:bg-white/5';
+        }
+      });
+
+      tabPanels.forEach((panel) => {
+        if (panel.id === `tab-${targetTab}`) {
+          panel.classList.remove('hidden');
+          panel.classList.remove('tab-panel-enter');
+          void panel.offsetWidth;
+          panel.classList.add('tab-panel-enter');
+        } else {
+          panel.classList.add('hidden');
+        }
+      });
+    }
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        switchTab(btn.getAttribute('data-tab'));
+      });
+    });
+
+    // 6. Interactive Conceptual System Simulation (Plastic & Metal Sorting)
+    const simBtn = document.getElementById('simulate-btn');
+    const simBtnText = document.getElementById('simulate-btn-text');
+    const simStatus = document.getElementById('sim-status-text');
+    const simItem = document.getElementById('sim-item');
+    const simItemShape = document.getElementById('sim-item-shape');
+    const simItemLabel = document.getElementById('sim-item-label');
+    const servoArm = document.getElementById('servo-arm');
+    const mobileCart = document.getElementById('mobile-cart');
+
+    simBtn.addEventListener('click', async () => {
+      if (simulationRunning) return;
+      simulationRunning = true;
+      simBtn.classList.add('opacity-60', 'cursor-not-allowed');
+      simBtnText.textContent = 'جاري تشغيل المحاكاة...';
+
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+
+      // STEP 1: Plastic Bottle Sorting
+      simItem.style.transition = 'none';
+      simItem.setAttribute('transform', 'translate(90, 130)');
+      simItemShape.setAttribute('fill', '#38BDF8');
+      simItemLabel.textContent = 'بلاستيك';
+      servoArm.setAttribute('transform', 'rotate(28 16 34)'); // Closed gate diverting to plastic bin
+      simStatus.textContent = '1️⃣ مرور قطعة بلاستيكية على السير الناقل نحو الحساس...';
+      await wait(150);
+
+      simItem.style.transition = 'transform 1.4s linear';
+      simItem.setAttribute('transform', 'translate(295, 130)');
+      await wait(1450);
+
+      simStatus.textContent = '2️⃣ الحساس: لا يوجد معدن -> البوابة المائلة توجه البلاستيك للصندوق الأزرق!';
+      simItem.style.transition = 'transform 0.9s ease-in';
+      simItem.setAttribute('transform', 'translate(415, 265)');
+      await wait(1100);
+
+      // STEP 2: Metal Can Sorting + Line Follower Cart
+      simItem.style.transition = 'none';
+      simItem.setAttribute('transform', 'translate(90, 130)');
+      simItemShape.setAttribute('fill', '#FBBF24');
+      simItemLabel.textContent = 'معدن';
+      simStatus.textContent = '3️⃣ مرور قطعة معدنية على السير الناقل نحو حساس كشف المعادن...';
+      await wait(150);
+
+      simItem.style.transition = 'transform 1.4s linear';
+      simItem.setAttribute('transform', 'translate(295, 130)');
+      await wait(1450);
+
+      simStatus.textContent = '4️⃣ تم اكتشاف معدن! الأردوينو يفتح بوابة السيرفو ليمر المعدن لنهاية السير...';
+      servoArm.setAttribute('transform', 'rotate(-55 16 34)'); // Open gate
+      await wait(350);
+
+      simItem.style.transition = 'transform 1.3s linear';
+      simItem.setAttribute('transform', 'translate(585, 130)');
+      await wait(1300);
+
+      simStatus.textContent = '5️⃣ نزول المعدن عبر المسار المائل إلى الصندوق المتحرك...';
+      simItem.style.transition = 'transform 0.8s ease-in';
+      simItem.setAttribute('transform', 'translate(680, 275)');
+      await wait(900);
+
+      // Cart moves to Dumping Station and returns
+      simStatus.textContent = '6️⃣ امتلاء صندوق المعادن: عربة تتبع الخط تتحرك لمحطة التفريغ ثم تعود!';
+      simItem.style.transition = 'transform 1.2s ease-in-out';
+      mobileCart.setAttribute('transform', 'translate(745, 255)');
+      simItem.setAttribute('transform', 'translate(790, 275)');
+      await wait(1500);
+
+      // Return cart to original position
+      mobileCart.setAttribute('transform', 'translate(635, 255)');
+      servoArm.setAttribute('transform', 'rotate(28 16 34)');
+      simItem.style.transition = 'none';
+      simItem.setAttribute('transform', 'translate(105, 130)');
+      simItemShape.setAttribute('fill', '#38BDF8');
+      simItemLabel.textContent = 'بلاستيك';
+      await wait(1200);
+
+      simStatus.textContent = '✅ اكتملت دورة الفرز والتفريغ بنجاح! النظام جاهز.';
+      simulationRunning = false;
+      simBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+      simBtnText.textContent = 'إعادة تشغيل المحاكاة';
+    });
+
+    // 7. Interactive Neural Network Particle Canvas
+    (function initNeuralCanvas() {
+      const canvas = document.getElementById('neural-canvas');
+      const ctx = canvas.getContext('2d');
+      let width, height, particles;
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        createParticles();
+      }
+
+      function createParticles() {
+        const count = Math.min(Math.floor((width * height) / 18000), 65);
+        particles = [];
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.45,
+            vy: (Math.random() - 0.5) * 0.45,
+            radius: Math.random() * 1.8 + 1,
+            color: i % 3 === 0 ? '#7C3AED' : '#00F0FF'
+          });
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 135) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = `rgba(0, 240, 255, ${0.12 * (1 - dist / 135)})`;
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('resize', resize);
+      window.addEventListener('load', () => {
+        resize();
+        animate();
+      });
+    })();
+  </script>
+</body>
+</html>
