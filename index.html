@@ -3,1311 +3,2374 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brainx Team | منصة مشروع التخرج</title>
-  <!-- Google Fonts: Cairo, Tajawal, Orbitron -->
+  <title>Brainx Team — منصة مشروع التخرج الذكية</title>
+
+  <!-- Google Fonts: Cairo, Tajawal & Orbitron -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap"
+    rel="stylesheet"
+  />
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            cairo: ['Cairo', 'sans-serif'],
-            tajawal: ['Tajawal', 'sans-serif'],
+            sans: ['Cairo', 'Tajawal', 'sans-serif'],
             orbitron: ['Orbitron', 'sans-serif'],
           },
           colors: {
-            cosmic: {
-              950: '#050814',
-              900: '#070B19',
-              800: '#0B1120',
-              700: '#111930',
-            },
-            neon: {
-              cyan: '#00F0FF',
-              purple: '#7C3AED',
-              gold: '#F59E0B',
-              emerald: '#10B981',
-              crimson: '#EF4444',
-            }
-          }
-        }
-      }
+            obsidian: '#050608',
+            obsidianCard: '#0B0E14',
+            champagne: '#E5C158',
+            champagneBright: '#FDE047',
+            emeraldRoyal: '#10B981',
+          },
+        },
+      },
     };
   </script>
+
   <style>
     :root {
-      --bg-deep: #070B19;
-      --glass-bg: rgba(17, 25, 48, 0.72);
-      --glass-border: rgba(0, 240, 255, 0.18);
-      --cyan-glow: 0 0 25px rgba(0, 240, 255, 0.35);
-      --gold-glow: 0 0 25px rgba(245, 158, 11, 0.35);
-      --purple-glow: 0 0 25px rgba(124, 58, 237, 0.35);
+      --bg-obsidian: #050608;
+      --bg-surface: rgba(13, 17, 25, 0.82);
+      --gold-primary: #e5c158;
+      --gold-bright: #fde047;
+      --emerald-primary: #10b981;
     }
 
-    * {
-      box-sizing: border-box;
+    @property --gold-angle {
+      syntax: '<angle>';
+      inherits: false;
+      initial-value: 0deg;
     }
 
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-deep);
-      color: #F8FAFC;
-      font-family: 'Cairo', 'Tajawal', sans-serif;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #070B19;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #00F0FF, #7C3AED);
-      border-radius: 999px;
-    }
-
-    /* Glassmorphism Cards */
-    .glass-card {
-      background: var(--glass-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
-    }
-
-    .glass-card-neon {
-      background: linear-gradient(145deg, rgba(17, 25, 48, 0.85), rgba(11, 17, 32, 0.9));
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(0, 240, 255, 0.22);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    }
-
-    /* Animated Gradient Text */
-    .text-gradient-brand {
-      background: linear-gradient(135deg, #00F0FF 0%, #8B5CF6 50%, #F59E0B 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-size: 200% auto;
-      animation: shineText 5s linear infinite;
-    }
-
-    @keyframes shineText {
+    @keyframes spinGoldRing {
       to {
-        background-position: 200% center;
+        --gold-angle: 360deg;
       }
     }
 
-    /* Floating & Pulse Animations */
+    @keyframes orbitClockwise {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes orbitCounterClockwise {
+      from {
+        transform: rotate(360deg);
+      }
+      to {
+        transform: rotate(0deg);
+      }
+    }
+
     @keyframes floatSlow {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-    }
-    .animate-float {
-      animation: floatSlow 4s ease-in-out infinite;
-    }
-
-    @keyframes pulseRing {
-      0% { transform: scale(0.95); opacity: 0.7; }
-      70% { transform: scale(1.15); opacity: 0; }
-      100% { transform: scale(1.15); opacity: 0; }
-    }
-    .pulse-ring::before {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: inherit;
-      border: 2px solid #00F0FF;
-      animation: pulseRing 2.5s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-7px);
+      }
     }
 
-    /* Shake Error Animation */
-    @keyframes shakeError {
-      0%, 100% { transform: translateX(0); }
-      15%, 45%, 75% { transform: translateX(-10px); }
-      30%, 60%, 90% { transform: translateX(10px); }
-    }
-    .animate-shake {
-      animation: shakeError 0.55s cubic-bezier(.36,.07,.19,.97) both;
-      border-color: rgba(239, 68, 68, 0.7) !important;
-      box-shadow: 0 0 30px rgba(239, 68, 68, 0.35) !important;
+    @keyframes auroraMoveA {
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+      50% {
+        transform: translate(-36px, 28px) scale(1.12);
+      }
     }
 
-    /* Smooth Tab Entry */
-    @keyframes fadeSlideUp {
+    @keyframes auroraMoveB {
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+      50% {
+        transform: translate(38px, -26px) scale(1.15);
+      }
+    }
+
+    @keyframes shakeInvalid {
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+      15%,
+      45%,
+      75% {
+        transform: translateX(-9px);
+      }
+      30%,
+      60%,
+      90% {
+        transform: translateX(9px);
+      }
+    }
+
+    @keyframes fadeUpIn {
       from {
         opacity: 0;
-        transform: translateY(16px);
+        transform: translateY(14px);
       }
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-    .tab-panel-enter {
-      animation: fadeSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+    @keyframes laserScan {
+      0% {
+        top: 0%;
+        opacity: 0;
+      }
+      15% {
+        opacity: 1;
+      }
+      85% {
+        opacity: 1;
+      }
+      100% {
+        top: 100%;
+        opacity: 0;
+      }
     }
 
-    /* Conveyor Belt SVG Animation */
-    @keyframes beltMove {
-      from { stroke-dashoffset: 24; }
-      to { stroke-dashoffset: 0; }
-    }
-    .conveyor-dash {
-      animation: beltMove 0.8s linear infinite;
-    }
-
-    @keyframes sensorBeam {
-      0%, 100% { opacity: 0.35; }
-      50% { opacity: 0.95; }
-    }
-    .sensor-beam {
-      animation: sensorBeam 1.6s ease-in-out infinite;
+    @keyframes shimmerSweep {
+      0% {
+        transform: translateX(130%) skewX(-22deg);
+      }
+      100% {
+        transform: translateX(-230%) skewX(-22deg);
+      }
     }
 
-    /* Ambient Glow Blobs */
-    .ambient-orb {
+    @keyframes beltTicks {
+      from {
+        stroke-dashoffset: 24;
+      }
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: var(--bg-obsidian);
+      color: #f8fafc;
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #050608;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #e5c158, #10b981);
+      border-radius: 9999px;
+    }
+
+    /* Royal Obsidian + Champagne Gold + Emerald Glass Cards */
+    .royal-card {
+      background: linear-gradient(155deg, rgba(16, 20, 29, 0.88), rgba(7, 9, 14, 0.95));
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(229, 193, 88, 0.2);
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      border-radius: 1.5rem;
+    }
+
+    .royal-card-emerald {
+      background: linear-gradient(155deg, rgba(9, 26, 23, 0.82), rgba(7, 9, 14, 0.95));
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(16, 185, 129, 0.14);
+      border-radius: 1.5rem;
+    }
+
+    /* Holographic Login Shell with Conic Champagne Gold & Royal Emerald Border */
+    .login-hologram-shell {
+      position: relative;
+      border-radius: 2rem;
+      padding: 2px;
+      background: conic-gradient(
+        from var(--gold-angle),
+        #e5c158 0%,
+        #10b981 32%,
+        #fef08a 55%,
+        #059669 78%,
+        #e5c158 100%
+      );
+      animation: spinGoldRing 8s linear infinite;
+      box-shadow:
+        0 30px 90px -15px rgba(0, 0, 0, 0.92),
+        0 0 42px rgba(229, 193, 88, 0.2),
+        0 0 36px rgba(16, 185, 129, 0.16);
+      transform-style: preserve-3d;
+      transition: transform 0.16s ease-out, box-shadow 0.3s ease;
+    }
+
+    .login-hologram-inner {
+      position: relative;
+      border-radius: calc(2rem - 2px);
+      background: radial-gradient(
+        circle at 50% 0%,
+        rgba(30, 27, 16, 0.9) 0%,
+        rgba(9, 12, 18, 0.97) 62%,
+        rgba(5, 6, 8, 0.99) 100%
+      );
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      overflow: hidden;
+    }
+
+    .login-spotlight {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        400px circle at var(--spot-x, 50%) var(--spot-y, 20%),
+        rgba(229, 193, 88, 0.16),
+        rgba(16, 185, 129, 0.1) 42%,
+        transparent 75%
+      );
+      z-index: 1;
+    }
+
+    /* Background Grid & Ambient Orbs */
+    .obsidian-grid {
       position: fixed;
-      border-radius: 50%;
-      filter: blur(110px);
+      inset: 0;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.35;
+      background-image:
+        linear-gradient(to right, rgba(229, 193, 88, 0.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(16, 185, 129, 0.045) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: radial-gradient(ellipse 78% 70% at 50% 50%, #000 35%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 78% 70% at 50% 50%, #000 35%, transparent 100%);
+    }
+
+    .aurora-orb {
+      position: fixed;
+      border-radius: 9999px;
+      filter: blur(130px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .aurora-gold {
+      width: 32rem;
+      height: 32rem;
+      top: -9rem;
+      right: -7rem;
+      background: rgba(229, 193, 88, 0.19);
+      animation: auroraMoveA 12s ease-in-out infinite;
+    }
+
+    .aurora-emerald {
+      width: 34rem;
+      height: 34rem;
+      bottom: -9rem;
+      left: -8rem;
+      background: rgba(16, 185, 129, 0.2);
+      animation: auroraMoveB 14s ease-in-out infinite;
+    }
+
+    /* Metallic Gold & Emerald Title Text */
+    .royal-gradient-text {
+      background: linear-gradient(125deg, #fffbeb 0%, #e5c158 32%, #34d399 68%, #fde047 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+    }
+
+    .gold-shimmer-btn {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gold-shimmer-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 45%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+      transform: translateX(130%) skewX(-22deg);
+    }
+
+    .gold-shimmer-btn:hover::after {
+      animation: shimmerSweep 0.85s ease-in-out;
+    }
+
+    .orbit-cw {
+      transform-origin: 70px 70px;
+      animation: orbitClockwise 14s linear infinite;
+    }
+
+    .orbit-ccw {
+      transform-origin: 70px 70px;
+      animation: orbitCounterClockwise 9s linear infinite;
+    }
+
+    .animate-float-slow {
+      animation: floatSlow 4.2s ease-in-out infinite;
+    }
+
+    .animate-shake-invalid {
+      animation: shakeInvalid 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    .animate-panel-in {
+      animation: fadeUpIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .verification-laser {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #e5c158, #10b981, #fde047, transparent);
+      box-shadow: 0 0 18px rgba(229, 193, 88, 0.8), 0 0 28px rgba(16, 185, 129, 0.7);
+      animation: laserScan 0.75s ease-in-out infinite;
+    }
+
+    .belt-dash-anim {
+      animation: beltTicks 0.75s linear infinite;
+    }
+
+    .belt-paused .belt-dash-anim {
+      animation-play-state: paused;
     }
   </style>
 </head>
-<body class="selection:bg-cyan-400 selection:text-slate-950">
-
-  <!-- Interactive Particle Network Background -->
+<body class="selection:bg-amber-300 selection:text-slate-950">
+  <!-- Interactive Neural Network Canvas -->
   <canvas id="neural-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
 
-  <!-- Ambient Lighting Orbs -->
-  <div class="ambient-orb w-96 h-96 bg-cyan-500 -top-24 -right-24"></div>
-  <div class="ambient-orb w-[28rem] h-[28rem] bg-purple-700 bottom-0 -left-28"></div>
-  <div class="ambient-orb w-72 h-72 bg-amber-500/40 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+  <!-- Subtle Perspective Grid -->
+  <div class="obsidian-grid"></div>
+
+  <!-- Ambient Royal Aurora Glows -->
+  <div class="aurora-orb aurora-gold"></div>
+  <div class="aurora-orb aurora-emerald"></div>
+
+  <!-- Toast Notification Banner (No alert() used anywhere) -->
+  <div
+    id="royal-toast"
+    class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden px-5 py-3 rounded-2xl border border-amber-400/50 bg-[#0b0e14]/95 backdrop-blur-xl text-amber-200 text-sm font-bold shadow-[0_12px_35px_rgba(0,0,0,0.85)] items-center gap-2.5 max-w-[92vw]"
+  >
+    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0"></span>
+    <span id="royal-toast-msg"></span>
+  </div>
 
   <!-- ========================================================= -->
-  <!-- 1. LOGIN PORTAL VIEW (بوابة تسجيل الدخول)                 -->
+  <!-- 1. LOGIN GATE VIEW (بوابة تسجيل الدخول)                 -->
   <!-- ========================================================= -->
-  <main id="login-view" class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-10">
-    
-    <!-- Top University Pill -->
-    <div class="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-cyan-400/25 text-xs sm:text-sm text-cyan-200 shadow-lg">
-      <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-      <span>جامعة برج العرب التكنولوجية • قسم تكنولوجيا المعلومات (IT)</span>
+  <main
+    id="login-view"
+    class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-8"
+    style="perspective: 1200px;"
+  >
+    <!-- University & Department Badge -->
+    <div
+      class="mb-6 inline-flex flex-wrap items-center justify-center gap-2 px-5 py-2 rounded-full royal-card border border-amber-400/35 text-xs sm:text-sm text-slate-200"
+    >
+      <span class="relative flex h-2.5 w-2.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-300 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-400"></span>
+      </span>
+      <span class="font-extrabold text-amber-200">جامعة برج العرب التكنولوجية</span>
+      <span class="text-amber-400/50">|</span>
+      <span class="font-bold text-emerald-300">تكنولوجيا المعلومات • المستوى الثاني</span>
     </div>
 
-    <!-- Login Card -->
-    <div id="login-card" class="w-full max-w-md glass-card-neon rounded-3xl p-7 sm:p-9 relative overflow-hidden transition-all duration-300">
-      <!-- Top Decorative Neon Line -->
-      <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-amber-400"></div>
+    <!-- 3D Tilt Holographic Card -->
+    <div id="login-card" class="w-full max-w-[440px] login-hologram-shell">
+      <div id="login-card-inner" class="login-hologram-inner p-7 sm:p-10">
+        <!-- Dynamic Mouse Spotlight -->
+        <div id="login-spotlight" class="login-spotlight"></div>
 
-      <!-- Custom Animated Brand Logo -->
-      <div class="flex flex-col items-center text-center mb-8">
-        <div class="relative w-24 h-24 mb-4 animate-float flex items-center justify-center">
-          <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-cyan-500/25 via-purple-600/25 to-amber-400/25 blur-xl"></div>
-          <!-- Brainx Team Custom SVG Logo -->
-          <svg viewBox="0 0 120 120" class="w-24 h-24 relative z-10 drop-shadow-[0_0_15px_rgba(0,240,255,0.5)]" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="brainGrad" x1="15" y1="15" x2="105" y2="105" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#00F0FF"/>
-                <stop offset="55%" stop-color="#8B5CF6"/>
-                <stop offset="100%" stop-color="#F59E0B"/>
-              </linearGradient>
-              <linearGradient id="boltGrad" x1="45" y1="25" x2="75" y2="95" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#FDE047"/>
-                <stop offset="100%" stop-color="#F59E0B"/>
-              </linearGradient>
-            </defs>
-            <!-- Outer Hexagon Tech Ring -->
-            <polygon points="60,6 108,33 108,87 60,114 12,87 12,33" stroke="url(#brainGrad)" stroke-width="2.5" fill="rgba(7,11,25,0.85)"/>
-            <polygon points="60,14 100,37 100,83 60,106 20,83 20,37" stroke="rgba(0,240,255,0.25)" stroke-width="1" stroke-dasharray="4 4"/>
-            <!-- Stylized Left & Right Brain Circuits -->
-            <path d="M52 34C40 34 32 42 32 52C32 56 34 60 36 62C33 65 32 69 33 74C35 81 42 86 50 86H53V34H52Z" stroke="#00F0FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="rgba(0,240,255,0.08)"/>
-            <path d="M68 34C80 34 88 42 88 52C88 56 86 60 84 62C87 65 88 69 87 74C85 81 78 86 70 86H67V34H68Z" stroke="#A855F7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="rgba(168,85,247,0.08)"/>
-            <!-- Circuit Nodes -->
-            <circle cx="42" cy="50" r="2.5" fill="#00F0FF"/>
-            <circle cx="42" cy="70" r="2.5" fill="#00F0FF"/>
-            <path d="M42 50H48M42 70H48" stroke="#00F0FF" stroke-width="1.8"/>
-            <circle cx="78" cy="50" r="2.5" fill="#C084FC"/>
-            <circle cx="78" cy="70" r="2.5" fill="#C084FC"/>
-            <path d="M78 50H72M78 70H72" stroke="#C084FC" stroke-width="1.8"/>
-            <!-- Central Lightning Bolt -->
-            <path d="M63 24L47 62H60L56 96L74 56H61L63 24Z" fill="url(#boltGrad)" stroke="#FFFBEB" stroke-width="1.2" stroke-linejoin="round"/>
-          </svg>
+        <!-- Verification Scan Overlay -->
+        <div
+          id="verify-overlay"
+          class="hidden absolute inset-0 z-30 bg-[#050608]/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center"
+        >
+          <div class="verification-laser"></div>
+          <div
+            class="w-16 h-16 rounded-2xl border-2 border-amber-400/75 bg-amber-400/10 flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(229,193,88,0.45)] animate-pulse"
+          >
+            <svg class="w-9 h-9 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+              />
+            </svg>
+          </div>
+          <p class="text-amber-200 font-black text-lg mb-1">جاري التحقق من الهوية...</p>
+          <p id="verify-greeting" class="text-emerald-300 text-sm font-bold"></p>
         </div>
 
-        <h1 class="font-orbitron text-3xl sm:text-4xl font-black tracking-wider text-gradient-brand mb-1" dir="ltr">
-          Brainx Team
-        </h1>
-        <p class="text-slate-300 text-sm sm:text-base font-medium">
-          بوابة أعضاء فريق مشروع التخرج الذكية
-        </p>
-      </div>
+        <!-- HUD Corner Framing Accents -->
+        <div class="absolute top-3.5 right-3.5 w-5 h-5 border-t-2 border-r-2 border-amber-400/65 rounded-tr-lg pointer-events-none z-10"></div>
+        <div class="absolute top-3.5 left-3.5 w-5 h-5 border-t-2 border-l-2 border-emerald-400/65 rounded-tl-lg pointer-events-none z-10"></div>
+        <div class="absolute bottom-3.5 right-3.5 w-5 h-5 border-b-2 border-r-2 border-emerald-400/65 rounded-br-lg pointer-events-none z-10"></div>
+        <div class="absolute bottom-3.5 left-3.5 w-5 h-5 border-b-2 border-l-2 border-amber-400/65 rounded-bl-lg pointer-events-none z-10"></div>
 
-      <!-- Login Form -->
-      <form id="login-form" class="space-y-5" novalidate>
-        <div>
-          <label for="member-id-input" class="block text-sm font-bold text-cyan-300 mb-2 flex items-center justify-between">
-            <span>ادخل الايدي</span>
-            <span class="text-xs font-normal text-slate-400">الرقم التعريفي للعضو</span>
-          </label>
-          <div class="relative group">
-            <input
-              type="text"
-              id="member-id-input"
-              inputmode="numeric"
-              autocomplete="off"
-              placeholder="ادخل الايدي"
-              class="w-full px-4 py-3.5 pl-12 rounded-2xl bg-slate-950/80 border border-slate-700/80 text-white placeholder-slate-500 text-lg font-bold tracking-wider focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all text-center"
-            />
-            <div class="absolute inset-y-0 left-3.5 flex items-center pointer-events-none text-cyan-400/70 group-focus-within:text-cyan-300">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+        <!-- Card Content -->
+        <div class="relative z-10">
+          <!-- Orbital Logo & Team Brand -->
+          <div class="flex flex-col items-center text-center mb-8">
+            <div class="relative w-32 h-32 mb-4 animate-float-slow flex items-center justify-center">
+              <div class="absolute inset-2 rounded-full bg-gradient-to-tr from-amber-400/25 via-emerald-500/20 to-amber-200/20 blur-xl"></div>
+              <svg
+                viewBox="0 0 140 140"
+                class="w-32 h-32 relative z-10 drop-shadow-[0_0_20px_rgba(229,193,88,0.42)]"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <linearGradient id="royalRingGrad" x1="15" y1="15" x2="125" y2="125" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#FDE047" />
+                    <stop offset="50%" stop-color="#E5C158" />
+                    <stop offset="100%" stop-color="#10B981" />
+                  </linearGradient>
+                  <linearGradient id="boltGoldGrad" x1="55" y1="30" x2="85" y2="108" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#FEF9C3" />
+                    <stop offset="55%" stop-color="#E5C158" />
+                    <stop offset="100%" stop-color="#10B981" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Outer Orbital Ring -->
+                <g class="orbit-cw">
+                  <circle cx="70" cy="70" r="64" stroke="url(#royalRingGrad)" stroke-width="1.3" stroke-dasharray="10 6 2 6" opacity="0.8" />
+                  <circle cx="70" cy="6" r="3" fill="#FDE047" />
+                  <circle cx="70" cy="134" r="3" fill="#10B981" />
+                </g>
+
+                <!-- Inner Counter-Rotating Ring -->
+                <g class="orbit-ccw">
+                  <circle cx="70" cy="70" r="56" stroke="rgba(229, 193, 88, 0.35)" stroke-width="1" stroke-dasharray="4 8" />
+                  <circle cx="14" cy="70" r="2.5" fill="#34D399" />
+                  <circle cx="126" cy="70" r="2.5" fill="#E5C158" />
+                </g>
+
+                <!-- Core Shield Hexagon -->
+                <polygon
+                  points="70,18 115,44 115,96 70,122 25,96 25,44"
+                  stroke="url(#royalRingGrad)"
+                  stroke-width="2.4"
+                  fill="rgba(7, 9, 14, 0.94)"
+                />
+                <polygon
+                  points="70,25 109,47.5 109,92.5 70,115 31,92.5 31,47.5"
+                  stroke="rgba(229, 193, 88, 0.16)"
+                  stroke-width="1"
+                />
+
+                <!-- Digital Brain Left & Right Hemispheres -->
+                <path
+                  d="M62 42C50 42 42 50 42 60C42 64 44 68 46 70C43 73 42 77 43 82C45 89 52 94 60 94H63V42H62Z"
+                  stroke="#E5C158"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  fill="rgba(229, 193, 88, 0.1)"
+                />
+                <path
+                  d="M78 42C90 42 98 50 98 60C98 64 96 68 94 70C97 73 98 77 97 82C95 89 88 94 80 94H77V42H78Z"
+                  stroke="#34D399"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  fill="rgba(16, 185, 129, 0.1)"
+                />
+
+                <!-- Neural Nodes -->
+                <circle cx="51" cy="58" r="2.3" fill="#FDE047" />
+                <circle cx="51" cy="78" r="2.3" fill="#FDE047" />
+                <path d="M51 58H58M51 78H58" stroke="#E5C158" stroke-width="1.6" />
+                <circle cx="89" cy="58" r="2.3" fill="#34D399" />
+                <circle cx="89" cy="78" r="2.3" fill="#34D399" />
+                <path d="M89 58H82M89 78H82" stroke="#34D399" stroke-width="1.6" />
+
+                <!-- Center Energy Bolt -->
+                <path
+                  d="M73 31L56 70H69L65 108L85 64H71L73 31Z"
+                  fill="url(#boltGoldGrad)"
+                  stroke="#FFFBEB"
+                  stroke-width="1.1"
+                  stroke-linejoin="round"
+                />
               </svg>
             </div>
+
+            <div
+              class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-400/10 border border-amber-400/35 text-amber-300 text-[11px] font-extrabold tracking-wider mb-2"
+            >
+              <span>⚡ BRAINX ROYAL GATEWAY ⚡</span>
+            </div>
+
+            <h1
+              class="font-orbitron text-3xl sm:text-4xl font-black tracking-wider royal-gradient-text mb-1.5"
+              dir="ltr"
+            >
+              Brainx Team
+            </h1>
+            <p class="text-slate-300 text-xs sm:text-sm font-semibold">
+              بوابة مشروع التخرج الذكية • نظام فرز المخلفات الآلي
+            </p>
+          </div>
+
+          <!-- Login Form -->
+          <form id="login-form" class="space-y-5" novalidate>
+            <div>
+              <label for="id-input" class="block text-sm font-extrabold text-amber-200 mb-2.5 flex items-center justify-between">
+                <span class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  <span>ادخل الايدي</span>
+                </span>
+                <span class="text-[11px] text-slate-400 font-semibold">تحقق فوري</span>
+              </label>
+
+              <div class="relative group">
+                <div
+                  class="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-amber-400 via-emerald-400 to-amber-300 opacity-20 group-focus-within:opacity-80 blur transition duration-300"
+                ></div>
+                <div class="relative flex items-center">
+                  <input
+                    type="text"
+                    id="id-input"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="ادخل الايدي"
+                    class="w-full px-5 py-4 rounded-2xl bg-[#05070c]/95 border border-amber-400/25 text-white placeholder-slate-400 text-lg sm:text-xl font-black tracking-widest text-center focus:outline-none focus:border-amber-300 transition-all"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Error Alert Box -->
+            <div
+              id="login-error"
+              class="hidden rounded-2xl bg-red-500/15 border border-red-500/65 px-4 py-3.5 text-red-200 text-sm font-extrabold flex items-center justify-center gap-2.5 text-center shadow-[0_0_25px_rgba(239,68,68,0.28)]"
+            >
+              <svg class="w-5 h-5 text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2.2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+              <span>هذا الايدي غير موجود بالتيم</span>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="gold-shimmer-btn w-full py-4 px-6 rounded-2xl font-black text-base sm:text-lg text-slate-950 bg-gradient-to-r from-amber-300 via-amber-400 to-emerald-300 hover:from-amber-200 hover:to-emerald-200 active:scale-[0.98] transition-all shadow-[0_12px_32px_rgba(229,193,88,0.3)] flex items-center justify-center gap-2.5 cursor-pointer"
+            >
+              <span>دخول إلى المنصة</span>
+              <svg class="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </button>
+          </form>
+
+          <!-- Footer Info -->
+          <div class="mt-7 pt-5 border-t border-amber-400/15 text-center space-y-1">
+            <div class="inline-flex items-center gap-2 text-xs text-emerald-300 font-bold">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>مشروع التخرج • الفرقة الثانية</span>
+            </div>
+            <p class="text-[11px] text-slate-400">
+              نظام ذكي لفرز المخلفات البلاستيكية والمعدنية باستخدام سير ناقل
+            </p>
           </div>
         </div>
-
-        <!-- Error Message Box (Hidden by default) -->
-        <div id="login-error-box" class="hidden rounded-2xl bg-red-500/15 border border-red-500/50 px-4 py-3 text-red-300 text-sm font-bold flex items-center justify-center gap-2 text-center shadow-lg">
-          <svg class="w-5 h-5 text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-          </svg>
-          <span id="login-error-text">هذا الايدي غير موجود بالتيم</span>
-        </div>
-
-        <button
-          type="submit"
-          class="w-full py-3.5 px-6 rounded-2xl font-extrabold text-base sm:text-lg text-slate-950 bg-gradient-to-r from-cyan-400 via-sky-300 to-amber-300 hover:from-cyan-300 hover:to-amber-200 active:scale-[0.98] transition-all shadow-[0_0_25px_rgba(0,240,255,0.4)] flex items-center justify-center gap-2 cursor-pointer"
-        >
-          <span>دخول البوابة</span>
-          <svg class="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-          </svg>
-        </button>
-      </form>
-
-      <!-- Footer Note -->
-      <div class="mt-6 pt-5 border-t border-white/10 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        <span>نظام ذكي لفرز المخلفات البلاستيكية والمعدنية باستخدام سير ناقل</span>
       </div>
     </div>
   </main>
 
   <!-- ========================================================= -->
-  <!-- 2. MAIN DASHBOARD VIEW (صفحة المشروع الرئيسية)            -->
+  <!-- 2. WORKSPACE & ADMIN VIEW (منصة الأعضاء ولوحة الأدمن)    -->
   <!-- ========================================================= -->
-  <div id="dashboard-view" class="hidden relative z-10 min-h-screen flex flex-col">
-
-    <!-- Top Luxury Navbar -->
-    <header class="sticky top-0 z-40 glass-card border-b border-cyan-400/20 px-4 sm:px-8 py-3.5">
-      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-        
-        <!-- Brand Logo & Name -->
-        <div class="flex items-center gap-3">
-          <svg viewBox="0 0 120 120" class="w-10 h-10 sm:w-11 sm:h-11 drop-shadow-[0_0_10px_rgba(0,240,255,0.45)]" fill="none">
-            <polygon points="60,6 108,33 108,87 60,114 12,87 12,33" stroke="#00F0FF" stroke-width="3" fill="#070B19"/>
-            <path d="M63 24L47 62H60L56 96L74 56H61L63 24Z" fill="#F59E0B"/>
-          </svg>
-          <div>
-            <span class="font-orbitron font-black text-lg sm:text-xl text-gradient-brand block leading-none" dir="ltr">Brainx Team</span>
-            <span class="text-[11px] text-slate-400 font-semibold">منصة مشروع التخرج • IT</span>
+  <div id="workspace-view" class="hidden relative z-10 min-h-screen flex flex-col">
+    <!-- Top Sticky Royal Header -->
+    <header class="sticky top-0 z-40 border-b border-amber-400/20 bg-[#050608]/85 backdrop-blur-2xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+        <!-- Brand & Current User Name -->
+        <div class="flex items-center gap-3 min-w-0">
+          <div
+            class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400/20 to-emerald-500/20 border border-amber-400/45 flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(229,193,88,0.2)]"
+          >
+            <span class="font-orbitron font-black text-amber-300 text-lg">BX</span>
           </div>
-        </div>
-
-        <!-- Logged-In Member Name Pill (Displayed Prominently at the Top) -->
-        <div class="order-3 md:order-2 w-full md:w-auto flex items-center justify-center">
-          <div class="w-full md:w-auto flex items-center justify-between md:justify-center gap-3 px-4 py-2 rounded-2xl bg-gradient-to-r from-cyan-500/15 via-purple-500/15 to-amber-500/15 border border-cyan-400/30 shadow-inner">
-            <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-slate-950 font-black text-sm shadow">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                </svg>
-              </div>
-              <div>
-                <span class="text-[11px] text-cyan-300 block leading-tight">مرحباً بك في مساحة العمل</span>
-                <span id="nav-user-name" class="font-extrabold text-sm sm:text-base text-white">اسم العضو</span>
-              </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="font-orbitron font-extrabold text-sm sm:text-base royal-gradient-text" dir="ltr">Brainx Team</span>
+              <span
+                id="header-role-pill"
+                class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-500/15 text-emerald-300 border border-emerald-400/35"
+              ></span>
             </div>
-            <span id="nav-user-badge" class="hidden px-2.5 py-0.5 rounded-full text-xs font-extrabold"></span>
+            <p class="text-sm sm:text-base font-black text-white truncate" id="header-user-name"></p>
           </div>
         </div>
 
-        <!-- Logout Button -->
-        <div class="order-2 md:order-3">
+        <!-- Sync Indicator & Logout Action -->
+        <div class="flex items-center gap-2.5 sm:gap-3">
+          <div
+            id="sync-status-badge"
+            class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 text-xs font-bold"
+          >
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>متصل ومزامن</span>
+          </div>
+
           <button
             id="logout-btn"
-            class="px-3.5 py-2 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/40 text-red-300 hover:text-white text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+            type="button"
+            class="px-4 py-2 rounded-xl bg-white/5 hover:bg-red-500/20 border border-white/15 hover:border-red-400/50 text-slate-200 hover:text-red-200 text-xs sm:text-sm font-extrabold transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
             </svg>
-            <span>تسجيل الخروج</span>
+            <span>تسجيل خروج</span>
           </button>
         </div>
-
       </div>
-    </header>
 
-    <!-- Main Container -->
-    <div class="max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 sm:py-8 flex-1">
-
-      <!-- Navigation Tabs Bar -->
-      <nav aria-label="أقسام المنصة" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mb-8 p-2 rounded-3xl glass-card border border-white/10">
+      <!-- Member Navigation Tabs (Shown for Team Members) -->
+      <nav id="member-tabs-bar" class="max-w-7xl mx-auto px-4 sm:px-6 pb-3 flex items-center gap-2 overflow-x-auto">
         <button
+          type="button"
           data-tab="project"
-          class="tab-btn active-tab py-3 px-4 rounded-2xl font-extrabold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 shadow-[0_0_20px_rgba(0,240,255,0.35)]"
+          class="member-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-          </svg>
+          <span>🏗️</span>
           <span>تفاصيل المشروع</span>
         </button>
-
         <button
+          type="button"
           data-tab="meeting"
-          class="tab-btn py-3 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-300 hover:text-white hover:bg-white/5"
+          class="member-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-          </svg>
+          <span>📅</span>
           <span>الميتنج</span>
         </button>
-
         <button
+          type="button"
           data-tab="grades"
-          class="tab-btn py-3 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-300 hover:text-white hover:bg-white/5"
+          class="member-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
-          </svg>
+          <span>🏅</span>
           <span>الدرجات</span>
         </button>
-
         <button
-          data-tab="members"
-          class="tab-btn py-3 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-300 hover:text-white hover:bg-white/5"
+          type="button"
+          data-tab="tasks"
+          class="member-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-          </svg>
-          <span>أعضاء التيم (24)</span>
+          <span>✅</span>
+          <span>التاسكات</span>
+          <span
+            id="member-tasks-badge"
+            class="px-2 py-0.5 rounded-full text-[11px] bg-amber-400/20 text-amber-200 border border-amber-400/35"
+          >0</span>
+        </button>
+        <button
+          type="button"
+          data-tab="members"
+          class="member-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2"
+        >
+          <span>👥</span>
+          <span>أعضاء التيم</span>
         </button>
       </nav>
+    </header>
 
-      <!-- ===================================================== -->
-      <!-- TAB 1: تفاصيل المشروع (PROJECT DETAILS & BLUEPRINT)    -->
-      <!-- ===================================================== -->
-      <section id="tab-project" class="tab-panel tab-panel-enter space-y-8">
-        
-        <!-- Hero Project Banner -->
-        <div class="glass-card-neon rounded-3xl p-6 sm:p-9 relative overflow-hidden">
-          <div class="absolute top-0 left-0 w-64 h-64 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
-          <div class="flex flex-wrap items-center gap-2.5 mb-4">
-            <span class="px-3.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/35 text-cyan-300 text-xs font-bold">
-              الفرقة الثانية - المستوى الثاني
-            </span>
-            <span class="px-3.5 py-1 rounded-full bg-purple-500/15 border border-purple-400/35 text-purple-300 text-xs font-bold">
-              برنامج تكنولوجيا المعلومات (IT)
-            </span>
-            <span class="px-3.5 py-1 rounded-full bg-amber-500/15 border border-amber-400/35 text-amber-300 text-xs font-bold">
-              موقف الفكرة: قيد مراجعة رئيس القسم
-            </span>
-          </div>
+    <!-- Main Dynamic Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+      <!-- ======================================================= -->
+      <!-- MEMBER WORKSPACE PANELS                                 -->
+      <!-- ======================================================= -->
+      <div id="member-workspace" class="hidden space-y-6">
+        <!-- TAB 1: PROJECT DETAILS & IMAGINARY SIMULATION -->
+        <section id="panel-project" class="member-panel animate-panel-in space-y-6">
+          <!-- Hero Banner -->
+          <div class="royal-card p-6 sm:p-8 relative overflow-hidden">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+              <div class="space-y-3 max-w-3xl">
+                <div class="inline-flex flex-wrap items-center gap-2">
+                  <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-400/15 text-amber-300 border border-amber-400/35">
+                    مقترح مشروع التخرج
+                  </span>
+                  <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500/15 text-emerald-300 border border-emerald-400/35">
+                    قيد مراجعة رئيس القسم
+                  </span>
+                  <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-slate-300 border border-white/10">
+                    26 نوفمبر 2026
+                  </span>
+                </div>
 
-          <h2 class="text-2xl sm:text-4xl font-black text-white leading-snug mb-3">
-            نظام ذكي لفرز المخلفات البلاستيكية والمعدنية باستخدام سير ناقل
-          </h2>
-          <p class="text-slate-300 text-sm sm:text-base max-w-4xl leading-relaxed">
-            مقترح مشروع التخرج المقدم من فريق <span class="text-cyan-300 font-bold">Brainx Team</span> بجامعة برج العرب التكنولوجية — نموذج أولي لنظام أتمتة صناعية وبيئية يعتمد على الحساسات الذكية والمتحكمات الدقيقة لفرز ونقل المخلفات القابلة لإعادة التدوير بكفاءة عالية.
-          </p>
-        </div>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-snug">
+                  نظام ذكي لفرز المخلفات البلاستيكية والمعدنية باستخدام سير ناقل
+                </h2>
 
-        <!-- Conceptual System Visualization (الصورة التخيلية للمشروع) -->
-        <div class="glass-card-neon rounded-3xl p-6 sm:p-8">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <div class="inline-flex items-center gap-2 text-cyan-400 text-xs font-extrabold uppercase tracking-wider mb-1">
-                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-                <span>التصميم الهندسي والمخطط التخيلي</span>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                  يهدف المشروع إلى تصميم وتنفيذ نموذج أولي لنظام آلي يقوم بفرز المخلفات البلاستيكية والمعدنية باستخدام سير ناقل وحساس للكشف عن المعادن ووحدة تحكم إلكترونية <span class="text-amber-300 font-bold" dir="ltr">Arduino</span>، مع توجيه البلاستيك إلى صندوق مخصص ونقل المعادن عبر عربة متحركة تتبع الخط إلى محطة تفريغ محددة.
+                </p>
               </div>
-              <h3 class="text-xl sm:text-2xl font-black text-white">الصورة التخيلية للمشروع والمحاكاة التفاعلية</h3>
-            </div>
 
-            <button
-              id="simulate-btn"
-              class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-cyan-400 to-purple-500 hover:from-cyan-300 hover:to-purple-400 text-slate-950 font-black text-sm shadow-[0_0_20px_rgba(0,240,255,0.35)] transition-all flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
-              </svg>
-              <span id="simulate-btn-text">تشغيل محاكاة الفرز الحية</span>
-            </button>
+              <!-- Quick Project Metadata Box -->
+              <div class="grid grid-cols-2 gap-3 lg:w-80 shrink-0">
+                <div class="p-4 rounded-2xl bg-[#06080d]/90 border border-amber-400/20">
+                  <p class="text-[11px] text-slate-400 font-bold mb-1">اسم الفريق</p>
+                  <p class="text-sm font-black text-amber-300" dir="ltr">Brainx Team</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-[#06080d]/90 border border-emerald-400/20">
+                  <p class="text-[11px] text-slate-400 font-bold mb-1">عدد الأعضاء</p>
+                  <p class="text-sm font-black text-emerald-300">24 عضوًا</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-[#06080d]/90 border border-white/10">
+                  <p class="text-[11px] text-slate-400 font-bold mb-1">البرنامج والفرقة</p>
+                  <p class="text-xs font-extrabold text-white">IT • المستوى الثاني</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-[#06080d]/90 border border-white/10">
+                  <p class="text-[11px] text-slate-400 font-bold mb-1">قائد الفريق</p>
+                  <p class="text-xs font-extrabold text-amber-200 truncate">مازن محمد فوزي</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Interactive Conceptual Diagram SVG matching Page 5 of the Proposal -->
-          <div class="relative rounded-2xl bg-[#060916] border border-cyan-500/25 p-3 sm:p-6 overflow-hidden shadow-inner">
-            <!-- Live Status Banner inside Blueprint -->
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-3 text-xs">
-              <span id="sim-status-text" class="px-3 py-1 rounded-lg bg-slate-900/90 border border-cyan-400/30 text-cyan-300 font-bold">
-                الحالة: جاهز — اضغط على "تشغيل محاكاة الفرز الحية" لمشاهدة فرز البلاستيك والمعادن
-              </span>
-              <span class="text-slate-400 font-semibold">تصور فريق Brainx Team</span>
+          <!-- Interactive Imaginary Project Diagram ("الصورة التخيلية للمشروع") -->
+          <div class="royal-card-emerald p-6 sm:p-8 space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <span class="text-xs font-extrabold text-emerald-300 uppercase tracking-wider">محاكاة هندسية تفاعلية</span>
+                <h3 class="text-xl sm:text-2xl font-black text-white mt-0.5">الصورة التخيلية للمشروع</h3>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1">
+                  تصور متكامل لحركة القطع على السير الناقل، استشعار المعادن، حركة بوابة السيرفو، والعربة المتحركة المتتبعة للخط نحو محطة التفريغ.
+                </p>
+              </div>
+
+              <!-- Simulation Controls -->
+              <div class="flex flex-wrap items-center gap-2 shrink-0">
+                <button
+                  id="sim-plastic-btn"
+                  type="button"
+                  class="px-3.5 py-2 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/45 text-sky-200 text-xs font-extrabold transition-all cursor-pointer"
+                >
+                  🍾 اختبار قطعة بلاستيك
+                </button>
+                <button
+                  id="sim-metal-btn"
+                  type="button"
+                  class="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/45 text-amber-200 text-xs font-extrabold transition-all cursor-pointer"
+                >
+                  🥫 اختبار قطعة معدن
+                </button>
+                <button
+                  id="sim-toggle-btn"
+                  type="button"
+                  class="px-3.5 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/45 text-emerald-200 text-xs font-extrabold transition-all cursor-pointer"
+                >
+                  ⏸️ إيقاف / تشغيل
+                </button>
+              </div>
             </div>
 
-            <div class="w-full overflow-x-auto">
-              <svg id="conceptual-svg" viewBox="0 0 960 440" class="w-full min-w-[680px] h-auto select-none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Live Status Readout Strip -->
+            <div
+              id="sim-status-bar"
+              class="px-4 py-3 rounded-2xl bg-[#05080c]/90 border border-amber-400/25 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs sm:text-sm"
+            >
+              <div class="flex items-center gap-2 font-extrabold text-amber-200">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                <span id="sim-status-text">السير الناقل يعمل — تمر القطع أمام حساس الكشف عن المعادن (Inductive Sensor)</span>
+              </div>
+              <span id="sim-action-pill" class="px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 font-bold text-xs self-start sm:self-auto">
+                النظام جاهز للفرز الآلي
+              </span>
+            </div>
+
+            <!-- SVG Architectural Illustration of the Project -->
+            <div id="sim-svg-wrapper" class="rounded-2xl bg-[#05070b] border border-white/10 p-3 sm:p-5 overflow-x-auto">
+              <svg viewBox="0 0 1040 430" class="w-full min-w-[680px] h-auto select-none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                  <linearGradient id="metalFrame" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#475569"/>
-                    <stop offset="100%" stop-color="#1E293B"/>
+                  <linearGradient id="beltGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#1E293B" />
+                    <stop offset="50%" stop-color="#334155" />
+                    <stop offset="100%" stop-color="#1E293B" />
                   </linearGradient>
-                  <linearGradient id="blueBinGrad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#2563EB"/>
-                    <stop offset="100%" stop-color="#1D4ED8"/>
+                  <linearGradient id="metalChuteGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#E5C158" />
+                    <stop offset="100%" stop-color="#94A3B8" />
                   </linearGradient>
-                  <linearGradient id="sensorGlow" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.75"/>
-                    <stop offset="100%" stop-color="#00F0FF" stop-opacity="0"/>
+                  <linearGradient id="plasticBinGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#0284C7" />
+                    <stop offset="100%" stop-color="#0369A1" />
                   </linearGradient>
+                  <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="5" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
                 </defs>
 
-                <!-- Background Floor & Line Follower Track -->
-                <line x1="30" y1="395" x2="930" y2="395" stroke="#1E293B" stroke-width="3"/>
-                <!-- Line Follower Black Track Path -->
-                <path d="M580 398 H885 Q915 398 915 375 V330" stroke="#00F0FF" stroke-width="4" stroke-dasharray="10 6" fill="none" opacity="0.6"/>
-                <text x="735" y="422" fill="#94A3B8" font-size="13" font-weight="bold" text-anchor="middle" font-family="Cairo">مسار تتبع الخط (Line Follower Track)</text>
+                <!-- Floor Line Track for Mobile Cart -->
+                <path
+                  d="M 735 372 L 920 372 Q 945 372 945 345 L 945 290"
+                  stroke="#E5C158"
+                  stroke-width="5"
+                  stroke-dasharray="10 6"
+                  fill="none"
+                  opacity="0.75"
+                />
+                <text x="835" y="395" fill="#E5C158" font-size="13" font-weight="bold" text-anchor="middle">
+                  مسار تتبع الخط (Line Follower Track)
+                </text>
 
-                <!-- 1. Dumping Station (محطة التفريغ) on Right -->
-                <g transform="translate(835, 165)">
-                  <rect x="0" y="0" width="95" height="175" rx="8" fill="#1E293B" stroke="#64748B" stroke-width="2"/>
-                  <rect x="10" y="15" width="75" height="35" rx="4" fill="#0F172A" stroke="#00F0FF" stroke-width="1"/>
-                  <!-- Recycle Symbol -->
-                  <text x="47" y="105" fill="#94A3B8" font-size="28" text-anchor="middle">♻</text>
-                  <!-- Label Callout -->
-                  <rect x="-15" y="-52" width="125" height="40" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
-                  <text x="47" y="-35" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">محطة التفريغ</text>
-                  <text x="47" y="-20" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">Dumping Station</text>
-                  <line x1="47" y1="-12" x2="47" y2="0" stroke="#F87171" stroke-width="1.5"/>
+                <!-- Dumping Station (محطة التفريغ) -->
+                <g transform="translate(885, 135)">
+                  <rect x="0" y="0" width="115" height="148" rx="12" fill="#111827" stroke="#10B981" stroke-width="2.5" />
+                  <rect x="14" y="16" width="87" height="18" rx="6" fill="#10B981" opacity="0.25" />
+                  <text x="57" y="29" fill="#6EE7B7" font-size="11" font-weight="bold" text-anchor="middle">محطة التفريغ</text>
+                  <text x="57" y="45" fill="#94A3B8" font-size="10" text-anchor="middle">(Dumping Station)</text>
+                  <path d="M57 66 L73 94 L41 94 Z" stroke="#10B981" stroke-width="2.2" fill="none" />
+                  <text x="57" y="122" fill="#E2E8F0" font-size="11" font-weight="bold" text-anchor="middle">تفريغ آلي</text>
                 </g>
 
-                <!-- 2. Conveyor Belt Structure (السير الناقل) -->
+                <!-- Conveyor Belt Structure -->
                 <g>
                   <!-- Support Legs -->
-                  <rect x="75" y="185" width="14" height="210" fill="url(#metalFrame)"/>
-                  <rect x="330" y="185" width="14" height="210" fill="url(#metalFrame)"/>
-                  <rect x="575" y="185" width="14" height="210" fill="url(#metalFrame)"/>
-                  <!-- Belt Body -->
-                  <rect x="55" y="155" width="560" height="32" rx="16" fill="#0F172A" stroke="#64748B" stroke-width="3"/>
-                  <!-- Animated Belt Track -->
-                  <line x1="72" y1="171" x2="598" y2="171" stroke="#00F0FF" stroke-width="4" stroke-dasharray="12 12" class="conveyor-dash"/>
-                  <!-- Rollers -->
-                  <circle cx="72" cy="171" r="10" fill="#334155" stroke="#94A3B8" stroke-width="2"/>
-                  <circle cx="337" cy="171" r="10" fill="#334155" stroke="#94A3B8" stroke-width="2"/>
-                  <circle cx="598" cy="171" r="10" fill="#334155" stroke="#94A3B8" stroke-width="2"/>
+                  <rect x="115" y="182" width="14" height="115" rx="4" fill="#1E293B" />
+                  <rect x="330" y="182" width="14" height="115" rx="4" fill="#1E293B" />
+                  <rect x="575" y="182" width="14" height="115" rx="4" fill="#1E293B" />
 
-                  <!-- Conveyor Label Callout -->
-                  <rect x="65" y="215" width="145" height="42" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
-                  <text x="137" y="233" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">السير الناقل</text>
-                  <text x="137" y="249" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">Conveyor Belt</text>
-                  <line x1="137" y1="215" x2="137" y2="188" stroke="#F87171" stroke-width="1.5"/>
+                  <!-- Main Belt Bed -->
+                  <rect x="85" y="150" width="540" height="32" rx="16" fill="url(#beltGrad)" stroke="#64748B" stroke-width="2" />
+                  <!-- Animated Belt Motion Line -->
+                  <line
+                    x1="105"
+                    y1="166"
+                    x2="605"
+                    y2="166"
+                    stroke="#38BDF8"
+                    stroke-width="2.5"
+                    stroke-dasharray="12 12"
+                    class="belt-dash-anim"
+                  />
+
+                  <!-- Left & Right Rollers -->
+                  <circle cx="101" cy="166" r="13" fill="#0F172A" stroke="#E5C158" stroke-width="2" />
+                  <circle cx="609" cy="166" r="13" fill="#0F172A" stroke="#E5C158" stroke-width="2" />
+
+                  <!-- Label: Conveyor Belt -->
+                  <rect x="125" y="112" width="150" height="28" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5" />
+                  <text x="200" y="130" fill="#7DD3FC" font-size="12" font-weight="bold" text-anchor="middle">
+                    السير الناقل (Conveyor Belt)
+                  </text>
                 </g>
 
-                <!-- 3. Arduino Control Unit (وحدة التحكم) -->
-                <g transform="translate(215, 200)">
-                  <rect x="0" y="0" width="105" height="75" rx="8" fill="#E2E8F0" stroke="#00F0FF" stroke-width="2"/>
-                  <text x="52" y="34" fill="#0284C7" font-size="22" font-weight="900" text-anchor="middle" font-family="Orbitron">∞</text>
-                  <text x="52" y="53" fill="#0F172A" font-size="11" font-weight="800" text-anchor="middle" font-family="Orbitron">ARDUINO</text>
-                  <circle cx="88" cy="16" r="4" fill="#EF4444"/>
-                  <!-- Label Callout -->
-                  <rect x="-12" y="92" width="130" height="42" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
-                  <text x="53" y="110" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">وحدة التحكم</text>
-                  <text x="53" y="126" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">(Arduino)</text>
-                  <line x1="53" y1="92" x2="53" y2="75" stroke="#F87171" stroke-width="1.5"/>
+                <!-- Arduino Control Unit -->
+                <g transform="translate(175, 206)">
+                  <rect x="0" y="0" width="128" height="72" rx="10" fill="#090D16" stroke="#10B981" stroke-width="2" />
+                  <text x="64" y="26" fill="#34D399" font-size="13" font-weight="bold" text-anchor="middle">وحدة التحكم</text>
+                  <text x="64" y="45" fill="#FDE047" font-size="13" font-weight="900" text-anchor="middle">Arduino</text>
+                  <circle cx="110" cy="58" r="4" fill="#10B981" />
+                  <text x="58" y="62" fill="#94A3B8" font-size="10" text-anchor="middle">تحكم ذكي</text>
                 </g>
 
-                <!-- 4. Inductive Sensor (حساس كشف المعادن) -->
-                <g transform="translate(290, 92)">
-                  <!-- Bracket -->
-                  <rect x="14" y="0" width="12" height="52" rx="3" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
-                  <rect x="11" y="42" width="18" height="10" fill="#F59E0B"/>
-                  <!-- Detection Beam -->
-                  <polygon points="10,52 30,52 38,80 2,80" fill="url(#sensorGlow)" class="sensor-beam"/>
-                  <!-- Label Callout -->
-                  <rect x="-55" y="-65" width="150" height="44" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
-                  <text x="20" y="-46" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">حساس كشف المعادن</text>
-                  <text x="20" y="-30" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">Inductive Sensor</text>
-                  <line x1="20" y1="-21" x2="20" y2="0" stroke="#F87171" stroke-width="1.5"/>
+                <!-- Inductive Metal Sensor -->
+                <g transform="translate(332, 86)">
+                  <rect x="-22" y="-34" width="144" height="28" rx="8" fill="#1E1B10" stroke="#E5C158" stroke-width="1.5" />
+                  <text x="50" y="-16" fill="#FDE047" font-size="11.5" font-weight="bold" text-anchor="middle">
+                    حساس كشف المعادن (Sensor)
+                  </text>
+                  <rect x="34" y="12" width="32" height="50" rx="6" fill="#0284C7" stroke="#7DD3FC" stroke-width="2" />
+                  <polygon points="36,62 64,62 78,84 22,84" fill="#38BDF8" opacity="0.28" class="sensor-beam" />
                 </g>
 
-                <!-- 5. Servo Gate (القطعة المانعة / البوابة المائلة) -->
-                <g transform="translate(385, 110)">
-                  <!-- Servo Motor Housing -->
-                  <rect x="0" y="0" width="32" height="36" rx="5" fill="#1D4ED8" stroke="#60A5FA" stroke-width="1.5"/>
-                  <!-- Animated Diverter Arm -->
-                  <rect id="servo-arm" x="12" y="32" width="10" height="46" rx="4" fill="#CBD5E1" stroke="#00F0FF" stroke-width="1.5" transform="rotate(28 16 34)" style="transition: transform 0.45s ease;"/>
-                  <!-- Label Callout -->
-                  <rect x="-15" y="-83" width="140" height="44" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
-                  <text x="55" y="-64" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">القطعة المانعة</text>
-                  <text x="55" y="-48" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">(Servo Gate)</text>
-                  <line x1="35" y1="-39" x2="18" y2="0" stroke="#F87171" stroke-width="1.5"/>
+                <!-- Servo Gate -->
+                <g transform="translate(432, 92)">
+                  <rect x="-15" y="-34" width="126" height="28" rx="8" fill="#091D19" stroke="#10B981" stroke-width="1.5" />
+                  <text x="48" y="-16" fill="#6EE7B7" font-size="11.5" font-weight="bold" text-anchor="middle">
+                    بوابة سيرفو (Servo Gate)
+                  </text>
+                  <rect x="34" y="12" width="28" height="24" rx="5" fill="#1E293B" stroke="#E5C158" stroke-width="1.8" />
+                  <!-- Gate Flap (Rotates when Metal is detected) -->
+                  <line
+                    id="servo-gate-flap"
+                    x1="48"
+                    y1="36"
+                    x2="48"
+                    y2="58"
+                    stroke="#FDE047"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    style="transform-origin: 48px 36px; transition: transform 0.35s ease;"
+                  />
                 </g>
 
-                <!-- 6. Plastic Collection Bin (صندوق البلاستيك) -->
-                <g transform="translate(365, 245)">
-                  <polygon points="10,0 135,0 123,105 22,105" fill="url(#blueBinGrad)" stroke="#60A5FA" stroke-width="2"/>
-                  <rect x="4" y="-6" width="137" height="10" rx="4" fill="#3B82F6"/>
-                  <text x="72" y="62" fill="#FFFFFF" font-size="34" text-anchor="middle">♻</text>
-                  <!-- Label Callout -->
-                  <rect x="7" y="114" width="130" height="34" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
-                  <text x="72" y="135" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">صندوق البلاستيك</text>
-                </g>
-
-                <!-- 7. Metal Chute (مسار نزول المعادن) -->
+                <!-- Plastic Deflection Chute & Blue Plastic Bin -->
                 <g>
-                  <path d="M610 172 L680 245 L665 256 L598 184 Z" fill="#94A3B8" stroke="#E2E8F0" stroke-width="1.5"/>
-                  <!-- Label Callout -->
-                  <rect x="615" y="112" width="145" height="42" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
-                  <text x="687" y="130" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">مسار نزول المعادن</text>
-                  <text x="687" y="146" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Orbitron">(Metal Chute)</text>
-                  <line x1="665" y1="154" x2="645" y2="205" stroke="#F87171" stroke-width="1.5"/>
+                  <polygon points="445,182 478,182 512,235 486,242" fill="#475569" stroke="#94A3B8" stroke-width="1.5" />
+                  <g transform="translate(465, 246)">
+                    <rect x="0" y="0" width="116" height="92" rx="10" fill="url(#plasticBinGrad)" stroke="#7DD3FC" stroke-width="2" />
+                    <text x="58" y="34" fill="#FFFFFF" font-size="13" font-weight="bold" text-anchor="middle">صندوق البلاستيك</text>
+                    <text x="58" y="54" fill="#E0F2FE" font-size="11" text-anchor="middle">Plastic Bin</text>
+                    <circle cx="58" cy="73" r="8" fill="rgba(255,255,255,0.18)" />
+                  </g>
                 </g>
 
-                <!-- 8. Mobile Metal Collection Cart (عربة متحركة تتبع الخط + صندوق المعادن) -->
-                <g id="mobile-cart" transform="translate(635, 255)" style="transition: transform 1.2s ease-in-out;">
-                  <!-- Metal Box -->
-                  <rect x="10" y="0" width="115" height="85" rx="6" fill="#64748B" stroke="#CBD5E1" stroke-width="2"/>
-                  <text x="67" y="52" fill="#0F172A" font-size="30" text-anchor="middle">♻</text>
-                  <!-- Chassis & Wheels -->
-                  <rect x="4" y="85" width="127" height="14" rx="4" fill="#1E293B" stroke="#00F0FF" stroke-width="1.5"/>
-                  <circle cx="28" cy="105" r="14" fill="#FACC15" stroke="#0F172A" stroke-width="3"/>
-                  <circle cx="28" cy="105" r="5" fill="#0F172A"/>
-                  <circle cx="106" cy="105" r="14" fill="#FACC15" stroke="#0F172A" stroke-width="3"/>
-                  <circle cx="106" cy="105" r="5" fill="#0F172A"/>
-                  <!-- Label Callout -->
-                  <rect x="-10" y="-62" width="155" height="42" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
-                  <text x="67" y="-44" fill="#FFFFFF" font-size="11" font-weight="bold" text-anchor="middle" font-family="Cairo">صندوق تجميع المعادن (متنقل)</text>
-                  <text x="67" y="-28" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Cairo">عربة تتبع الخط (Line Follower)</text>
-                  <line x1="67" y1="-20" x2="67" y2="0" stroke="#F87171" stroke-width="1.5"/>
+                <!-- Metal Chute Path -->
+                <path
+                  d="M 615 174 L 685 232"
+                  stroke="url(#metalChuteGrad)"
+                  stroke-width="10"
+                  stroke-linecap="round"
+                />
+                <rect x="635" y="162" width="132" height="26" rx="8" fill="#1E1B10" stroke="#E5C158" stroke-width="1.4" />
+                <text x="701" y="179" fill="#FDE047" font-size="11" font-weight="bold" text-anchor="middle">
+                  مسار المعادن (Metal Chute)
+                </text>
+
+                <!-- Mobile Line-Follower Metal Cart -->
+                <g id="line-follower-cart" transform="translate(650, 246)" style="transition: transform 0.9s ease-in-out;">
+                  <rect x="0" y="0" width="128" height="84" rx="10" fill="#1E293B" stroke="#E5C158" stroke-width="2.2" />
+                  <text x="64" y="28" fill="#FDE047" font-size="12" font-weight="bold" text-anchor="middle">صندوق تجميع المعادن</text>
+                  <text x="64" y="46" fill="#CBD5E1" font-size="10.5" text-anchor="middle">عربة تتبع الخط (Line Follower)</text>
+                  <text x="64" y="64" fill="#34D399" font-size="10.5" font-weight="bold" text-anchor="middle">متنقل تلقائيًا</text>
+                  <!-- Wheels -->
+                  <circle cx="24" cy="92" r="12" fill="#090D16" stroke="#FDE047" stroke-width="3" />
+                  <circle cx="104" cy="92" r="12" fill="#090D16" stroke="#FDE047" stroke-width="3" />
                 </g>
 
-                <!-- Input Waste Label -->
-                <g>
-                  <rect x="45" y="45" width="150" height="44" rx="10" fill="#7F1D1D" stroke="#F87171" stroke-width="1.5"/>
-                  <text x="120" y="64" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle" font-family="Cairo">قطع المخلفات</text>
-                  <text x="120" y="80" fill="#FECACA" font-size="10" text-anchor="middle" font-family="Cairo">(بلاستيك أو معدن)</text>
-                  <line x1="120" y1="89" x2="120" y2="125" stroke="#F87171" stroke-width="1.5"/>
-                </g>
-
-                <!-- Animated Waste Item (Controlled by Simulation JS) -->
-                <g id="sim-item" transform="translate(105, 130)" opacity="1">
-                  <rect id="sim-item-shape" x="0" y="0" width="34" height="22" rx="6" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5"/>
-                  <text id="sim-item-label" x="17" y="15" fill="#0F172A" font-size="10" font-weight="900" text-anchor="middle" font-family="Cairo">بلاستيك</text>
+                <!-- Animated Test Item on Belt / Path -->
+                <g id="sim-test-item" class="hidden" filter="url(#softGlow)">
+                  <rect id="sim-item-box" x="-16" y="-14" width="32" height="22" rx="7" fill="#38BDF8" stroke="#FFFFFF" stroke-width="2" />
+                  <text id="sim-item-label" x="0" y="1" fill="#050608" font-size="10" font-weight="900" text-anchor="middle">P</text>
                 </g>
               </svg>
             </div>
 
-            <!-- How it Works Summary Strip (طريقة العمل باختصار) -->
-            <div class="mt-5 pt-5 border-t border-white/10">
-              <h4 class="text-sm font-extrabold text-amber-300 mb-3 flex items-center gap-2">
-                <span>⚡ طريقة العمل باختصار:</span>
-              </h4>
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs sm:text-sm">
-                <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex items-center gap-2.5">
-                  <span class="w-6 h-6 rounded-full bg-cyan-400 text-slate-950 font-black flex items-center justify-center shrink-0">1</span>
-                  <span class="text-slate-200">القطعة تمر على السير الناقل.</span>
-                </div>
-                <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex items-center gap-2.5">
-                  <span class="w-6 h-6 rounded-full bg-purple-400 text-slate-950 font-black flex items-center justify-center shrink-0">2</span>
-                  <span class="text-slate-200">حساس المعادن يحدد نوع القطعة.</span>
-                </div>
-                <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex items-center gap-2.5">
-                  <span class="w-6 h-6 rounded-full bg-sky-400 text-slate-950 font-black flex items-center justify-center shrink-0">3</span>
-                  <span class="text-slate-200">البلاستيك ينزل في الصندوق بعد الحساس.</span>
-                </div>
-                <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex items-center gap-2.5">
-                  <span class="w-6 h-6 rounded-full bg-amber-400 text-slate-950 font-black flex items-center justify-center shrink-0">4</span>
-                  <span class="text-slate-200">المعدن يكمل طريقه وينزل في الصندوق المتحرك.</span>
-                </div>
+            <!-- 4 Quick Steps Strip -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs sm:text-sm">
+              <div class="p-3.5 rounded-xl bg-[#06090e]/90 border border-white/10">
+                <span class="font-black text-amber-300">1.</span>
+                <span class="text-slate-200 font-semibold">وضع القطعة (بلاستيك أو معدن) على السير الناقل.</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-[#06090e]/90 border border-white/10">
+                <span class="font-black text-amber-300">2.</span>
+                <span class="text-slate-200 font-semibold">حساس المعادن يحدد نوع القطعة ويرسل الإشارة للـ Arduino.</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-[#06090e]/90 border border-white/10">
+                <span class="font-black text-sky-300">3.</span>
+                <span class="text-slate-200 font-semibold">البلاستيك يتوجه بالبوابة إلى صندوق البلاستيك المخصص.</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-[#06090e]/90 border border-white/10">
+                <span class="font-black text-emerald-300">4.</span>
+                <span class="text-slate-200 font-semibold">المعدن يكمل مساره وينقل عبر عربة تتبع الخط لمحطة التفريغ.</span>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Detailed Project Proposal Cards -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          
-          <!-- Card 1: وصف المشروع -->
-          <div class="glass-card rounded-3xl p-6 sm:p-7 border-r-4 border-r-cyan-400">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-10 h-10 rounded-2xl bg-cyan-500/15 text-cyan-300 flex items-center justify-center">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
+          <!-- Detailed Project Sections Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Problem -->
+            <div class="royal-card p-6 space-y-3">
+              <div class="flex items-center gap-2.5 text-amber-300">
+                <span class="w-8 h-8 rounded-xl bg-amber-400/15 border border-amber-400/35 flex items-center justify-center font-black">⚠️</span>
+                <h3 class="text-lg font-black text-white">المشكلة التي يعالجها المشروع</h3>
               </div>
-              <h3 class="text-xl font-black text-white">فكرة ووصف المشروع</h3>
+              <p class="text-slate-300 text-sm leading-relaxed">
+                تتمثل المشكلة في صعوبة فرز المخلفات البلاستيكية والمعدنية يدويًا، وما تتطلبه هذه العملية من وقت وجهد مستمر، بالإضافة إلى اختلاط المواد القابلة لإعادة التدوير مما يؤدي إلى صعوبة جمعها والاستفادة منها، كما أن نقل المخلفات المعدنية إلى أماكن التجميع والتفريغ يتطلب تدخلاً بشريًا مستمرًا.
+              </p>
             </div>
-            <div class="space-y-3 text-slate-300 text-sm sm:text-base leading-relaxed">
-              <p>
-                يهدف المشروع إلى تصميم وتنفيذ نموذج أولي لنظام آلي يقوم بفرز المخلفات البلاستيكية والمعدنية باستخدام سير ناقل وحساس للكشف عن المعادن ووحدة تحكم إلكترونية.
+
+            <!-- Proposed Solution -->
+            <div class="royal-card p-6 space-y-3">
+              <div class="flex items-center gap-2.5 text-emerald-300">
+                <span class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-400/35 flex items-center justify-center font-black">💡</span>
+                <h3 class="text-lg font-black text-white">الحل المقترح</h3>
+              </div>
+              <p class="text-slate-300 text-sm leading-relaxed">
+                يقدم المشروع نظامًا آليًا منخفض التكلفة نسبيًا يساعد على فصل المخلفات البلاستيكية عن المعدنية، وتقليل التدخل البشري في عملية الفرز، وتنظيم عملية جمع ونقل المعادن إلى محطة تفريغ محددة، بما يساهم في تحسين كفاءة إدارة المخلفات القابلة لإعادة التدوير.
               </p>
-              <p>
-                تعتمد الفكرة على وضع القطع المراد فرزها على السير الناقل، حيث تمر أمام حساس الكشف عن المعادن لتحديد نوعها؛ في حالة عدم اكتشاف معدن تقوم بوابة مائلة يتم التحكم فيها بواسطة محرك سيرفو بتوجيه القطعة البلاستيكية إلى صندوق مخصص لجمع البلاستيك، أما في حالة اكتشاف قطعة معدنية فتفتح البوابة لفترة محددة لتستمر القطعة المعدنية على السير حتى تصل إلى مسار تجميع المعادن.
-              </p>
-              <p>
-                كما يتضمن المشروع صندوقًا متحركًا لجمع القطع المعدنية مثبتًا على عجلات ويتحرك على مسار محدد باستخدام نظام تتبع الخط، وعند امتلاء الصندوق يتحرك تلقائيًا إلى محطة تفريغ مخصصة ثم يعود إلى موقعه الأصلي لاستكمال التجميع.
+            </div>
+
+            <!-- Objectives -->
+            <div class="royal-card p-6 space-y-3">
+              <div class="flex items-center gap-2.5 text-amber-300">
+                <span class="w-8 h-8 rounded-xl bg-amber-400/15 border border-amber-400/35 flex items-center justify-center font-black">🎯</span>
+                <h3 class="text-lg font-black text-white">أهداف المشروع</h3>
+              </div>
+              <ul class="space-y-2 text-sm text-slate-300 leading-relaxed list-disc list-inside marker:text-amber-400">
+                <li>أتمتة عملية فرز المخلفات البلاستيكية والمعدنية.</li>
+                <li>تقليل الوقت والجهد المستخدمين في الفرز اليدوي.</li>
+                <li>تحسين تنظيم جمع المخلفات القابلة لإعادة التدوير.</li>
+                <li>تنفيذ نظام آلي لنقل المعادن إلى محطة تفريغ.</li>
+                <li>تطبيق مفاهيم الأنظمة المدمجة والحساسات والتحكم في نموذج عملي قابل للتطوير.</li>
+              </ul>
+            </div>
+
+            <!-- Implementation Method -->
+            <div class="royal-card p-6 space-y-3">
+              <div class="flex items-center gap-2.5 text-emerald-300">
+                <span class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-400/35 flex items-center justify-center font-black">⚙️</span>
+                <h3 class="text-lg font-black text-white">طريقة التنفيذ</h3>
+              </div>
+              <p class="text-slate-300 text-sm leading-relaxed">
+                يتم تنفيذ نموذج أولي لنظام فرز آلي يتكون من سير ناقل رئيسي، وحساس للكشف عن المعادن، وبوابة ميكانيكية بمحرك سيرفو، ووحدة تحكم إلكترونية <span class="text-amber-300 font-bold" dir="ltr">Arduino</span>. تُوجّه البلاستيك إلى صندوق البلاستيك، بينما تمر القطعة المعدنية عند فتح البوابة لتنزل عبر مسار مائل إلى عربة بعجلات تتحرك بنظام تتبع الخط نحو محطة التفريغ ثم تعود تلقائيًا لاستكمال التجميع.
               </p>
             </div>
           </div>
+        </section>
 
-          <!-- Card 2: المشكلة والحل المقترح -->
-          <div class="glass-card rounded-3xl p-6 sm:p-7 border-r-4 border-r-purple-500 flex flex-col justify-between space-y-6">
-            <div>
-              <div class="flex items-center gap-3 mb-3">
-                <div class="w-10 h-10 rounded-2xl bg-red-500/15 text-red-300 flex items-center justify-center">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                  </svg>
-                </div>
-                <h3 class="text-xl font-black text-white">المشكلة التي يعالجها المشروع</h3>
+        <!-- TAB 2: PERSONAL MEETING & ATTENDANCE -->
+        <section id="panel-meeting" class="member-panel hidden animate-panel-in space-y-6">
+          <!-- WhatsApp Group Follow-up Banner -->
+          <div
+            class="royal-card-emerald p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-emerald-400/40"
+          >
+            <div class="flex items-center gap-3.5">
+              <div
+                class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-2xl shrink-0"
+              >
+                💬
               </div>
-              <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                تتمثل المشكلة في صعوبة فرز المخلفات البلاستيكية والمعدنية يدويًا، وما تتطلبه هذه العملية من وقت وجهد مستمر واختلاط المواد القابلة لإعادة التدوير، بالإضافة إلى أن نقل المخلفات المعدنية إلى أماكن التجميع والتفريغ يتطلب تدخلاً بشريًا مستمرًا.
-              </p>
-            </div>
-
-            <div class="pt-5 border-t border-white/10">
-              <div class="flex items-center gap-3 mb-3">
-                <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-300 flex items-center justify-center">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                </div>
-                <h3 class="text-xl font-black text-white">الحل المقترح</h3>
+              <div>
+                <span class="text-[11px] font-extrabold text-emerald-300 uppercase tracking-wider">تنبيه رسمي للفريق</span>
+                <p class="text-base sm:text-lg font-black text-white mt-0.5">
+                  تابع جروب التيم علي واتساب علشان تعرف ميعاد الميتنج القادم
+                </p>
               </div>
-              <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                يقدم المشروع نظامًا آليًا منخفض التكلفة نسبيًا يساعد على فصل المخلفات البلاستيكية عن المعدنية وتقليل التدخل البشري، وتنظيم عملية جمع ونقل المعادن إلى محطة تفريغ محددة، مما يساهم في تحسين كفاءة إدارة المخلفات القابلة لإعادة التدوير.
-              </p>
             </div>
+            <span
+              class="px-3.5 py-1.5 rounded-xl bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-extrabold self-start sm:self-auto shrink-0"
+            >
+              WhatsApp Group Active
+            </span>
           </div>
 
-          <!-- Card 3: أهداف المشروع -->
-          <div class="glass-card rounded-3xl p-6 sm:p-7 border-r-4 border-r-amber-400">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-10 h-10 rounded-2xl bg-amber-500/15 text-amber-300 flex items-center justify-center">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-                </svg>
+          <!-- Personal Attendance Card (Strictly for Logged-in Member) -->
+          <div class="royal-card p-6 sm:p-8 space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
+              <div>
+                <h3 class="text-xl sm:text-2xl font-black text-white">سجل حضور الميتنج الخاص بك</h3>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1">
+                  يظهر هنا سجل الحضور الخاص بـ <span id="meeting-owner-name" class="text-amber-300 font-bold"></span> فقط.
+                </p>
               </div>
-              <h3 class="text-xl font-black text-white">أهداف المشروع</h3>
-            </div>
-            <ul class="space-y-3 text-slate-300 text-sm sm:text-base">
-              <li class="flex items-start gap-2.5">
-                <span class="text-amber-400 font-bold mt-0.5">✦</span>
-                <span>أتمتة عملية فرز المخلفات البلاستيكية والمعدنية بدقة وسرعة.</span>
-              </li>
-              <li class="flex items-start gap-2.5">
-                <span class="text-amber-400 font-bold mt-0.5">✦</span>
-                <span>تقليل الوقت والجهد المستخدمين في الفرز اليدوي التقليدي.</span>
-              </li>
-              <li class="flex items-start gap-2.5">
-                <span class="text-amber-400 font-bold mt-0.5">✦</span>
-                <span>تحسين تنظيم جمع المخلفات القابلة لإعادة التدوير.</span>
-              </li>
-              <li class="flex items-start gap-2.5">
-                <span class="text-amber-400 font-bold mt-0.5">✦</span>
-                <span>تنفيذ نظام آلي ذاتي الحركة لنقل المعادن إلى محطة تفريغ محددة.</span>
-              </li>
-              <li class="flex items-start gap-2.5">
-                <span class="text-amber-400 font-bold mt-0.5">✦</span>
-                <span>تطبيق مفاهيم الأنظمة المدمجة (Embedded Systems) والحساسات والتحكم في نموذج عملي قابل للتطوير.</span>
-              </li>
-            </ul>
-          </div>
-
-          <!-- Card 4: طريقة التنفيذ -->
-          <div class="glass-card rounded-3xl p-6 sm:p-7 border-r-4 border-r-emerald-400">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-300 flex items-center justify-center">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-              </div>
-              <h3 class="text-xl font-black text-white">طريقة تنفيذ المشروع</h3>
-            </div>
-            <div class="space-y-3 text-slate-300 text-sm sm:text-base leading-relaxed">
-              <p>
-                يتم بناء نموذج أولي يتكون من سير ناقل رئيسي، وحساس للكشف عن المعادن، وبوابة ميكانيكية بمحرك سيرفو، ووحدة تحكم إلكترونية من نوع <span class="text-cyan-300 font-bold font-orbitron">Arduino</span>.
-              </p>
-              <p>
-                عند وضع المخلفات على السير، يحدد الحساس نوع القطعة؛ فإذا كانت بلاستيكية تظل البوابة في وضعها الطبيعي لتوجيهها لصندوق البلاستيك، وإذا كانت معدنية تفتح البوابة لتمر القطعة لنهاية السير وتنزل عبر مسار مائل إلى صندوق تجميع المعادن المثبت على عربة مزودة بحساسات تتبع الخط (<span class="text-cyan-300 font-bold">Line Follower</span>).
-              </p>
-              <p>
-                عند وصول الصندوق للسعة المحددة تتحرك العربة تلقائيًا إلى محطة التفريغ، وتتوقف لفترة زمنية لتفريغ المعادن ثم تعود لموقعها الأصلي لاستكمال العمل.
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- ===================================================== -->
-      <!-- TAB 2: الميتنج (MEETINGS & PERSONAL ATTENDANCE)        -->
-      <!-- ===================================================== -->
-      <section id="tab-meeting" class="tab-panel hidden space-y-6">
-        
-        <!-- WhatsApp Next Meeting Alert Banner -->
-        <div class="glass-card-neon rounded-3xl p-6 sm:p-7 border border-emerald-400/40 bg-gradient-to-r from-emerald-950/60 via-slate-900/80 to-cyan-950/60 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div class="flex items-center gap-4 text-center sm:text-right">
-            <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 shrink-0 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
-              </svg>
-            </div>
-            <div>
-              <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-extrabold mb-1">
-                تنبيه هام للميتنج القادم
+              <span class="px-3.5 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-extrabold self-start sm:self-auto">
+                سجل شخصي آمن
               </span>
-              <h3 class="text-lg sm:text-xl font-black text-white">
-                تابع جروب التيم علي واتساب علشان تعرف ميعاد الميتنج القادم
-              </h3>
             </div>
+
+            <div id="member-meeting-list" class="space-y-4"></div>
+          </div>
+        </section>
+
+        <!-- TAB 3: PERSONAL GRADES -->
+        <section id="panel-grades" class="member-panel hidden animate-panel-in space-y-6">
+          <div class="royal-card p-6 sm:p-8 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+              <div>
+                <h3 class="text-xl sm:text-2xl font-black text-white">الدرجات والتقييم الشخصي</h3>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1">
+                  عرض الدرجة الخاصة بحسابك فقط (<span id="grades-owner-name" class="text-amber-300 font-bold"></span>).
+                </p>
+              </div>
+              <span class="px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/35 text-emerald-300 text-xs font-extrabold self-start sm:self-auto">
+                تقييم معتمد للفريق
+              </span>
+            </div>
+
+            <div id="member-grades-content" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
+          </div>
+        </section>
+
+        <!-- TAB 4: PERSONAL & TEAM TASKS -->
+        <section id="panel-tasks" class="member-panel hidden animate-panel-in space-y-6">
+          <div class="royal-card p-6 sm:p-8 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+              <div>
+                <h3 class="text-xl sm:text-2xl font-black text-white">المهام والتاسكات المطلوبة</h3>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1">
+                  المهام الموجهة للتيم بالكامل أو المخصصة لك شخصيًا.
+                </p>
+              </div>
+              <button
+                id="refresh-member-tasks-btn"
+                type="button"
+                class="px-4 py-2 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 border border-amber-400/35 text-amber-200 text-xs font-extrabold transition-all cursor-pointer self-start sm:self-auto"
+              >
+                🔄 تحديث المهام
+              </button>
+            </div>
+
+            <div id="member-tasks-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+          </div>
+        </section>
+
+        <!-- TAB 5: TEAM MEMBERS DIRECTORY (Names & Roles ONLY - No IDs!) -->
+        <section id="panel-members" class="member-panel hidden animate-panel-in space-y-6">
+          <div class="royal-card p-6 sm:p-8 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+              <div>
+                <h3 class="text-xl sm:text-2xl font-black text-white">قائمة أعضاء فريق Brainx Team</h3>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1">
+                  جميع أعضاء الفريق (24 عضوًا) — الفرقة الثانية، تكنولوجيا المعلومات، جامعة برج العرب التكنولوجية.
+                </p>
+              </div>
+              <span class="px-3.5 py-1.5 rounded-full bg-amber-400/15 border border-amber-400/35 text-amber-300 text-xs font-extrabold self-start sm:self-auto">
+                24 عضوًا
+              </span>
+            </div>
+
+            <div id="team-members-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ======================================================= -->
+      <!-- ADMIN COMMAND DASHBOARD (لوحة تحكم الأدمن - 01095088768) -->
+      <!-- ======================================================= -->
+      <div id="admin-workspace" class="hidden animate-panel-in space-y-6">
+        <!-- Admin Header Banner -->
+        <div class="royal-card p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-5 border border-amber-400/35">
+          <div class="space-y-1.5">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/35 text-amber-300 text-xs font-black">
+              <span>👑 لوحة قيادة الأدمن الملكية</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black text-white">إدارة مهام ودرجات وحضور Brainx Team</h2>
+            <p class="text-xs sm:text-sm text-slate-300">
+              أي تاسك أو درجة أو تحديث حضور تضيفه هنا يتم حفظه ومزامنته مباشرة مع أعضاء الفريق.
+            </p>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+            <button
+              id="admin-preview-member-btn"
+              type="button"
+              class="px-4 py-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/40 text-emerald-200 text-xs sm:text-sm font-extrabold transition-all cursor-pointer"
+            >
+              👁️ معاينة واجهة العضو
+            </button>
+            <button
+              id="admin-reload-data-btn"
+              type="button"
+              class="px-4 py-2.5 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 border border-amber-400/40 text-amber-200 text-xs sm:text-sm font-extrabold transition-all cursor-pointer"
+            >
+              🔄 مزامنة البيانات
+            </button>
           </div>
         </div>
 
-        <!-- Personal Attendance Record Card -->
-        <div class="glass-card-neon rounded-3xl p-6 sm:p-8">
-          <div class="flex flex-wrap items-center justify-between gap-3 pb-6 mb-6 border-b border-white/10">
-            <div>
-              <h3 class="text-xl sm:text-2xl font-black text-white">سجل حضور الاجتماعات الخاص بك</h3>
-              <p class="text-slate-400 text-sm mt-1">هذا السجل خاص بك فقط ولا يظهر لأي عضو آخر</p>
+        <!-- Admin KPI Summary Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="royal-card p-5">
+            <p class="text-xs text-slate-400 font-bold">إجمالي أعضاء الفريق</p>
+            <p class="text-2xl sm:text-3xl font-black text-amber-300 mt-1">24</p>
+          </div>
+          <div class="royal-card p-5">
+            <p class="text-xs text-slate-400 font-bold">التاسكات النشطة</p>
+            <p id="admin-stat-tasks" class="text-2xl sm:text-3xl font-black text-emerald-300 mt-1">0</p>
+          </div>
+          <div class="royal-card p-5">
+            <p class="text-xs text-slate-400 font-bold">حضور ميتنج 25/11/2026</p>
+            <p id="admin-stat-present" class="text-2xl sm:text-3xl font-black text-white mt-1">23 / 24</p>
+          </div>
+          <div class="royal-card p-5">
+            <p class="text-xs text-slate-400 font-bold">الدرجة القياسية</p>
+            <p class="text-2xl sm:text-3xl font-black text-amber-200 mt-1">60 / 60</p>
+          </div>
+        </div>
+
+        <!-- Admin Main Grid: Add Task + Manage Existing Tasks -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Add Task Form (5 cols) -->
+          <div class="lg:col-span-5 royal-card p-6 space-y-4">
+            <div class="flex items-center gap-2 border-b border-white/10 pb-3">
+              <span class="text-xl">➕</span>
+              <h3 class="text-lg font-black text-white">إضافة تاسك جديد</h3>
             </div>
-            <div class="px-4 py-2 rounded-2xl bg-slate-900/90 border border-cyan-400/25 text-sm font-bold text-cyan-300">
-              العضو: <span id="meeting-member-name" class="text-white"></span>
-            </div>
+
+            <form id="admin-add-task-form" class="space-y-4">
+              <div>
+                <label for="task-title" class="block text-xs font-extrabold text-amber-200 mb-1.5">عنوان التاسك</label>
+                <input
+                  type="text"
+                  id="task-title"
+                  required
+                  placeholder="مثال: تجهيز دائرة حساس المعادن"
+                  class="w-full px-4 py-3 rounded-xl bg-[#05070c] border border-white/15 text-white placeholder-slate-500 text-sm font-bold focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label for="task-target" class="block text-xs font-extrabold text-amber-200 mb-1.5">توجيه التاسك إلى</label>
+                <select
+                  id="task-target"
+                  class="w-full px-4 py-3 rounded-xl bg-[#05070c] border border-white/15 text-white text-sm font-bold focus:outline-none focus:border-amber-400"
+                >
+                  <option value="all">جميع أعضاء التيم (الكل)</option>
+                </select>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label for="task-priority" class="block text-xs font-extrabold text-amber-200 mb-1.5">الأولوية</label>
+                  <select
+                    id="task-priority"
+                    class="w-full px-4 py-3 rounded-xl bg-[#05070c] border border-white/15 text-white text-sm font-bold focus:outline-none focus:border-amber-400"
+                  >
+                    <option value="عالية">عالية</option>
+                    <option value="متوسطة" selected>متوسطة</option>
+                    <option value="عادية">عادية</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="task-deadline" class="block text-xs font-extrabold text-amber-200 mb-1.5">موعد التسليم</label>
+                  <input
+                    type="text"
+                    id="task-deadline"
+                    placeholder="مثال: 30/11/2026"
+                    class="w-full px-4 py-3 rounded-xl bg-[#05070c] border border-white/15 text-white placeholder-slate-500 text-sm font-bold focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="task-desc" class="block text-xs font-extrabold text-amber-200 mb-1.5">تفاصيل التاسك</label>
+                <textarea
+                  id="task-desc"
+                  rows="3"
+                  required
+                  placeholder="اكتب شرحًا واضحًا للمطلوب تنفيذه..."
+                  class="w-full px-4 py-3 rounded-xl bg-[#05070c] border border-white/15 text-white placeholder-slate-500 text-sm font-semibold focus:outline-none focus:border-amber-400"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="gold-shimmer-btn w-full py-3.5 px-5 rounded-xl bg-gradient-to-r from-amber-300 via-amber-400 to-emerald-300 text-slate-950 font-black text-sm shadow-[0_10px_25px_rgba(229,193,88,0.25)] hover:from-amber-200 hover:to-emerald-200 transition-all cursor-pointer"
+              >
+                🚀 نشر التاسك للفريق
+              </button>
+            </form>
           </div>
 
-          <!-- Meeting #1 Details -->
-          <div class="rounded-2xl bg-slate-950/70 border border-white/10 p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
-            <div class="space-y-2">
-              <div class="flex flex-wrap items-center gap-2.5">
-                <span class="px-3 py-1 rounded-xl bg-purple-500/20 border border-purple-400/30 text-purple-300 text-xs font-extrabold">
-                  الميتنج الأول (مكتمل)
-                </span>
-                <span class="px-3 py-1 rounded-xl bg-slate-800 text-cyan-300 text-xs font-bold font-orbitron" dir="ltr">
-                  26 / 11 / 2026
-                </span>
+          <!-- Existing Tasks List (7 cols) -->
+          <div class="lg:col-span-7 royal-card p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-xl">📋</span>
+                <h3 class="text-lg font-black text-white">المهام المضافة حاليًا</h3>
               </div>
-              <h4 class="text-lg sm:text-xl font-extrabold text-white">
-                الاجتماع التأسيسي ومناقشة مقترح مشروع التخرج
-              </h4>
-              <p class="text-slate-400 text-sm">
-                مراجعة تفاصيل نظام فرز المخلفات وتوزيع المهام المبدئية على أعضاء الفريق.
+              <span id="admin-tasks-count-pill" class="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500/15 text-emerald-300 border border-emerald-400/35">
+                0 مهام
+              </span>
+            </div>
+
+            <div id="admin-tasks-list" class="space-y-3 max-h-[460px] overflow-y-auto pr-1"></div>
+          </div>
+        </div>
+
+        <!-- Admin Grades & Attendance Editor -->
+        <div class="royal-card p-6 sm:p-8 space-y-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div>
+              <h3 class="text-xl font-black text-white">تعديل الدرجات وحضور الميتنج للأعضاء</h3>
+              <p class="text-xs sm:text-sm text-slate-400 mt-1">
+                اختر أي عضو لتعديل درجته (من 60) أو تحديث حالة حضور الميتنج (<span class="text-amber-300 font-bold">25/11/2026</span>) أو إضافة ملاحظة.
               </p>
             </div>
+          </div>
 
-            <!-- Dynamic Personal Attendance Status Badge -->
-            <div id="meeting-status-container" class="w-full md:w-auto flex justify-end">
-              <!-- Populated dynamically via JS -->
+          <form id="admin-member-record-form" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div class="md:col-span-2">
+              <label for="record-member-select" class="block text-xs font-extrabold text-amber-200 mb-1.5">اختر العضو</label>
+              <select
+                id="record-member-select"
+                class="w-full px-4 py-3 rounded-xl bg-[#05070c] border border-white/15 text-white text-sm font-bold focus:outline-none focus:border-amber-400"
+              ></select>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- ===================================================== -->
-      <!-- TAB 3: الدرجات (PERSONAL GRADES & EVALUATION)         -->
-      <!-- ===================================================== -->
-      <section id="tab-grades" class="tab-panel hidden">
-        <div class="max-w-2xl mx-auto glass-card-neon rounded-3xl p-7 sm:p-10 text-center relative overflow-hidden">
-          <div class="absolute -top-24 -right-24 w-56 h-56 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
-          <div class="absolute -bottom-24 -left-24 w-56 h-56 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
-
-          <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-extrabold mb-4">
-            <span>التقييم الشخصي السري</span>
-          </span>
-
-          <h3 class="text-2xl sm:text-3xl font-black text-white mb-2">تقييم ودرجات العضو</h3>
-          <p id="grades-member-name" class="text-cyan-300 font-bold text-base sm:text-lg mb-8"></p>
-
-          <!-- Circular Score Gauge -->
-          <div class="relative w-52 h-52 mx-auto mb-7 flex items-center justify-center">
-            <svg class="w-full h-full -rotate-90" viewBox="0 0 160 160">
-              <circle cx="80" cy="80" r="68" stroke="rgba(255,255,255,0.08)" stroke-width="12" fill="none"/>
-              <circle
-                id="score-ring-circle"
-                cx="80"
-                cy="80"
-                r="68"
-                stroke="#00F0FF"
-                stroke-width="12"
-                stroke-linecap="round"
-                fill="none"
-                stroke-dasharray="427.25"
-                stroke-dashoffset="0"
-                style="transition: stroke-dashoffset 1s ease-out, stroke 0.5s ease;"
-              />
-            </svg>
-            <div class="absolute inset-0 flex flex-col items-center justify-center">
-              <span id="score-value-display" class="font-orbitron text-4xl sm:text-5xl font-black text-white">60</span>
-              <span class="text-slate-400 text-sm font-bold mt-1">من 60 درجة</span>
-            </div>
-          </div>
-
-          <div id="score-feedback-box" class="rounded-2xl p-4 border text-sm sm:text-base font-bold">
-            <!-- Populated dynamically via JS -->
-          </div>
-        </div>
-      </section>
-
-      <!-- ===================================================== -->
-      <!-- TAB 4: أعضاء التيم (TEAM ROSTER - NO IDS SHOWN)       -->
-      <!-- ===================================================== -->
-      <section id="tab-members" class="tab-panel hidden space-y-6">
-        <div class="glass-card-neon rounded-3xl p-6 sm:p-8">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
             <div>
-              <h3 class="text-2xl font-black text-white">قائمة أعضاء فريق Brainx Team</h3>
-              <p class="text-slate-400 text-sm mt-1">إجمالي أعضاء الفريق: 24 عضوًا • تكنولوجيا المعلومات</p>
+              <label for="record-grade-input" class="block text-xs font-extrabold text-amber-200 mb-1.5">الدرجة (من 60)</label>
+              <input
+                type="number"
+                id="record-grade-input"
+                min="0"
+                max="60"
+                step="0.5"
+                required
+                class="w-full px-4 py-3 rounded-xl bg-[#05070c] border border-white/15 text-white text-sm font-black focus:outline-none focus:border-amber-400"
+              />
             </div>
 
-            <!-- Search Filter -->
-            <div class="relative w-full md:w-72">
+            <div>
+              <label for="record-attendance-select" class="block text-xs font-extrabold text-amber-200 mb-1.5">حضور ميتنج 25/11/2026</label>
+              <select
+                id="record-attendance-select"
+                class="w-full px-4 py-3 rounded-xl bg-[#05070c] border border-white/15 text-white text-sm font-bold focus:outline-none focus:border-amber-400"
+              >
+                <option value="تم الحضور">تم الحضور</option>
+                <option value="لم يتم الحضور">لم يتم الحضور</option>
+              </select>
+            </div>
+
+            <div class="md:col-span-3">
+              <label for="record-note-input" class="block text-xs font-extrabold text-amber-200 mb-1.5">ملاحظة أو إعلان ميتنج إضافي (اختياري)</label>
               <input
                 type="text"
-                id="member-search-input"
-                placeholder="ابحث باسم العضو..."
-                class="w-full px-4 py-2.5 pl-10 rounded-2xl bg-slate-950/80 border border-white/15 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 transition-all"
+                id="record-note-input"
+                placeholder="مثال: التزام ممتاز بتسليم أجزاء النموذج الأولي"
+                class="w-full px-4 py-3 rounded-xl bg-[#05070c] border border-white/15 text-white placeholder-slate-500 text-sm font-semibold focus:outline-none focus:border-amber-400"
               />
-              <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-              </svg>
             </div>
-          </div>
 
-          <!-- Members Grid (Strictly NO IDs rendered anywhere) -->
-          <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- Populated dynamically via JS -->
+            <div>
+              <button
+                type="submit"
+                class="w-full py-3.5 px-5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm transition-all shadow-[0_8px_22px_rgba(16,185,129,0.28)] cursor-pointer"
+              >
+                💾 حفظ التعديل
+              </button>
+            </div>
+          </form>
+
+          <!-- Compact Members Status Overview Table (Admin View Only) -->
+          <div class="overflow-x-auto pt-2">
+            <table class="w-full text-right border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="border-b border-amber-400/20 text-amber-200">
+                  <th class="py-3 px-3 font-extrabold">#</th>
+                  <th class="py-3 px-3 font-extrabold">اسم العضو</th>
+                  <th class="py-3 px-3 font-extrabold">الصفة</th>
+                  <th class="py-3 px-3 font-extrabold">ميتنج 25/11/2026</th>
+                  <th class="py-3 px-3 font-extrabold">الدرجة</th>
+                </tr>
+              </thead>
+              <tbody id="admin-members-table-body" class="divide-y divide-white/5 text-slate-200"></tbody>
+            </table>
           </div>
         </div>
-      </section>
-
-    </div>
-
-    <!-- Footer -->
-    <footer class="mt-auto py-5 px-4 border-t border-white/10 text-center text-xs text-slate-400">
-      <p>جميع الحقوق محفوظة © 2026 <span class="font-orbitron text-cyan-300 font-bold" dir="ltr">Brainx Team</span> — جامعة برج العرب التكنولوجية</p>
-    </footer>
+      </div>
+    </main>
   </div>
 
   <!-- ========================================================= -->
-  <!-- APPLICATION LOGIC & NEURAL CANVAS SCRIPT                  -->
+  <!-- APPLICATION LOGIC & SUPABASE INTEGRATION                  -->
   <!-- ========================================================= -->
   <script>
-    // 1. Exact Team Members Database (24 Members)
-    const TEAM_MEMBERS = [
-      { id: "2520734", name: "مازن محمد فوزي ابراهيم عثمان", role: "ليدر التيم", roleType: "leader", attended: true, score: 60 },
-      { id: "2460146", name: "ملك محمد سيد علي", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2460108", name: "فاطمة رضا محمود ابو الفتوح", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520836", name: "محمد منير سعيد رمضان", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520885", name: "مروان عبد الغفور حسن عبد الرحيم", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2521146", name: "يوسف خميس حامد", role: "عضو بالفريق", roleType: "member", attended: false, score: 57 },
-      { id: "2520259", name: "بسنت اشرف فتحي خليل", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520281", name: "جنا محمد السيد محمد احمد موسى", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520437", name: "زياد أسامة محي محمد علي", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2521145", name: "يوسف خالد إبراهيم محمد", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2521137", name: "يوسف إسماعيل احمد إسماعيل", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520796", name: "محمد سعيد إبراهيم", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520906", name: "مريم رجب مرسي اسماعيل", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520709", name: "كمال الدين محمود محمد محمد", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520698", name: "كارما هاني محمود انور", role: "مشرف التيم", roleType: "supervisor", attended: true, score: 60 },
-      { id: "2521077", name: "هاجر حسني ابراهيم علي", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2521023", name: "ندى علي مسعود", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520402", name: "رزان محمد عبد العاطي محمد السيد رجب", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520925", name: "مريم هاني مرسي عبد النبي مرسي غنيم", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520404", name: "رفعت محمد عبد الحسيب", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2520913", name: "مريم محمد سيد علي احمد سلامه", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2521198", name: "امينه محمد عبد الستار قطب عوض", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2540038", name: "احمد مصطفى فرغلي محمد حسين", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 },
-      { id: "2560056", name: "جنى ايمن رزق صبرة", role: "عضو بالفريق", roleType: "member", attended: true, score: 60 }
-    ];
+    // ---------------------------------------------------------
+    // 1. SUPABASE CONFIGURATION (Clean Background Connection)
+    // ---------------------------------------------------------
+    const SUPABASE_URL = 'https://mnhrvevngrevsphtxiuk.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_yl7lMs7fxzIFxAeavxBwMw_M6SAV-LP';
+    const ADMIN_LOGIN_CODE = '01095088768';
+    const MEETING_DATE_PRIMARY = '25/11/2026';
 
-    let currentUser = null;
-    let simulationRunning = false;
-
-    // Normalize Arabic digits (٠-٩) to English digits (0-9) so mobile Arabic keyboards work smoothly
-    function normalizeIdInput(raw) {
-      const arabicDigits = '٠١٢٣٤٥٦٧٨٩';
-      return raw.trim().replace(/[٠-٩]/g, (d) => arabicDigits.indexOf(d));
+    let supabaseClient = null;
+    try {
+      if (window.supabase && typeof window.supabase.createClient === 'function') {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      }
+    } catch (err) {
+      console.warn('Supabase client fallback mode active:', err);
     }
 
-    // 2. Login Portal Logic
-    const loginForm = document.getElementById('login-form');
-    const loginCard = document.getElementById('login-card');
-    const idInput = document.getElementById('member-id-input');
-    const errorBox = document.getElementById('login-error-box');
+    // ---------------------------------------------------------
+    // 2. AUTHORITATIVE 24 TEAM MEMBERS FROM PDF
+    // ---------------------------------------------------------
+    const TEAM_MEMBERS = [
+      { id: '2520734', name: 'مازن محمد فوزي ابراهيم عثمان', role: 'قائد الفريق', badge: 'ليدر التيم', attendance: 'تم الحضور', grade: 60 },
+      { id: '2460146', name: 'ملك محمد سيد علي', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2460108', name: 'فاطمة رضا محمود ابو الفتوح', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520836', name: 'محمد منير سعيد رمضان', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520885', name: 'مروان عبد الغفور حسن عبد الرحيم', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2521146', name: 'يوسف خميس حامد', role: 'عضو', badge: '', attendance: 'لم يتم الحضور', grade: 57 },
+      { id: '2520259', name: 'بسنت اشرف فتحي خليل', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520281', name: 'جنا محمد السيد محمد احمد موسي', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520437', name: 'زياد أسامة محي محمد علي', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2521145', name: 'يوسف خالد إبراهيم محمد', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2521137', name: 'يوسف إسماعيل احمد إسماعيل', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2520796', name: 'محمد سعيد إبراهيم', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2520906', name: 'مريم رجب مرسي اسماعيل', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2520709', name: 'كمال الدين محمود محمد محمد', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2520698', name: 'كارما هاني محمود انور', role: 'عضو', badge: 'مشرف التيم', attendance: 60 },
+      { id: '2521077', name: 'هاجر حسني ابراهيم علي', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2521023', name: 'ندى علي مسعود', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2520402', name: 'رزان محمد عبد العاطي محمد السيد رجب', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2520925', name: 'مريم هاني مرسي عبد النبي مرسي غنيم', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2520404', name: 'رفعت محمد عبد الحسيب', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2520913', name: 'مريم محمد سيد علي احمد سلامه', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2521198', name: 'امينه محمد عبد الستار قطب عوض', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2540038', name: 'احمد مصطفي فرغلي محمد حسين', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2560056', name: 'جنى ايمن رزق صبرة', role: 'عضو', badge: '', attendance: 60 },
+    ];
+
+    // Normalize Arabic/Hindi digits to standard ASCII digits
+    function normalizeDigits(rawValue) {
+      const arabicMap = {
+        '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
+        '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+        '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4',
+        '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9',
+      };
+      return String(rawValue || '')
+        .trim()
+        .replace(/[٠-٩۰-۹]/g, (ch) => arabicMap[ch] || ch)
+        .replace(/\s+/g, '');
+    }
+
+    // ---------------------------------------------------------
+    // 3. STATE MANAGEMENT (Tasks, Overrides, Completion)
+    // ---------------------------------------------------------
+    const STORAGE_KEYS = {
+      tasks: 'brainx_royal_tasks_v1',
+      records: 'brainx_royal_records_v1',
+      completed: 'brainx_royal_completed_v1',
+    };
+
+    let currentSession = null; // { type: 'admin' } or { type: 'member', member }
+    let previewAsMember = null;
+    let tasksState = [];
+    let memberOverrides = {}; // keyed by member.id -> { grade, attendance, note, extraMeetings: [] }
+    let completedTaskIds = new Set();
+
+    function showToast(message) {
+      const toast = document.getElementById('royal-toast');
+      const toastMsg = document.getElementById('royal-toast-msg');
+      toastMsg.textContent = message;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 3200);
+    }
+
+    function loadLocalCache() {
+      try {
+        const cachedTasks = JSON.parse(localStorage.getItem(STORAGE_KEYS.tasks) || '[]');
+        if (Array.isArray(cachedTasks)) tasksState = cachedTasks;
+      } catch (_) {}
+
+      try {
+        const cachedRecords = JSON.parse(localStorage.getItem(STORAGE_KEYS.records) || '{}');
+        if (cachedRecords && typeof cachedRecords === 'object') memberOverrides = cachedRecords;
+      } catch (_) {}
+
+      try {
+        const cachedCompleted = JSON.parse(localStorage.getItem(STORAGE_KEYS.completed) || '[]');
+        if (Array.isArray(cachedCompleted)) completedTaskIds = new Set(cachedCompleted);
+      } catch (_) {}
+    }
+
+    function saveLocalCache() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.tasks, JSON.stringify(tasksState));
+        localStorage.setItem(STORAGE_KEYS.records, JSON.stringify(memberOverrides));
+        localStorage.setItem(STORAGE_KEYS.completed, JSON.stringify(Array.from(completedTaskIds)));
+      } catch (_) {}
+    }
+
+    // Fetch remote tasks & member records from Supabase seamlessly
+    async function syncFromSupabase() {
+      loadLocalCache();
+      if (!supabaseClient) return;
+
+      try {
+        const { data: remoteTasks, error: tasksErr } = await supabaseClient
+          .from('tasks')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!tasksErr && Array.isArray(remoteTasks)) {
+          tasksState = remoteTasks.map((t) => ({
+            id: String(t.id),
+            title: t.title || 'مهمة جديدة',
+            description: t.description || '',
+            assigned_to: t.assigned_to || 'all',
+            priority: t.priority || 'متوسطة',
+            deadline: t.deadline || 'مفتوح',
+            created_at: t.created_at || new Date().toISOString(),
+          }));
+        }
+      } catch (_) {
+        // Fallback smoothly to local state if table is not created yet
+      }
+
+      try {
+        const { data: remoteGrades, error: gradesErr } = await supabaseClient
+          .from('grades')
+          .select('*');
+
+        if (!gradesErr && Array.isArray(remoteGrades)) {
+          remoteGrades.forEach((row) => {
+            if (!row.member_id) return;
+            const idKey = normalizeDigits(row.member_id);
+            memberOverrides[idKey] = {
+              ...(memberOverrides[idKey] || {}),
+              grade: row.grade !== undefined && row.grade !== null ? Number(row.grade) : (memberOverrides[idKey]?.grade ?? 60),
+              attendance: row.attendance || memberOverrides[idKey]?.attendance || 'تم الحضور',
+              note: row.note !== undefined ? row.note : (memberOverrides[idKey]?.note || ''),
+            };
+          });
+        }
+      } catch (_) {
+        // Fallback smoothly if table is not created yet
+      }
+
+      saveLocalCache();
+    }
+
+    function getMemberEffectiveData(member) {
+      const ov = memberOverrides[member.id] || {};
+      return {
+        ...member,
+        grade: ov.grade !== undefined ? Number(ov.grade) : member.grade,
+        attendance: ov.attendance || member.attendance,
+        note: ov.note || '',
+      };
+    }
+
+    // ---------------------------------------------------------
+    // 4. LOGIN GATE & 3D TILT INTERACTION
+    // ---------------------------------------------------------
     const loginView = document.getElementById('login-view');
-    const dashboardView = document.getElementById('dashboard-view');
+    const workspaceView = document.getElementById('workspace-view');
+    const loginCard = document.getElementById('login-card');
+    const loginSpotlight = document.getElementById('login-spotlight');
+    const loginForm = document.getElementById('login-form');
+    const idInput = document.getElementById('id-input');
+    const loginError = document.getElementById('login-error');
+    const verifyOverlay = document.getElementById('verify-overlay');
+    const verifyGreeting = document.getElementById('verify-greeting');
 
-    loginForm.addEventListener('submit', (e) => {
+    loginCard.addEventListener('mousemove', (e) => {
+      const rect = loginCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const rx = ((y - rect.height / 2) / (rect.height / 2)) * -5.5;
+      const ry = ((x - rect.width / 2) / (rect.width / 2)) * 5.5;
+      loginCard.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+      loginSpotlight.style.setProperty('--spot-x', `${x}px`);
+      loginSpotlight.style.setProperty('--spot-y', `${y}px`);
+    });
+
+    loginCard.addEventListener('mouseleave', () => {
+      loginCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+
+    idInput.addEventListener('input', () => {
+      if (!loginError.classList.contains('hidden')) {
+        loginError.classList.add('hidden');
+      }
+    });
+
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const enteredId = normalizeIdInput(idInput.value);
-      const matchedMember = TEAM_MEMBERS.find((m) => m.id === enteredId);
+      const entered = normalizeDigits(idInput.value);
 
-      if (!matchedMember) {
-        // Trigger shake animation & show exact Arabic error message
-        errorBox.classList.remove('hidden');
-        loginCard.classList.remove('animate-shake');
-        void loginCard.offsetWidth; // trigger reflow
-        loginCard.classList.add('animate-shake');
-        idInput.focus();
+      if (!entered) {
+        triggerInvalidId();
         return;
       }
 
-      // Valid login
-      errorBox.classList.add('hidden');
-      currentUser = matchedMember;
-      renderDashboardForUser(matchedMember);
+      if (entered === ADMIN_LOGIN_CODE) {
+        loginError.classList.add('hidden');
+        verifyGreeting.textContent = 'مرحباً بك في لوحة قيادة الأدمن';
+        verifyOverlay.classList.remove('hidden');
+        await syncFromSupabase();
 
-      loginView.classList.add('hidden');
-      dashboardView.classList.remove('hidden');
+        setTimeout(() => {
+          verifyOverlay.classList.add('hidden');
+          previewAsMember = null;
+          currentSession = { type: 'admin' };
+          openWorkspace();
+        }, 650);
+        return;
+      }
+
+      const foundMember = TEAM_MEMBERS.find((m) => m.id === entered);
+      if (!foundMember) {
+        triggerInvalidId();
+        return;
+      }
+
+      loginError.classList.add('hidden');
+      verifyGreeting.textContent = `أهلاً بك، ${foundMember.name}`;
+      verifyOverlay.classList.remove('hidden');
+      await syncFromSupabase();
+
+      setTimeout(() => {
+        verifyOverlay.classList.add('hidden');
+        previewAsMember = null;
+        currentSession = { type: 'member', member: foundMember };
+        openWorkspace();
+      }, 650);
+    });
+
+    function triggerInvalidId() {
+      loginError.classList.remove('hidden');
+      loginCard.classList.remove('animate-shake-invalid');
+      void loginCard.offsetWidth;
+      loginCard.classList.add('animate-shake-invalid');
+      idInput.focus();
+    }
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      currentSession = null;
+      previewAsMember = null;
+      idInput.value = '';
+      loginError.classList.add('hidden');
+      workspaceView.classList.add('hidden');
+      loginView.classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Hide error box when user starts typing again
-    idInput.addEventListener('input', () => {
-      if (!errorBox.classList.contains('hidden')) {
-        errorBox.classList.add('hidden');
-      }
-    });
+    // ---------------------------------------------------------
+    // 5. WORKSPACE RENDERING (MEMBER & ADMIN)
+    // ---------------------------------------------------------
+    const memberWorkspace = document.getElementById('member-workspace');
+    const adminWorkspace = document.getElementById('admin-workspace');
+    const memberTabsBar = document.getElementById('member-tabs-bar');
+    const headerUserName = document.getElementById('header-user-name');
+    const headerRolePill = document.getElementById('header-role-pill');
 
-    // Logout Handler
-    document.getElementById('logout-btn').addEventListener('click', () => {
-      currentUser = null;
-      idInput.value = '';
-      errorBox.classList.add('hidden');
-      dashboardView.classList.add('hidden');
-      loginView.classList.remove('hidden');
-      switchTab('project');
-    });
+    function openWorkspace() {
+      loginView.classList.add('hidden');
+      workspaceView.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // 3. Populate Personalized Dashboard Data (Strict Privacy)
-    function renderDashboardForUser(user) {
-      // Top Navbar Name & Role Badge
-      document.getElementById('nav-user-name').textContent = user.name;
-      const navBadge = document.getElementById('nav-user-badge');
-      if (user.roleType === 'leader') {
-        navBadge.textContent = '👑 ليدر التيم';
-        navBadge.className = 'px-3 py-1 rounded-full text-xs font-black bg-amber-400/20 text-amber-300 border border-amber-400/40';
-        navBadge.classList.remove('hidden');
-      } else if (user.roleType === 'supervisor') {
-        navBadge.textContent = '⚡ مشرف التيم';
-        navBadge.className = 'px-3 py-1 rounded-full text-xs font-black bg-purple-500/20 text-purple-300 border border-purple-400/40';
-        navBadge.classList.remove('hidden');
+      if (currentSession?.type === 'admin' && !previewAsMember) {
+        headerUserName.textContent = 'حساب الأدمن — إدارة Brainx Team';
+        headerRolePill.textContent = 'أدمن النظام';
+        headerRolePill.className =
+          'px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-400/20 text-amber-300 border border-amber-400/40';
+        memberTabsBar.classList.add('hidden');
+        memberWorkspace.classList.add('hidden');
+        adminWorkspace.classList.remove('hidden');
+        renderAdminDashboard();
       } else {
-        navBadge.classList.add('hidden');
+        const activeMember = previewAsMember || currentSession.member;
+        const data = getMemberEffectiveData(activeMember);
+        headerUserName.textContent = data.name;
+        headerRolePill.textContent = data.badge ? `${data.role} • ${data.badge}` : data.role;
+        headerRolePill.className =
+          'px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-500/15 text-emerald-300 border border-emerald-400/35';
+        memberTabsBar.classList.remove('hidden');
+        adminWorkspace.classList.add('hidden');
+        memberWorkspace.classList.remove('hidden');
+        renderMemberViews(data);
+        switchMemberTab('project');
       }
-
-      // Meeting Tab (Only Current User's Attendance)
-      document.getElementById('meeting-member-name').textContent = user.name;
-      const meetingStatusContainer = document.getElementById('meeting-status-container');
-      if (user.attended) {
-        meetingStatusContainer.innerHTML = `
-          <div class="inline-flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 font-black text-base shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-            </svg>
-            <span>تم الحضور</span>
-          </div>
-        `;
-      } else {
-        meetingStatusContainer.innerHTML = `
-          <div class="inline-flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-red-500/15 border border-red-400/50 text-red-300 font-black text-base shadow-[0_0_20px_rgba(239,68,68,0.25)]">
-            <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-            <span>لم يتم الحضور</span>
-          </div>
-        `;
-      }
-
-      // Grades Tab (Only Current User's Score)
-      document.getElementById('grades-member-name').textContent = user.name;
-      document.getElementById('score-value-display').textContent = user.score;
-      const circle = document.getElementById('score-ring-circle');
-      const circumference = 2 * Math.PI * 68; // ~427.25
-      const percentage = user.score / 60;
-      const offset = circumference * (1 - percentage);
-      circle.style.strokeDashoffset = offset;
-
-      const feedbackBox = document.getElementById('score-feedback-box');
-      if (user.score === 60) {
-        circle.style.stroke = '#10B981';
-        feedbackBox.className = 'rounded-2xl p-4 border border-emerald-400/35 bg-emerald-500/10 text-emerald-300 text-sm sm:text-base font-bold';
-        feedbackBox.textContent = 'أداء ممتاز! لقد حصلت على الدرجة النهائية الكاملة (60 من 60) في تقييم الفريق.';
-      } else {
-        circle.style.stroke = '#F59E0B';
-        feedbackBox.className = 'rounded-2xl p-4 border border-amber-400/35 bg-amber-500/10 text-amber-300 text-sm sm:text-base font-bold';
-        feedbackBox.textContent = 'درجتك الحالية هي 57 من 60 — يرجى الالتزام بحضور الاجتماعات القادمة للحفاظ على تقييمك.';
-      }
-
-      // Render Public Members List (Without IDs)
-      renderMembersGrid('');
     }
 
-    // 4. Render Team Members Roster (Strictly NO IDs)
-    function renderMembersGrid(filterQuery) {
-      const grid = document.getElementById('members-grid');
-      const normalizedQuery = filterQuery.trim().toLowerCase();
+    // Tab Navigation Logic
+    function switchMemberTab(tabName) {
+      document.querySelectorAll('.member-tab-btn').forEach((btn) => {
+        const isActive = btn.dataset.tab === tabName;
+        btn.className = isActive
+          ? 'member-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 bg-gradient-to-r from-amber-300 to-emerald-300 text-slate-950 shadow-[0_6px_20px_rgba(229,193,88,0.28)]'
+          : 'member-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10';
+      });
 
-      const filtered = TEAM_MEMBERS.map((member, idx) => ({
-        index: idx + 1,
-        name: member.name,
-        role: member.role,
-        roleType: member.roleType
-      })).filter((m) => m.name.toLowerCase().includes(normalizedQuery));
+      document.querySelectorAll('.member-panel').forEach((panel) => {
+        panel.classList.toggle('hidden', panel.id !== `panel-${tabName}`);
+      });
+    }
 
-      if (filtered.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full text-center py-10 text-slate-400 font-bold">
-            لا يوجد عضو مطابق لاسم البحث "${filterQuery}"
+    document.querySelectorAll('.member-tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => switchMemberTab(btn.dataset.tab));
+    });
+
+    // Render all personal views for the logged-in member ONLY
+    function renderMemberViews(memberData) {
+      // 1. Meeting View
+      document.getElementById('meeting-owner-name').textContent = memberData.name;
+      const meetingListEl = document.getElementById('member-meeting-list');
+      const isAttended = memberData.attendance === 'تم الحضور';
+
+      let meetingCardsHtml = `
+        <div class="p-5 rounded-2xl bg-[#05080d]/95 border ${
+          isAttended ? 'border-emerald-400/35' : 'border-red-500/45'
+        } flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-base sm:text-lg font-black text-white">ميتنج فريق Brainx Team</span>
+              <span class="px-3 py-0.5 rounded-full text-xs font-extrabold bg-amber-400/15 text-amber-300 border border-amber-400/30">
+                ${MEETING_DATE_PRIMARY}
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-400">
+              العضو: <span class="text-slate-200 font-bold">${memberData.name}</span>
+            </p>
+            ${
+              memberData.note
+                ? `<p class="text-xs text-emerald-300 font-bold pt-1">ملاحظة: ${escapeHtml(memberData.note)}</p>`
+                : ''
+            }
+          </div>
+
+          <span class="px-4 py-2 rounded-xl text-xs sm:text-sm font-black self-start sm:self-center shrink-0 ${
+            isAttended
+              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/45'
+              : 'bg-red-500/20 text-red-300 border border-red-500/50'
+          }">
+            ${isAttended ? '✅ تم الحضور' : '❌ لم يتم الحضور'}
+          </span>
+        </div>
+      `;
+      meetingListEl.innerHTML = meetingCardsHtml;
+
+      // 2. Grades View
+      document.getElementById('grades-owner-name').textContent = memberData.name;
+      const gradesContentEl = document.getElementById('member-grades-content');
+      const gradeNum = Number(memberData.grade);
+      const pct = Math.min(100, Math.max(0, Math.round((gradeNum / 60) * 100)));
+
+      gradesContentEl.innerHTML = `
+        <div class="p-6 rounded-2xl bg-[#05080d]/95 border border-amber-400/35 flex flex-col justify-between">
+          <span class="text-xs font-extrabold text-amber-300">الدرجة الإجمالية</span>
+          <div class="my-3">
+            <span class="text-4xl font-black text-white">${gradeNum}</span>
+            <span class="text-lg font-extrabold text-amber-300"> من 60</span>
+          </div>
+          <div class="w-full h-2.5 rounded-full bg-white/10 overflow-hidden">
+            <div class="h-full rounded-full bg-gradient-to-r from-amber-300 to-emerald-400" style="width: ${pct}%"></div>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-[#05080d]/95 border border-emerald-400/25 flex flex-col justify-between">
+          <span class="text-xs font-extrabold text-emerald-300">النسبة المئوية</span>
+          <p class="text-4xl font-black text-emerald-300 my-3">${pct}%</p>
+          <p class="text-xs text-slate-400 font-semibold">تقييم مستمر لمشروع التخرج</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-[#05080d]/95 border border-white/10 flex flex-col justify-between">
+          <span class="text-xs font-extrabold text-slate-300">بيان العضو</span>
+          <p class="text-base font-black text-white my-2">${memberData.name}</p>
+          <p class="text-xs text-amber-200 font-bold">
+            ${memberData.note ? escapeHtml(memberData.note) : 'لا توجد ملاحظات إضافية مسجلة حاليًا'}
+          </p>
+        </div>
+      `;
+
+      // 3. Tasks View (Assigned to "all" or specifically to this member's name)
+      renderMemberTasks(memberData);
+
+      // 4. Team Members Directory (Names & Roles ONLY - NO IDs!)
+      renderMembersDirectory();
+    }
+
+    function renderMemberTasks(memberData) {
+      const relevantTasks = tasksState.filter((t) => {
+        const target = String(t.assigned_to || 'all').trim();
+        return target === 'all' || target === memberData.name;
+      });
+
+      const badgeEl = document.getElementById('member-tasks-badge');
+      badgeEl.textContent = String(relevantTasks.length);
+
+      const listEl = document.getElementById('member-tasks-list');
+      if (relevantTasks.length === 0) {
+        listEl.innerHTML = `
+          <div class="col-span-full p-8 rounded-2xl bg-[#05080d]/90 border border-white/10 text-center space-y-2">
+            <p class="text-2xl">📭</p>
+            <p class="text-base font-black text-white">لا توجد تاسكات مضافة حاليًا</p>
+            <p class="text-xs sm:text-sm text-slate-400">عند إضافة أي مهمة جديدة من الأدمن ستظهر لك هنا مباشرة.</p>
           </div>
         `;
         return;
       }
 
-      grid.innerHTML = filtered.map((m) => {
-        const isCurrentUser = currentUser && currentUser.name === m.name;
-        let cardBorder = 'border-white/10 hover:border-cyan-400/35';
-        let badgeHtml = `<span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800/90 text-slate-300 border border-white/10">عضو بالفريق</span>`;
+      listEl.innerHTML = relevantTasks
+        .map((task) => {
+          const isDone = completedTaskIds.has(task.id);
+          const isPersonal = task.assigned_to && task.assigned_to !== 'all';
+          return `
+            <div class="p-5 rounded-2xl bg-[#05080d]/95 border ${
+              isDone ? 'border-emerald-400/45' : 'border-amber-400/25'
+            } flex flex-col justify-between gap-4">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between gap-2 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold ${
+                    isPersonal
+                      ? 'bg-amber-400/20 text-amber-200 border border-amber-400/40'
+                      : 'bg-emerald-500/15 text-emerald-300 border border-emerald-400/35'
+                  }">
+                    ${isPersonal ? 'مهمة خاصة بك' : 'لكل أعضاء التيم'}
+                  </span>
+                  <span class="text-[11px] font-bold text-slate-400">
+                    الأولوية: <strong class="text-amber-200">${escapeHtml(task.priority || 'متوسطة')}</strong>
+                  </span>
+                </div>
 
-        if (m.roleType === 'leader') {
-          cardBorder = 'border-amber-400/50 bg-gradient-to-br from-amber-500/10 via-slate-900/90 to-slate-950/90 shadow-[0_0_25px_rgba(245,158,11,0.15)]';
-          badgeHtml = `<span class="px-3 py-1 rounded-full text-xs font-black bg-amber-400/20 text-amber-300 border border-amber-400/50">👑 ليدر التيم</span>`;
-        } else if (m.roleType === 'supervisor') {
-          cardBorder = 'border-purple-400/50 bg-gradient-to-br from-purple-500/10 via-slate-900/90 to-slate-950/90 shadow-[0_0_25px_rgba(124,58,237,0.15)]';
-          badgeHtml = `<span class="px-3 py-1 rounded-full text-xs font-black bg-purple-500/20 text-purple-300 border border-purple-400/50">⚡ مشرف التيم</span>`;
+                <h4 class="text-base sm:text-lg font-black text-white ${isDone ? 'line-through text-emerald-300/80' : ''}">
+                  ${escapeHtml(task.title)}
+                </h4>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  ${escapeHtml(task.description)}
+                </p>
+              </div>
+
+              <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2 text-xs">
+                <span class="text-slate-400 font-bold">
+                  التسليم: <span class="text-amber-200">${escapeHtml(task.deadline || 'مفتوح')}</span>
+                </span>
+
+                <button
+                  type="button"
+                  onclick="toggleTaskCompletion('${task.id}')"
+                  class="px-3.5 py-1.5 rounded-xl font-extrabold transition-all cursor-pointer ${
+                    isDone
+                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/40'
+                      : 'bg-white/10 hover:bg-amber-400/20 text-slate-200 hover:text-amber-200 border border-white/15'
+                  }"
+                >
+                  ${isDone ? '✓ مكتمل' : 'تحديد كمكتمل'}
+                </button>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    window.toggleTaskCompletion = function (taskId) {
+      if (completedTaskIds.has(taskId)) {
+        completedTaskIds.delete(taskId);
+      } else {
+        completedTaskIds.add(taskId);
+      }
+      saveLocalCache();
+      const activeMember = previewAsMember || currentSession?.member;
+      if (activeMember) {
+        renderMemberTasks(getMemberEffectiveData(activeMember));
+      }
+    };
+
+    document.getElementById('refresh-member-tasks-btn').addEventListener('click', async () => {
+      await syncFromSupabase();
+      const activeMember = previewAsMember || currentSession?.member;
+      if (activeMember) {
+        renderMemberTasks(getMemberEffectiveData(activeMember));
+      }
+      showToast('تم تحديث المهام بنجاح');
+    });
+
+    // Directory of All 24 Members (Strictly Name + Role/Badge, NEVER IDs)
+    function renderMembersDirectory() {
+      const grid = document.getElementById('team-members-grid');
+      grid.innerHTML = TEAM_MEMBERS.map((m, idx) => {
+        const isLeader = m.badge === 'ليدر التيم';
+        const isSupervisor = m.badge === 'مشرف التيم';
+
+        let specialBadgeHtml = '';
+        if (isLeader) {
+          specialBadgeHtml = `
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-amber-400/20 text-amber-200 border border-amber-400/45">
+              ليدر التيم
+            </span>
+          `;
+        } else if (isSupervisor) {
+          specialBadgeHtml = `
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-emerald-500/20 text-emerald-200 border border-emerald-400/45">
+              مشرف التيم
+            </span>
+          `;
         }
 
         return `
-          <div class="rounded-2xl bg-slate-950/75 border ${cardBorder} p-4 flex items-center justify-between gap-3 transition-all">
+          <div class="p-4 rounded-2xl bg-[#05080d]/90 border ${
+            isLeader
+              ? 'border-amber-400/45'
+              : isSupervisor
+              ? 'border-emerald-400/45'
+              : 'border-white/10'
+          } flex items-center justify-between gap-3">
             <div class="flex items-center gap-3 min-w-0">
-              <div class="w-9 h-9 rounded-xl bg-slate-800 border border-white/10 flex items-center justify-center text-xs font-black text-cyan-300 shrink-0 font-orbitron">
-                ${m.index}
-              </div>
+              <span class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xs font-black text-amber-300 shrink-0">
+                ${idx + 1}
+              </span>
               <div class="min-w-0">
-                <p class="font-bold text-sm sm:text-base text-white truncate" title="${m.name}">
-                  ${m.name}
-                </p>
-                ${isCurrentUser ? '<span class="text-[11px] text-cyan-400 font-bold">● حسابك الحالي</span>' : ''}
+                <p class="text-sm font-extrabold text-white truncate">${escapeHtml(m.name)}</p>
+                <p class="text-[11px] text-slate-400 font-semibold">${escapeHtml(m.role)}</p>
               </div>
             </div>
-            <div class="shrink-0">
-              ${badgeHtml}
-            </div>
+            ${specialBadgeHtml}
           </div>
         `;
       }).join('');
     }
 
-    document.getElementById('member-search-input').addEventListener('input', (e) => {
-      renderMembersGrid(e.target.value);
-    });
+    // ---------------------------------------------------------
+    // 6. ADMIN DASHBOARD LOGIC (NO SQL OR SETUP CODE ANYWHERE)
+    // ---------------------------------------------------------
+    function populateAdminSelects() {
+      const taskTargetSelect = document.getElementById('task-target');
+      const recordMemberSelect = document.getElementById('record-member-select');
 
-    // 5. Navigation Tabs Switching
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    const tabPanels = document.querySelectorAll('.tab-panel');
+      const memberOptionsHtml = TEAM_MEMBERS.map(
+        (m) => `<option value="${escapeHtml(m.name)}">${escapeHtml(m.name)}</option>`
+      ).join('');
 
-    function switchTab(targetTab) {
-      tabButtons.forEach((btn) => {
-        const isTarget = btn.getAttribute('data-tab') === targetTab;
-        if (isTarget) {
-          btn.className = 'tab-btn active-tab py-3 px-4 rounded-2xl font-extrabold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 shadow-[0_0_20px_rgba(0,240,255,0.35)]';
-        } else {
-          btn.className = 'tab-btn py-3 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-300 hover:text-white hover:bg-white/5';
-        }
-      });
+      taskTargetSelect.innerHTML = `
+        <option value="all">جميع أعضاء التيم (الكل)</option>
+        ${memberOptionsHtml}
+      `;
 
-      tabPanels.forEach((panel) => {
-        if (panel.id === `tab-${targetTab}`) {
-          panel.classList.remove('hidden');
-          panel.classList.remove('tab-panel-enter');
-          void panel.offsetWidth;
-          panel.classList.add('tab-panel-enter');
-        } else {
-          panel.classList.add('hidden');
-        }
-      });
+      const selectedBefore = recordMemberSelect.value;
+      recordMemberSelect.innerHTML = TEAM_MEMBERS.map(
+        (m) => `<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}</option>`
+      ).join('');
+
+      if (selectedBefore) {
+        recordMemberSelect.value = selectedBefore;
+      }
+      syncRecordFormWithSelectedMember();
     }
 
-    tabButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        switchTab(btn.getAttribute('data-tab'));
+    function syncRecordFormWithSelectedMember() {
+      const memberId = document.getElementById('record-member-select').value;
+      const base = TEAM_MEMBERS.find((m) => m.id === memberId);
+      if (!base) return;
+      const eff = getMemberEffectiveData(base);
+      document.getElementById('record-grade-input').value = eff.grade;
+      document.getElementById('record-attendance-select').value = eff.attendance;
+      document.getElementById('record-note-input').value = eff.note || '';
+    }
+
+    document.getElementById('record-member-select').addEventListener('change', syncRecordFormWithSelectedMember);
+
+    function renderAdminDashboard() {
+      populateAdminSelects();
+
+      // Update KPI counters
+      document.getElementById('admin-stat-tasks').textContent = String(tasksState.length);
+      document.getElementById('admin-tasks-count-pill').textContent = `${tasksState.length} مهام`;
+
+      let presentCount = 0;
+      TEAM_MEMBERS.forEach((m) => {
+        if (getMemberEffectiveData(m).attendance === 'تم الحضور') presentCount += 1;
       });
-    });
+      document.getElementById('admin-stat-present').textContent = `${presentCount} / ${TEAM_MEMBERS.length}`;
 
-    // 6. Interactive Conceptual System Simulation (Plastic & Metal Sorting)
-    const simBtn = document.getElementById('simulate-btn');
-    const simBtnText = document.getElementById('simulate-btn-text');
-    const simStatus = document.getElementById('sim-status-text');
-    const simItem = document.getElementById('sim-item');
-    const simItemShape = document.getElementById('sim-item-shape');
-    const simItemLabel = document.getElementById('sim-item-label');
-    const servoArm = document.getElementById('servo-arm');
-    const mobileCart = document.getElementById('mobile-cart');
+      // Render Tasks List for Admin
+      const adminTasksList = document.getElementById('admin-tasks-list');
+      if (tasksState.length === 0) {
+        adminTasksList.innerHTML = `
+          <div class="p-8 rounded-2xl bg-[#05080d]/90 border border-white/10 text-center text-slate-400 text-sm font-bold">
+            لا توجد تاسكات مضافة حتى الآن. أضف أول مهمة من النموذج المجاور.
+          </div>
+        `;
+      } else {
+        adminTasksList.innerHTML = tasksState
+          .map(
+            (task) => `
+              <div class="p-4 rounded-2xl bg-[#05080d]/95 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="space-y-1 min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-sm sm:text-base font-black text-white">${escapeHtml(task.title)}</span>
+                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-400/15 text-amber-200 border border-amber-400/35">
+                      ${task.assigned_to === 'all' ? 'الكل' : escapeHtml(task.assigned_to)}
+                    </span>
+                    <span class="text-[11px] text-emerald-300 font-bold">
+                      ${escapeHtml(task.priority || 'متوسطة')} • ${escapeHtml(task.deadline || 'مفتوح')}
+                    </span>
+                  </div>
+                  <p class="text-xs text-slate-300">${escapeHtml(task.description)}</p>
+                </div>
 
-    simBtn.addEventListener('click', async () => {
-      if (simulationRunning) return;
-      simulationRunning = true;
-      simBtn.classList.add('opacity-60', 'cursor-not-allowed');
-      simBtnText.textContent = 'جاري تشغيل المحاكاة...';
-
-      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
-
-      // STEP 1: Plastic Bottle Sorting
-      simItem.style.transition = 'none';
-      simItem.setAttribute('transform', 'translate(90, 130)');
-      simItemShape.setAttribute('fill', '#38BDF8');
-      simItemLabel.textContent = 'بلاستيك';
-      servoArm.setAttribute('transform', 'rotate(28 16 34)'); // Closed gate diverting to plastic bin
-      simStatus.textContent = '1️⃣ مرور قطعة بلاستيكية على السير الناقل نحو الحساس...';
-      await wait(150);
-
-      simItem.style.transition = 'transform 1.4s linear';
-      simItem.setAttribute('transform', 'translate(295, 130)');
-      await wait(1450);
-
-      simStatus.textContent = '2️⃣ الحساس: لا يوجد معدن -> البوابة المائلة توجه البلاستيك للصندوق الأزرق!';
-      simItem.style.transition = 'transform 0.9s ease-in';
-      simItem.setAttribute('transform', 'translate(415, 265)');
-      await wait(1100);
-
-      // STEP 2: Metal Can Sorting + Line Follower Cart
-      simItem.style.transition = 'none';
-      simItem.setAttribute('transform', 'translate(90, 130)');
-      simItemShape.setAttribute('fill', '#FBBF24');
-      simItemLabel.textContent = 'معدن';
-      simStatus.textContent = '3️⃣ مرور قطعة معدنية على السير الناقل نحو حساس كشف المعادن...';
-      await wait(150);
-
-      simItem.style.transition = 'transform 1.4s linear';
-      simItem.setAttribute('transform', 'translate(295, 130)');
-      await wait(1450);
-
-      simStatus.textContent = '4️⃣ تم اكتشاف معدن! الأردوينو يفتح بوابة السيرفو ليمر المعدن لنهاية السير...';
-      servoArm.setAttribute('transform', 'rotate(-55 16 34)'); // Open gate
-      await wait(350);
-
-      simItem.style.transition = 'transform 1.3s linear';
-      simItem.setAttribute('transform', 'translate(585, 130)');
-      await wait(1300);
-
-      simStatus.textContent = '5️⃣ نزول المعدن عبر المسار المائل إلى الصندوق المتحرك...';
-      simItem.style.transition = 'transform 0.8s ease-in';
-      simItem.setAttribute('transform', 'translate(680, 275)');
-      await wait(900);
-
-      // Cart moves to Dumping Station and returns
-      simStatus.textContent = '6️⃣ امتلاء صندوق المعادن: عربة تتبع الخط تتحرك لمحطة التفريغ ثم تعود!';
-      simItem.style.transition = 'transform 1.2s ease-in-out';
-      mobileCart.setAttribute('transform', 'translate(745, 255)');
-      simItem.setAttribute('transform', 'translate(790, 275)');
-      await wait(1500);
-
-      // Return cart to original position
-      mobileCart.setAttribute('transform', 'translate(635, 255)');
-      servoArm.setAttribute('transform', 'rotate(28 16 34)');
-      simItem.style.transition = 'none';
-      simItem.setAttribute('transform', 'translate(105, 130)');
-      simItemShape.setAttribute('fill', '#38BDF8');
-      simItemLabel.textContent = 'بلاستيك';
-      await wait(1200);
-
-      simStatus.textContent = '✅ اكتملت دورة الفرز والتفريغ بنجاح! النظام جاهز.';
-      simulationRunning = false;
-      simBtn.classList.remove('opacity-60', 'cursor-not-allowed');
-      simBtnText.textContent = 'إعادة تشغيل المحاكاة';
-    });
-
-    // 7. Interactive Neural Network Particle Canvas
-    (function initNeuralCanvas() {
-      const canvas = document.getElementById('neural-canvas');
-      const ctx = canvas.getContext('2d');
-      let width, height, particles;
-
-      function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-        createParticles();
+                <button
+                  type="button"
+                  onclick="deleteTaskById('${task.id}')"
+                  class="px-3.5 py-2 rounded-xl bg-red-500/15 hover:bg-red-500/30 border border-red-500/40 text-red-200 text-xs font-extrabold transition-all shrink-0 cursor-pointer self-start sm:self-center"
+                >
+                  حذف
+                </button>
+              </div>
+            `
+          )
+          .join('');
       }
 
-      function createParticles() {
-        const count = Math.min(Math.floor((width * height) / 18000), 65);
-        particles = [];
+      // Render Admin Overview Table
+      const tbody = document.getElementById('admin-members-table-body');
+      tbody.innerHTML = TEAM_MEMBERS.map((m, idx) => {
+        const eff = getMemberEffectiveData(m);
+        const present = eff.attendance === 'تم الحضور';
+        const roleLabel = eff.badge ? `${eff.role} (${eff.badge})` : eff.role;
+        return `
+          <tr class="hover:bg-white/[0.03]">
+            <td class="py-2.5 px-3 font-bold text-slate-400">${idx + 1}</td>
+            <td class="py-2.5 px-3 font-extrabold text-white">${escapeHtml(eff.name)}</td>
+            <td class="py-2.5 px-3 text-xs text-amber-200 font-bold">${escapeHtml(roleLabel)}</td>
+            <td class="py-2.5 px-3">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold ${
+                present ? 'bg-emerald-500/15 text-emerald-300' : 'bg-red-500/15 text-red-300'
+              }">
+                ${escapeHtml(eff.attendance)}
+              </span>
+            </td>
+            <td class="py-2.5 px-3 font-black text-amber-300">${Number(eff.grade)} / 60</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Add New Task Handler
+    document.getElementById('admin-add-task-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const titleInput = document.getElementById('task-title');
+      const targetSelect = document.getElementById('task-target');
+      const prioritySelect = document.getElementById('task-priority');
+      const deadlineInput = document.getElementById('task-deadline');
+      const descInput = document.getElementById('task-desc');
+
+      const newTaskObj = {
+        id: 'task_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+        title: titleInput.value.trim(),
+        assigned_to: targetSelect.value,
+        priority: prioritySelect.value,
+        deadline: deadlineInput.value.trim() || 'مفتوح',
+        description: descInput.value.trim(),
+        created_at: new Date().toISOString(),
+      };
+
+      tasksState.unshift(newTaskObj);
+      saveLocalCache();
+      renderAdminDashboard();
+
+      if (supabaseClient) {
+        try {
+          const { data, error } = await supabaseClient
+            .from('tasks')
+            .insert([
+              {
+                title: newTaskObj.title,
+                description: newTaskObj.description,
+                assigned_to: newTaskObj.assigned_to,
+                priority: newTaskObj.priority,
+                deadline: newTaskObj.deadline,
+              },
+            ])
+            .select();
+          if (!error && Array.isArray(data) && data[0]?.id) {
+            newTaskObj.id = String(data[0].id);
+            saveLocalCache();
+          }
+        } catch (_) {}
+      }
+
+      titleInput.value = '';
+      deadlineInput.value = '';
+      descInput.value = '';
+      showToast('تم نشر التاسك بنجاح');
+    });
+
+    // Delete Task Handler
+    window.deleteTaskById = async function (taskId) {
+      tasksState = tasksState.filter((t) => String(t.id) !== String(taskId));
+      saveLocalCache();
+      renderAdminDashboard();
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('tasks').delete().eq('id', taskId);
+        } catch (_) {}
+      }
+      showToast('تم حذف التاسك');
+    };
+
+    // Save Member Grade & Attendance Handler
+    document.getElementById('admin-member-record-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const memberId = document.getElementById('record-member-select').value;
+      const gradeVal = Math.min(60, Math.max(0, Number(document.getElementById('record-grade-input').value)));
+      const attendanceVal = document.getElementById('record-attendance-select').value;
+      const noteVal = document.getElementById('record-note-input').value.trim();
+
+      memberOverrides[memberId] = {
+        grade: gradeVal,
+        attendance: attendanceVal,
+        note: noteVal,
+      };
+      saveLocalCache();
+      renderAdminDashboard();
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient
+            .from('grades')
+            .upsert(
+              [
+                {
+                  member_id: memberId,
+                  grade: gradeVal,
+                  attendance: attendanceVal,
+                  note: noteVal,
+                },
+              ],
+              { onConflict: 'member_id' }
+            );
+        } catch (_) {}
+      }
+
+      showToast('تم حفظ بيانات العضو بنجاح');
+    });
+
+    // Preview as Member Toggle from Admin
+    document.getElementById('admin-preview-member-btn').addEventListener('click', () => {
+      previewAsMember = TEAM_MEMBERS[0];
+      openWorkspace();
+      showToast('وضع معاينة واجهة العضو مفعل');
+    });
+
+    document.getElementById('admin-reload-data-btn').addEventListener('click', async () => {
+      await syncFromSupabase();
+      renderAdminDashboard();
+      showToast('تمت مزامنة البيانات');
+    });
+
+    // ---------------------------------------------------------
+    // 7. INTERACTIVE IMAGINARY PROJECT SIMULATION
+    // ---------------------------------------------------------
+    (function initProjectSimulation() {
+      const statusText = document.getElementById('sim-status-text');
+      const actionPill = document.getElementById('sim-action-pill');
+      const svgWrapper = document.getElementById('sim-svg-wrapper');
+      const testItem = document.getElementById('sim-test-item');
+      const itemBox = document.getElementById('sim-item-box');
+      const itemLabel = document.getElementById('sim-item-label');
+      const gateFlap = document.getElementById('servo-gate-flap');
+      const cartEl = document.getElementById('line-follower-cart');
+
+      let isRunning = true;
+      let animFrameId = null;
+
+      document.getElementById('sim-toggle-btn').addEventListener('click', () => {
+        isRunning = !isRunning;
+        svgWrapper.classList.toggle('belt-paused', !isRunning);
+        statusText.textContent = isRunning
+          ? 'السير الناقل يعمل — تمر القطع أمام حساس الكشف عن المعادن (Inductive Sensor)'
+          : 'تم إيقاف حركة السير الناقل مؤقتًا';
+      });
+
+      function runItemTest(type) {
+        if (animFrameId) cancelAnimationFrame(animFrameId);
+        const isMetal = type === 'metal';
+
+        testItem.classList.remove('hidden');
+        itemBox.setAttribute('fill', isMetal ? '#F59E0B' : '#38BDF8');
+        itemLabel.textContent = isMetal ? 'M' : 'P';
+
+        statusText.textContent = isMetal
+          ? 'تم رصد قطعة معدنية! فتح بوابة السيرفو وتوجيهها إلى عربة تتبع الخط نحو محطة التفريغ.'
+          : 'تم رصد قطعة بلاستيكية! توجيه القطعة عبر البوابة إلى صندوق البلاستيك المخصص.';
+        actionPill.textContent = isMetal ? 'مسار المعادن نشط' : 'مسار البلاستيك نشط';
+
+        const startTime = performance.now();
+        const duration = 2200;
+
+        function step(now) {
+          const t = Math.min(1, (now - startTime) / duration);
+          let x = 110 + t * 370;
+          let y = 152;
+
+          if (t > 0.55) {
+            gateFlap.style.transform = isMetal ? 'rotate(-55deg)' : 'rotate(0deg)';
+          }
+
+          if (!isMetal && t > 0.62) {
+            const subT = (t - 0.62) / 0.38;
+            x = 465 + subT * 52;
+            y = 152 + subT * 115;
+          } else if (isMetal && t > 0.78) {
+            const subT = (t - 0.78) / 0.22;
+            x = 615 + subT * 95;
+            y = 152 + subT * 115;
+            cartEl.setAttribute('transform', `translate(${650 + subT * 115}, 246)`);
+          }
+
+          testItem.setAttribute('transform', `translate(${x}, ${y})`);
+
+          if (t < 1) {
+            animFrameId = requestAnimationFrame(step);
+          } else {
+            setTimeout(() => {
+              gateFlap.style.transform = 'rotate(0deg)';
+              cartEl.setAttribute('transform', 'translate(650, 246)');
+              testItem.classList.add('hidden');
+            }, 600);
+          }
+        }
+
+        animFrameId = requestAnimationFrame(step);
+      }
+
+      document.getElementById('sim-plastic-btn').addEventListener('click', () => runItemTest('plastic'));
+      document.getElementById('sim-metal-btn').addEventListener('click', () => runItemTest('metal'));
+    })();
+
+    // ---------------------------------------------------------
+    // 8. NEURAL PARTICLE BACKGROUND CANVAS
+    // ---------------------------------------------------------
+    (function initNeuralParticles() {
+      const canvas = document.getElementById('neural-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = 0;
+      let height = 0;
+      let nodes = [];
+      const pointer = { x: null, y: null, radius: 165 };
+
+      window.addEventListener('mousemove', (e) => {
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+      });
+
+      window.addEventListener('mouseout', () => {
+        pointer.x = null;
+        pointer.y = null;
+      });
+
+      function setupSize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        const count = Math.min(Math.floor((width * height) / 16000), 75);
+        const colors = ['#E5C158', '#10B981', '#FDE047'];
+        nodes = [];
         for (let i = 0; i < count; i++) {
-          particles.push({
+          nodes.push({
             x: Math.random() * width,
             y: Math.random() * height,
             vx: (Math.random() - 0.5) * 0.45,
             vy: (Math.random() - 0.5) * 0.45,
-            radius: Math.random() * 1.8 + 1,
-            color: i % 3 === 0 ? '#7C3AED' : '#00F0FF'
+            r: Math.random() * 1.9 + 0.9,
+            color: colors[i % colors.length],
           });
         }
       }
 
-      function animate() {
+      function renderFrame() {
         ctx.clearRect(0, 0, width, height);
 
-        for (let i = 0; i < particles.length; i++) {
-          const p = particles[i];
-          p.x += p.vx;
-          p.y += p.vy;
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          n.x += n.vx;
+          n.y += n.vy;
 
-          if (p.x < 0 || p.x > width) p.vx *= -1;
-          if (p.y < 0 || p.y > height) p.vy *= -1;
+          if (n.x < 0 || n.x > width) n.vx *= -1;
+          if (n.y < 0 || n.y > height) n.vy *= -1;
+
+          if (pointer.x !== null && pointer.y !== null) {
+            const dx = n.x - pointer.x;
+            const dy = n.y - pointer.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < pointer.radius) {
+              ctx.beginPath();
+              ctx.moveTo(n.x, n.y);
+              ctx.lineTo(pointer.x, pointer.y);
+              ctx.strokeStyle = `rgba(229, 193, 88, ${0.26 * (1 - dist / pointer.radius)})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
 
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = p.color;
+          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          ctx.fillStyle = n.color;
           ctx.fill();
 
-          for (let j = i + 1; j < particles.length; j++) {
-            const p2 = particles[j];
-            const dx = p.x - p2.x;
-            const dy = p.y - p2.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+          for (let j = i + 1; j < nodes.length; j++) {
+            const n2 = nodes[j];
+            const dist = Math.hypot(n.x - n2.x, n.y - n2.y);
             if (dist < 135) {
               ctx.beginPath();
-              ctx.moveTo(p.x, p.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.strokeStyle = `rgba(0, 240, 255, ${0.12 * (1 - dist / 135)})`;
+              ctx.moveTo(n.x, n.y);
+              ctx.lineTo(n2.x, n2.y);
+              ctx.strokeStyle = `rgba(16, 185, 129, ${0.12 * (1 - dist / 135)})`;
               ctx.lineWidth = 0.8;
               ctx.stroke();
             }
           }
         }
 
-        requestAnimationFrame(animate);
+        requestAnimationFrame(renderFrame);
       }
 
-      window.addEventListener('resize', resize);
+      window.addEventListener('resize', setupSize);
       window.addEventListener('load', () => {
-        resize();
-        animate();
+        loadLocalCache();
+        setupSize();
+        renderFrame();
       });
     })();
+
+    // Safe HTML escaping helper
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
   </script>
 </body>
 </html>
