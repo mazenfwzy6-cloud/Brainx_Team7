@@ -405,21 +405,18 @@
                   </linearGradient>
                 </defs>
 
-                <!-- Outer Orbital Ring -->
                 <g class="orbit-cw">
                   <circle cx="70" cy="70" r="64" stroke="url(#royalRingGrad)" stroke-width="1.3" stroke-dasharray="10 6 2 6" opacity="0.8" />
                   <circle cx="70" cy="6" r="3" fill="#FDE047" />
                   <circle cx="70" cy="134" r="3" fill="#10B981" />
                 </g>
 
-                <!-- Inner Counter-Rotating Ring -->
                 <g class="orbit-ccw">
                   <circle cx="70" cy="70" r="56" stroke="rgba(229, 193, 88, 0.35)" stroke-width="1" stroke-dasharray="4 8" />
                   <circle cx="14" cy="70" r="2.5" fill="#34D399" />
                   <circle cx="126" cy="70" r="2.5" fill="#E5C158" />
                 </g>
 
-                <!-- Core Shield Hexagon -->
                 <polygon
                   points="70,18 115,44 115,96 70,122 25,96 25,44"
                   stroke="url(#royalRingGrad)"
@@ -432,7 +429,6 @@
                   stroke-width="1"
                 />
 
-                <!-- Digital Brain Left & Right Hemispheres -->
                 <path
                   d="M62 42C50 42 42 50 42 60C42 64 44 68 46 70C43 73 42 77 43 82C45 89 52 94 60 94H63V42H62Z"
                   stroke="#E5C158"
@@ -450,7 +446,6 @@
                   fill="rgba(16, 185, 129, 0.1)"
                 />
 
-                <!-- Neural Nodes -->
                 <circle cx="51" cy="58" r="2.3" fill="#FDE047" />
                 <circle cx="51" cy="78" r="2.3" fill="#FDE047" />
                 <path d="M51 58H58M51 78H58" stroke="#E5C158" stroke-width="1.6" />
@@ -458,7 +453,6 @@
                 <circle cx="89" cy="78" r="2.3" fill="#34D399" />
                 <path d="M89 58H82M89 78H82" stroke="#34D399" stroke-width="1.6" />
 
-                <!-- Center Energy Bolt -->
                 <path
                   d="M73 31L56 70H69L65 108L85 64H71L73 31Z"
                   fill="url(#boltGoldGrad)"
@@ -668,7 +662,6 @@
       <div id="member-workspace" class="hidden space-y-6">
         <!-- TAB 1: PROJECT DETAILS & IMAGINARY SIMULATION -->
         <section id="panel-project" class="member-panel animate-panel-in space-y-6">
-          <!-- Hero Banner -->
           <div class="royal-card p-6 sm:p-8 relative overflow-hidden">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               <div class="space-y-3 max-w-3xl">
@@ -693,7 +686,6 @@
                 </p>
               </div>
 
-              <!-- Quick Project Metadata Box -->
               <div class="grid grid-cols-2 gap-3 lg:w-80 shrink-0">
                 <div class="p-4 rounded-2xl bg-[#06080d]/90 border border-amber-400/20">
                   <p class="text-[11px] text-slate-400 font-bold mb-1">اسم الفريق</p>
@@ -726,7 +718,6 @@
                 </p>
               </div>
 
-              <!-- Simulation Controls -->
               <div class="flex flex-wrap items-center gap-2 shrink-0">
                 <button
                   id="sim-plastic-btn"
@@ -752,7 +743,6 @@
               </div>
             </div>
 
-            <!-- Live Status Readout Strip -->
             <div
               id="sim-status-bar"
               class="px-4 py-3 rounded-2xl bg-[#05080c]/90 border border-amber-400/25 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs sm:text-sm"
@@ -766,7 +756,6 @@
               </span>
             </div>
 
-            <!-- SVG Architectural Illustration of the Project -->
             <div id="sim-svg-wrapper" class="rounded-2xl bg-[#05070b] border border-white/10 p-3 sm:p-5 overflow-x-auto">
               <svg viewBox="0 0 1040 430" class="w-full min-w-[680px] h-auto select-none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -789,7 +778,6 @@
                   </filter>
                 </defs>
 
-                <!-- Floor Line Track for Mobile Cart -->
                 <path
                   d="M 735 372 L 920 372 Q 945 372 945 345 L 945 290"
                   stroke="#E5C158"
@@ -802,7 +790,6 @@
                   مسار تتبع الخط (Line Follower Track)
                 </text>
 
-                <!-- Dumping Station -->
                 <g transform="translate(885, 135)">
                   <rect x="0" y="0" width="115" height="148" rx="12" fill="#111827" stroke="#10B981" stroke-width="2.5" />
                   <rect x="14" y="16" width="87" height="18" rx="6" fill="#10B981" opacity="0.25" />
@@ -812,7 +799,6 @@
                   <text x="57" y="122" fill="#E2E8F0" font-size="11" font-weight="bold" text-anchor="middle">تفريغ آلي</text>
                 </g>
 
-                <!-- Conveyor Belt Structure -->
                 <g>
                   <rect x="115" y="182" width="14" height="115" rx="4" fill="#1E293B" />
                   <rect x="330" y="182" width="14" height="115" rx="4" fill="#1E293B" />
@@ -839,7 +825,6 @@
                   </text>
                 </g>
 
-                <!-- Arduino Control Unit -->
                 <g transform="translate(175, 206)">
                   <rect x="0" y="0" width="128" height="72" rx="10" fill="#090D16" stroke="#10B981" stroke-width="2" />
                   <text x="64" y="26" fill="#34D399" font-size="13" font-weight="bold" text-anchor="middle">وحدة التحكم</text>
@@ -848,7 +833,6 @@
                   <text x="58" y="62" fill="#94A3B8" font-size="10" text-anchor="middle">تحكم ذكي</text>
                 </g>
 
-                <!-- Inductive Metal Sensor -->
                 <g transform="translate(332, 86)">
                   <rect x="-22" y="-34" width="144" height="28" rx="8" fill="#1E1B10" stroke="#E5C158" stroke-width="1.5" />
                   <text x="50" y="-16" fill="#FDE047" font-size="11.5" font-weight="bold" text-anchor="middle">
@@ -858,7 +842,6 @@
                   <polygon points="36,62 64,62 78,84 22,84" fill="#38BDF8" opacity="0.28" class="sensor-beam" />
                 </g>
 
-                <!-- Servo Gate -->
                 <g transform="translate(432, 92)">
                   <rect x="-15" y="-34" width="126" height="28" rx="8" fill="#091D19" stroke="#10B981" stroke-width="1.5" />
                   <text x="48" y="-16" fill="#6EE7B7" font-size="11.5" font-weight="bold" text-anchor="middle">
@@ -878,7 +861,6 @@
                   />
                 </g>
 
-                <!-- Plastic Deflection Chute & Blue Plastic Bin -->
                 <g>
                   <polygon points="445,182 478,182 512,235 486,242" fill="#475569" stroke="#94A3B8" stroke-width="1.5" />
                   <g transform="translate(465, 246)">
@@ -889,7 +871,6 @@
                   </g>
                 </g>
 
-                <!-- Metal Chute Path -->
                 <path
                   d="M 615 174 L 685 232"
                   stroke="url(#metalChuteGrad)"
@@ -901,7 +882,6 @@
                   مسار المعادن (Metal Chute)
                 </text>
 
-                <!-- Mobile Line-Follower Metal Cart -->
                 <g id="line-follower-cart" transform="translate(650, 246)" style="transition: transform 0.9s ease-in-out;">
                   <rect x="0" y="0" width="128" height="84" rx="10" fill="#1E293B" stroke="#E5C158" stroke-width="2.2" />
                   <text x="64" y="28" fill="#FDE047" font-size="12" font-weight="bold" text-anchor="middle">صندوق تجميع المعادن</text>
@@ -911,7 +891,6 @@
                   <circle cx="104" cy="92" r="12" fill="#090D16" stroke="#FDE047" stroke-width="3" />
                 </g>
 
-                <!-- Animated Test Item -->
                 <g id="sim-test-item" class="hidden" filter="url(#softGlow)">
                   <rect id="sim-item-box" x="-16" y="-14" width="32" height="22" rx="7" fill="#38BDF8" stroke="#FFFFFF" stroke-width="2" />
                   <text id="sim-item-label" x="0" y="1" fill="#050608" font-size="10" font-weight="900" text-anchor="middle">P</text>
@@ -919,7 +898,6 @@
               </svg>
             </div>
 
-            <!-- 4 Quick Steps Strip -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs sm:text-sm">
               <div class="p-3.5 rounded-xl bg-[#06090e]/90 border border-white/10">
                 <span class="font-black text-amber-300">1.</span>
@@ -940,7 +918,6 @@
             </div>
           </div>
 
-          <!-- Detailed Project Sections Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="royal-card p-6 space-y-3">
               <div class="flex items-center gap-2.5 text-amber-300">
@@ -1093,15 +1070,15 @@
       </div>
 
       <!-- ======================================================= -->
-      <!-- ADMIN COMMAND DASHBOARD (لوحة تحكم الأدمن - 01095088768) -->
+      <!-- ADMIN COMMAND DASHBOARD (لوحة تحكم الأدمن)              -->
       <!-- ======================================================= -->
       <div id="admin-workspace" class="hidden animate-panel-in space-y-6">
         <div class="royal-card p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-5 border border-amber-400/35">
           <div class="space-y-1.5">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/35 text-amber-300 text-xs font-black">
-              <span>👑 لوحة قيادة الأدمن الملكية</span>
+              <span id="admin-banner-badge">👑 لوحة قيادة الأدمن الملكية</span>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-black text-white">إدارة مهام ودرجات وحضور Brainx Team</h2>
+            <h2 id="admin-main-heading" class="text-2xl sm:text-3xl font-black text-white">إدارة مهام ودرجات وحضور Brainx Team</h2>
             <p class="text-xs sm:text-sm text-slate-300">
               أي تاسك أو درجة أو تحديث حضور تضيفه هنا يتم حفظه ومزامنته مباشرة مع أعضاء الفريق.
             </p>
@@ -1324,7 +1301,24 @@
     const SUPABASE_URL = 'https://mnhrvevngrevsphtxiuk.supabase.co';
     const SUPABASE_KEY =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uaHJ2ZXZuZ3JldnNwaHR4aXVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU3MjIyMzcsImV4cCI6MjExMTI5ODIzN30.B4NQLl2wMGdV_dRdXauDys_qhUyCF-e4BUSaBTB1EMI';
-    const ADMIN_LOGIN_CODE = '01095088768';
+    const ADMIN_ACCOUNTS = {
+      '01095088768': {
+        name: 'حساب الأدمن — إدارة Brainx Team',
+        roleLabel: 'أدمن النظام',
+        bannerBadge: '👑 لوحة قيادة الأدمن الملكية',
+        heading: 'إدارة مهام ودرجات وحضور Brainx Team',
+        greeting: 'مرحباً بك في لوحة قيادة الأدمن',
+        previewMemberId: '2520734',
+      },
+      '3061219': {
+        name: 'كارما هاني محمود انور — مشرفة التيم',
+        roleLabel: 'مشرف التيم • أدمن',
+        bannerBadge: '🌟 لوحة تحكم المشرفة — كارما هاني محمود انور',
+        heading: 'إدارة مهام ودرجات وحضور Brainx Team (مشرفة التيم)',
+        greeting: 'أهلاً بكِ، كارما هاني محمود انور (مشرفة التيم)',
+        previewMemberId: '2520698',
+      },
+    };
     const MEETING_DATE_PRIMARY = '25/11/2026';
 
     let supabaseClient = null;
@@ -1359,7 +1353,7 @@
       { id: '2520404', name: 'رفعت محمد عبد الحسيب', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
       { id: '2520913', name: 'مريم محمد سيد علي احمد سلامه', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
       { id: '2521198', name: 'امينه محمد عبد الستار قطب عوض', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
-      { id: '2540038', name: 'احمد مصطفي فرغلي محمد حسين', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2540038', name: 'احمد مصطفي فرغلي محمد حسين', role: 'عضو', badge: '', attendance: 60 },
       { id: '2560056', name: 'جنى ايمن رزق صبرة', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
     ];
 
@@ -1560,16 +1554,17 @@
         return;
       }
 
-      if (entered === ADMIN_LOGIN_CODE) {
+      if (ADMIN_ACCOUNTS[entered]) {
+        const adminAccount = ADMIN_ACCOUNTS[entered];
         loginError.classList.add('hidden');
-        verifyGreeting.textContent = 'مرحباً بك في لوحة قيادة الأدمن';
+        verifyGreeting.textContent = adminAccount.greeting;
         verifyOverlay.classList.remove('hidden');
         await syncFromSupabase();
 
         setTimeout(() => {
           verifyOverlay.classList.add('hidden');
           previewAsMember = null;
-          currentSession = { type: 'admin' };
+          currentSession = { type: 'admin', admin: adminAccount };
           openWorkspace();
         }, 650);
         return;
@@ -1624,10 +1619,13 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
       if (currentSession?.type === 'admin' && !previewAsMember) {
-        headerUserName.textContent = 'حساب الأدمن — إدارة Brainx Team';
-        headerRolePill.textContent = 'أدمن النظام';
+        const adminInfo = currentSession.admin || ADMIN_ACCOUNTS['01095088768'];
+        headerUserName.textContent = adminInfo.name;
+        headerRolePill.textContent = adminInfo.roleLabel;
         headerRolePill.className =
           'px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-400/20 text-amber-300 border border-amber-400/40';
+        document.getElementById('admin-banner-badge').textContent = adminInfo.bannerBadge;
+        document.getElementById('admin-main-heading').textContent = adminInfo.heading;
         memberTabsBar.classList.add('hidden');
         memberWorkspace.classList.add('hidden');
         adminWorkspace.classList.remove('hidden');
@@ -2108,7 +2106,8 @@
     });
 
     document.getElementById('admin-preview-member-btn').addEventListener('click', () => {
-      previewAsMember = TEAM_MEMBERS[0];
+      const targetId = currentSession?.admin?.previewMemberId || '2520734';
+      previewAsMember = TEAM_MEMBERS.find((m) => m.id === targetId) || TEAM_MEMBERS[0];
       openWorkspace();
       showToast('وضع معاينة واجهة العضو مفعل');
     });
