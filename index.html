@@ -42,7 +42,6 @@
   <style>
     :root {
       --bg-obsidian: #050608;
-      --bg-surface: rgba(13, 17, 25, 0.82);
       --gold-primary: #e5c158;
       --gold-bright: #fde047;
       --emerald-primary: #10b981;
@@ -61,123 +60,60 @@
     }
 
     @keyframes orbitClockwise {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     @keyframes orbitCounterClockwise {
-      from {
-        transform: rotate(360deg);
-      }
-      to {
-        transform: rotate(0deg);
-      }
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
     }
 
     @keyframes floatSlow {
-      0%,
-      100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-7px);
-      }
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-7px); }
     }
 
     @keyframes auroraMoveA {
-      0%,
-      100% {
-        transform: translate(0, 0) scale(1);
-      }
-      50% {
-        transform: translate(-36px, 28px) scale(1.12);
-      }
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-36px, 28px) scale(1.12); }
     }
 
     @keyframes auroraMoveB {
-      0%,
-      100% {
-        transform: translate(0, 0) scale(1);
-      }
-      50% {
-        transform: translate(38px, -26px) scale(1.15);
-      }
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(38px, -26px) scale(1.15); }
     }
 
     @keyframes shakeInvalid {
-      0%,
-      100% {
-        transform: translateX(0);
-      }
-      15%,
-      45%,
-      75% {
-        transform: translateX(-9px);
-      }
-      30%,
-      60%,
-      90% {
-        transform: translateX(9px);
-      }
+      0%, 100% { transform: translateX(0); }
+      15%, 45%, 75% { transform: translateX(-9px); }
+      30%, 60%, 90% { transform: translateX(9px); }
     }
 
     @keyframes fadeUpIn {
-      from {
-        opacity: 0;
-        transform: translateY(14px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes laserScan {
-      0% {
-        top: 0%;
-        opacity: 0;
-      }
-      15% {
-        opacity: 1;
-      }
-      85% {
-        opacity: 1;
-      }
-      100% {
-        top: 100%;
-        opacity: 0;
-      }
+      0% { top: 0%; opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
     }
 
     @keyframes shimmerSweep {
-      0% {
-        transform: translateX(130%) skewX(-22deg);
-      }
-      100% {
-        transform: translateX(-230%) skewX(-22deg);
-      }
+      0% { transform: translateX(130%) skewX(-22deg); }
+      100% { transform: translateX(-230%) skewX(-22deg); }
     }
 
     @keyframes beltTicks {
-      from {
-        stroke-dashoffset: 24;
-      }
-      to {
-        stroke-dashoffset: 0;
-      }
+      from { stroke-dashoffset: 24; }
+      to { stroke-dashoffset: 0; }
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -189,21 +125,13 @@
       overflow-x: hidden;
     }
 
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #050608;
-    }
-
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #050608; }
     ::-webkit-scrollbar-thumb {
       background: linear-gradient(180deg, #e5c158, #10b981);
       border-radius: 9999px;
     }
 
-    /* Royal Obsidian + Champagne Gold + Emerald Glass Cards */
     .royal-card {
       background: linear-gradient(155deg, rgba(16, 20, 29, 0.88), rgba(7, 9, 14, 0.95));
       backdrop-filter: blur(22px);
@@ -222,7 +150,6 @@
       border-radius: 1.5rem;
     }
 
-    /* Holographic Login Shell with Conic Champagne Gold & Royal Emerald Border */
     .login-hologram-shell {
       position: relative;
       border-radius: 2rem;
@@ -271,7 +198,6 @@
       z-index: 1;
     }
 
-    /* Background Grid & Ambient Orbs */
     .obsidian-grid {
       position: fixed;
       inset: 0;
@@ -311,7 +237,6 @@
       animation: auroraMoveB 14s ease-in-out infinite;
     }
 
-    /* Metallic Gold & Emerald Title Text */
     .royal-gradient-text {
       background: linear-gradient(125deg, #fffbeb 0%, #e5c158 32%, #34d399 68%, #fde047 100%);
       -webkit-background-clip: text;
@@ -391,7 +316,7 @@
   <div class="aurora-orb aurora-gold"></div>
   <div class="aurora-orb aurora-emerald"></div>
 
-  <!-- Toast Notification Banner (No alert() used anywhere) -->
+  <!-- Toast Notification Banner -->
   <div
     id="royal-toast"
     class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden px-5 py-3 rounded-2xl border border-amber-400/50 bg-[#0b0e14]/95 backdrop-blur-xl text-amber-200 text-sm font-bold shadow-[0_12px_35px_rgba(0,0,0,0.85)] items-center gap-2.5 max-w-[92vw]"
@@ -877,7 +802,7 @@
                   مسار تتبع الخط (Line Follower Track)
                 </text>
 
-                <!-- Dumping Station (محطة التفريغ) -->
+                <!-- Dumping Station -->
                 <g transform="translate(885, 135)">
                   <rect x="0" y="0" width="115" height="148" rx="12" fill="#111827" stroke="#10B981" stroke-width="2.5" />
                   <rect x="14" y="16" width="87" height="18" rx="6" fill="#10B981" opacity="0.25" />
@@ -889,14 +814,11 @@
 
                 <!-- Conveyor Belt Structure -->
                 <g>
-                  <!-- Support Legs -->
                   <rect x="115" y="182" width="14" height="115" rx="4" fill="#1E293B" />
                   <rect x="330" y="182" width="14" height="115" rx="4" fill="#1E293B" />
                   <rect x="575" y="182" width="14" height="115" rx="4" fill="#1E293B" />
 
-                  <!-- Main Belt Bed -->
                   <rect x="85" y="150" width="540" height="32" rx="16" fill="url(#beltGrad)" stroke="#64748B" stroke-width="2" />
-                  <!-- Animated Belt Motion Line -->
                   <line
                     x1="105"
                     y1="166"
@@ -908,11 +830,9 @@
                     class="belt-dash-anim"
                   />
 
-                  <!-- Left & Right Rollers -->
                   <circle cx="101" cy="166" r="13" fill="#0F172A" stroke="#E5C158" stroke-width="2" />
                   <circle cx="609" cy="166" r="13" fill="#0F172A" stroke="#E5C158" stroke-width="2" />
 
-                  <!-- Label: Conveyor Belt -->
                   <rect x="125" y="112" width="150" height="28" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5" />
                   <text x="200" y="130" fill="#7DD3FC" font-size="12" font-weight="bold" text-anchor="middle">
                     السير الناقل (Conveyor Belt)
@@ -945,7 +865,6 @@
                     بوابة سيرفو (Servo Gate)
                   </text>
                   <rect x="34" y="12" width="28" height="24" rx="5" fill="#1E293B" stroke="#E5C158" stroke-width="1.8" />
-                  <!-- Gate Flap (Rotates when Metal is detected) -->
                   <line
                     id="servo-gate-flap"
                     x1="48"
@@ -988,12 +907,11 @@
                   <text x="64" y="28" fill="#FDE047" font-size="12" font-weight="bold" text-anchor="middle">صندوق تجميع المعادن</text>
                   <text x="64" y="46" fill="#CBD5E1" font-size="10.5" text-anchor="middle">عربة تتبع الخط (Line Follower)</text>
                   <text x="64" y="64" fill="#34D399" font-size="10.5" font-weight="bold" text-anchor="middle">متنقل تلقائيًا</text>
-                  <!-- Wheels -->
                   <circle cx="24" cy="92" r="12" fill="#090D16" stroke="#FDE047" stroke-width="3" />
                   <circle cx="104" cy="92" r="12" fill="#090D16" stroke="#FDE047" stroke-width="3" />
                 </g>
 
-                <!-- Animated Test Item on Belt / Path -->
+                <!-- Animated Test Item -->
                 <g id="sim-test-item" class="hidden" filter="url(#softGlow)">
                   <rect id="sim-item-box" x="-16" y="-14" width="32" height="22" rx="7" fill="#38BDF8" stroke="#FFFFFF" stroke-width="2" />
                   <text id="sim-item-label" x="0" y="1" fill="#050608" font-size="10" font-weight="900" text-anchor="middle">P</text>
@@ -1024,7 +942,6 @@
 
           <!-- Detailed Project Sections Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Problem -->
             <div class="royal-card p-6 space-y-3">
               <div class="flex items-center gap-2.5 text-amber-300">
                 <span class="w-8 h-8 rounded-xl bg-amber-400/15 border border-amber-400/35 flex items-center justify-center font-black">⚠️</span>
@@ -1035,7 +952,6 @@
               </p>
             </div>
 
-            <!-- Proposed Solution -->
             <div class="royal-card p-6 space-y-3">
               <div class="flex items-center gap-2.5 text-emerald-300">
                 <span class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-400/35 flex items-center justify-center font-black">💡</span>
@@ -1046,7 +962,6 @@
               </p>
             </div>
 
-            <!-- Objectives -->
             <div class="royal-card p-6 space-y-3">
               <div class="flex items-center gap-2.5 text-amber-300">
                 <span class="w-8 h-8 rounded-xl bg-amber-400/15 border border-amber-400/35 flex items-center justify-center font-black">🎯</span>
@@ -1061,7 +976,6 @@
               </ul>
             </div>
 
-            <!-- Implementation Method -->
             <div class="royal-card p-6 space-y-3">
               <div class="flex items-center gap-2.5 text-emerald-300">
                 <span class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-400/35 flex items-center justify-center font-black">⚙️</span>
@@ -1076,7 +990,6 @@
 
         <!-- TAB 2: PERSONAL MEETING & ATTENDANCE -->
         <section id="panel-meeting" class="member-panel hidden animate-panel-in space-y-6">
-          <!-- WhatsApp Group Follow-up Banner -->
           <div
             class="royal-card-emerald p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-emerald-400/40"
           >
@@ -1100,7 +1013,6 @@
             </span>
           </div>
 
-          <!-- Personal Attendance Card (Strictly for Logged-in Member) -->
           <div class="royal-card p-6 sm:p-8 space-y-5">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
               <div>
@@ -1160,7 +1072,7 @@
           </div>
         </section>
 
-        <!-- TAB 5: TEAM MEMBERS DIRECTORY (Names & Roles ONLY - No IDs!) -->
+        <!-- TAB 5: TEAM MEMBERS DIRECTORY -->
         <section id="panel-members" class="member-panel hidden animate-panel-in space-y-6">
           <div class="royal-card p-6 sm:p-8 space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
@@ -1184,7 +1096,6 @@
       <!-- ADMIN COMMAND DASHBOARD (لوحة تحكم الأدمن - 01095088768) -->
       <!-- ======================================================= -->
       <div id="admin-workspace" class="hidden animate-panel-in space-y-6">
-        <!-- Admin Header Banner -->
         <div class="royal-card p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-5 border border-amber-400/35">
           <div class="space-y-1.5">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/35 text-amber-300 text-xs font-black">
@@ -1196,7 +1107,6 @@
             </p>
           </div>
 
-          <!-- Quick Actions -->
           <div class="flex flex-wrap items-center gap-2.5 shrink-0">
             <button
               id="admin-preview-member-btn"
@@ -1237,7 +1147,6 @@
 
         <!-- Admin Main Grid: Add Task + Manage Existing Tasks -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <!-- Add Task Form (5 cols) -->
           <div class="lg:col-span-5 royal-card p-6 space-y-4">
             <div class="flex items-center gap-2 border-b border-white/10 pb-3">
               <span class="text-xl">➕</span>
@@ -1310,7 +1219,6 @@
             </form>
           </div>
 
-          <!-- Existing Tasks List (7 cols) -->
           <div class="lg:col-span-7 royal-card p-6 space-y-4">
             <div class="flex items-center justify-between border-b border-white/10 pb-3">
               <div class="flex items-center gap-2">
@@ -1390,7 +1298,6 @@
             </div>
           </form>
 
-          <!-- Compact Members Status Overview Table (Admin View Only) -->
           <div class="overflow-x-auto pt-2">
             <table class="w-full text-right border-collapse text-xs sm:text-sm">
               <thead>
@@ -1414,11 +1321,9 @@
   <!-- APPLICATION LOGIC & SUPABASE INTEGRATION                  -->
   <!-- ========================================================= -->
   <script>
-    // ---------------------------------------------------------
-    // 1. SUPABASE CONFIGURATION (Clean Background Connection)
-    // ---------------------------------------------------------
     const SUPABASE_URL = 'https://mnhrvevngrevsphtxiuk.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_yl7lMs7fxzIFxAeavxBwMw_M6SAV-LP';
+    const SUPABASE_KEY =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uaHJ2ZXZuZ3JldnNwaHR4aXVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU3MjIyMzcsImV4cCI6MjExMTI5ODIzN30.B4NQLl2wMGdV_dRdXauDys_qhUyCF-e4BUSaBTB1EMI';
     const ADMIN_LOGIN_CODE = '01095088768';
     const MEETING_DATE_PRIMARY = '25/11/2026';
 
@@ -1431,9 +1336,6 @@
       console.warn('Supabase client fallback mode active:', err);
     }
 
-    // ---------------------------------------------------------
-    // 2. AUTHORITATIVE 24 TEAM MEMBERS FROM PDF
-    // ---------------------------------------------------------
     const TEAM_MEMBERS = [
       { id: '2520734', name: 'مازن محمد فوزي ابراهيم عثمان', role: 'قائد الفريق', badge: 'ليدر التيم', attendance: 'تم الحضور', grade: 60 },
       { id: '2460146', name: 'ملك محمد سيد علي', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
@@ -1444,24 +1346,23 @@
       { id: '2520259', name: 'بسنت اشرف فتحي خليل', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
       { id: '2520281', name: 'جنا محمد السيد محمد احمد موسي', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
       { id: '2520437', name: 'زياد أسامة محي محمد علي', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
-      { id: '2521145', name: 'يوسف خالد إبراهيم محمد', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2521137', name: 'يوسف إسماعيل احمد إسماعيل', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2520796', name: 'محمد سعيد إبراهيم', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2520906', name: 'مريم رجب مرسي اسماعيل', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2520709', name: 'كمال الدين محمود محمد محمد', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2520698', name: 'كارما هاني محمود انور', role: 'عضو', badge: 'مشرف التيم', attendance: 60 },
-      { id: '2521077', name: 'هاجر حسني ابراهيم علي', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2521023', name: 'ندى علي مسعود', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2520402', name: 'رزان محمد عبد العاطي محمد السيد رجب', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2520925', name: 'مريم هاني مرسي عبد النبي مرسي غنيم', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2520404', name: 'رفعت محمد عبد الحسيب', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2520913', name: 'مريم محمد سيد علي احمد سلامه', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2521198', name: 'امينه محمد عبد الستار قطب عوض', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2540038', name: 'احمد مصطفي فرغلي محمد حسين', role: 'عضو', badge: '', attendance: 60 },
-      { id: '2560056', name: 'جنى ايمن رزق صبرة', role: 'عضو', badge: '', attendance: 60 },
+      { id: '2521145', name: 'يوسف خالد إبراهيم محمد', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2521137', name: 'يوسف إسماعيل احمد إسماعيل', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520796', name: 'محمد سعيد إبراهيم', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520906', name: 'مريم رجب مرسي اسماعيل', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520709', name: 'كمال الدين محمود محمد محمد', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520698', name: 'كارما هاني محمود انور', role: 'عضو', badge: 'مشرف التيم', attendance: 'تم الحضور', grade: 60 },
+      { id: '2521077', name: 'هاجر حسني ابراهيم علي', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2521023', name: 'ندى علي مسعود', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520402', name: 'رزان محمد عبد العاطي محمد السيد رجب', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520925', name: 'مريم هاني مرسي عبد النبي مرسي غنيم', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520404', name: 'رفعت محمد عبد الحسيب', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2520913', name: 'مريم محمد سيد علي احمد سلامه', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2521198', name: 'امينه محمد عبد الستار قطب عوض', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2540038', name: 'احمد مصطفي فرغلي محمد حسين', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
+      { id: '2560056', name: 'جنى ايمن رزق صبرة', role: 'عضو', badge: '', attendance: 'تم الحضور', grade: 60 },
     ];
 
-    // Normalize Arabic/Hindi digits to standard ASCII digits
     function normalizeDigits(rawValue) {
       const arabicMap = {
         '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
@@ -1475,32 +1376,49 @@
         .replace(/\s+/g, '');
     }
 
-    // ---------------------------------------------------------
-    // 3. STATE MANAGEMENT (Tasks, Overrides, Completion)
-    // ---------------------------------------------------------
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     const STORAGE_KEYS = {
       tasks: 'brainx_royal_tasks_v1',
       records: 'brainx_royal_records_v1',
       completed: 'brainx_royal_completed_v1',
     };
 
-    let currentSession = null; // { type: 'admin' } or { type: 'member', member }
+    let currentSession = null;
     let previewAsMember = null;
     let tasksState = [];
-    let memberOverrides = {}; // keyed by member.id -> { grade, attendance, note, extraMeetings: [] }
+    let memberOverrides = {};
     let completedTaskIds = new Set();
 
-    function showToast(message) {
+    function showToast(message, type = 'success') {
       const toast = document.getElementById('royal-toast');
       const toastMsg = document.getElementById('royal-toast-msg');
+      const dotEl = toast.querySelector('span:first-child');
       toastMsg.textContent = message;
+
+      if (type === 'error') {
+        toast.className =
+          'fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl border border-red-500/60 bg-[#140709]/95 backdrop-blur-xl text-red-200 text-sm font-bold shadow-[0_12px_35px_rgba(0,0,0,0.9)] flex items-center gap-2.5 max-w-[92vw]';
+        if (dotEl) dotEl.className = 'w-2.5 h-2.5 rounded-full bg-red-400 shrink-0';
+      } else {
+        toast.className =
+          'fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl border border-amber-400/50 bg-[#0b0e14]/95 backdrop-blur-xl text-amber-200 text-sm font-bold shadow-[0_12px_35px_rgba(0,0,0,0.85)] flex items-center gap-2.5 max-w-[92vw]';
+        if (dotEl) dotEl.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0';
+      }
+
       toast.classList.remove('hidden');
-      toast.classList.add('flex');
       clearTimeout(showToast._timer);
       showToast._timer = setTimeout(() => {
         toast.classList.add('hidden');
         toast.classList.remove('flex');
-      }, 3200);
+      }, 3600);
     }
 
     function loadLocalCache() {
@@ -1528,10 +1446,12 @@
       } catch (_) {}
     }
 
-    // Fetch remote tasks & member records from Supabase seamlessly
     async function syncFromSupabase() {
       loadLocalCache();
-      if (!supabaseClient) return;
+      if (!supabaseClient) return { ok: false, error: 'تعذر تهيئة عميل Supabase' };
+
+      let hadError = false;
+      let lastErrorMsg = '';
 
       try {
         const { data: remoteTasks, error: tasksErr } = await supabaseClient
@@ -1539,7 +1459,10 @@
           .select('*')
           .order('created_at', { ascending: false });
 
-        if (!tasksErr && Array.isArray(remoteTasks)) {
+        if (tasksErr) {
+          hadError = true;
+          lastErrorMsg = tasksErr.message || 'خطأ في قراءة المهام';
+        } else if (Array.isArray(remoteTasks)) {
           tasksState = remoteTasks.map((t) => ({
             id: String(t.id),
             title: t.title || 'مهمة جديدة',
@@ -1550,8 +1473,9 @@
             created_at: t.created_at || new Date().toISOString(),
           }));
         }
-      } catch (_) {
-        // Fallback smoothly to local state if table is not created yet
+      } catch (err) {
+        hadError = true;
+        lastErrorMsg = err?.message || 'تعذر الاتصال بجدول المهام';
       }
 
       try {
@@ -1559,23 +1483,31 @@
           .from('grades')
           .select('*');
 
-        if (!gradesErr && Array.isArray(remoteGrades)) {
+        if (gradesErr) {
+          hadError = true;
+          lastErrorMsg = gradesErr.message || 'خطأ في قراءة الدرجات';
+        } else if (Array.isArray(remoteGrades)) {
           remoteGrades.forEach((row) => {
             if (!row.member_id) return;
             const idKey = normalizeDigits(row.member_id);
             memberOverrides[idKey] = {
               ...(memberOverrides[idKey] || {}),
-              grade: row.grade !== undefined && row.grade !== null ? Number(row.grade) : (memberOverrides[idKey]?.grade ?? 60),
+              grade:
+                row.grade !== undefined && row.grade !== null
+                  ? Number(row.grade)
+                  : (memberOverrides[idKey]?.grade ?? 60),
               attendance: row.attendance || memberOverrides[idKey]?.attendance || 'تم الحضور',
               note: row.note !== undefined ? row.note : (memberOverrides[idKey]?.note || ''),
             };
           });
         }
-      } catch (_) {
-        // Fallback smoothly if table is not created yet
+      } catch (err) {
+        hadError = true;
+        lastErrorMsg = err?.message || 'تعذر الاتصال بجدول الدرجات';
       }
 
       saveLocalCache();
+      return hadError ? { ok: false, error: lastErrorMsg } : { ok: true };
     }
 
     function getMemberEffectiveData(member) {
@@ -1588,9 +1520,6 @@
       };
     }
 
-    // ---------------------------------------------------------
-    // 4. LOGIN GATE & 3D TILT INTERACTION
-    // ---------------------------------------------------------
     const loginView = document.getElementById('login-view');
     const workspaceView = document.getElementById('workspace-view');
     const loginCard = document.getElementById('login-card');
@@ -1683,9 +1612,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // ---------------------------------------------------------
-    // 5. WORKSPACE RENDERING (MEMBER & ADMIN)
-    // ---------------------------------------------------------
     const memberWorkspace = document.getElementById('member-workspace');
     const adminWorkspace = document.getElementById('admin-workspace');
     const memberTabsBar = document.getElementById('member-tabs-bar');
@@ -1721,7 +1647,6 @@
       }
     }
 
-    // Tab Navigation Logic
     function switchMemberTab(tabName) {
       document.querySelectorAll('.member-tab-btn').forEach((btn) => {
         const isActive = btn.dataset.tab === tabName;
@@ -1739,14 +1664,12 @@
       btn.addEventListener('click', () => switchMemberTab(btn.dataset.tab));
     });
 
-    // Render all personal views for the logged-in member ONLY
     function renderMemberViews(memberData) {
-      // 1. Meeting View
       document.getElementById('meeting-owner-name').textContent = memberData.name;
       const meetingListEl = document.getElementById('member-meeting-list');
       const isAttended = memberData.attendance === 'تم الحضور';
 
-      let meetingCardsHtml = `
+      meetingListEl.innerHTML = `
         <div class="p-5 rounded-2xl bg-[#05080d]/95 border ${
           isAttended ? 'border-emerald-400/35' : 'border-red-500/45'
         } flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -1758,7 +1681,7 @@
               </span>
             </div>
             <p class="text-xs sm:text-sm text-slate-400">
-              العضو: <span class="text-slate-200 font-bold">${memberData.name}</span>
+              العضو: <span class="text-slate-200 font-bold">${escapeHtml(memberData.name)}</span>
             </p>
             ${
               memberData.note
@@ -1776,9 +1699,7 @@
           </span>
         </div>
       `;
-      meetingListEl.innerHTML = meetingCardsHtml;
 
-      // 2. Grades View
       document.getElementById('grades-owner-name').textContent = memberData.name;
       const gradesContentEl = document.getElementById('member-grades-content');
       const gradeNum = Number(memberData.grade);
@@ -1804,17 +1725,14 @@
 
         <div class="p-6 rounded-2xl bg-[#05080d]/95 border border-white/10 flex flex-col justify-between">
           <span class="text-xs font-extrabold text-slate-300">بيان العضو</span>
-          <p class="text-base font-black text-white my-2">${memberData.name}</p>
+          <p class="text-base font-black text-white my-2">${escapeHtml(memberData.name)}</p>
           <p class="text-xs text-amber-200 font-bold">
             ${memberData.note ? escapeHtml(memberData.note) : 'لا توجد ملاحظات إضافية مسجلة حاليًا'}
           </p>
         </div>
       `;
 
-      // 3. Tasks View (Assigned to "all" or specifically to this member's name)
       renderMemberTasks(memberData);
-
-      // 4. Team Members Directory (Names & Roles ONLY - NO IDs!)
       renderMembersDirectory();
     }
 
@@ -1914,7 +1832,6 @@
       showToast('تم تحديث المهام بنجاح');
     });
 
-    // Directory of All 24 Members (Strictly Name + Role/Badge, NEVER IDs)
     function renderMembersDirectory() {
       const grid = document.getElementById('team-members-grid');
       grid.innerHTML = TEAM_MEMBERS.map((m, idx) => {
@@ -1959,9 +1876,6 @@
       }).join('');
     }
 
-    // ---------------------------------------------------------
-    // 6. ADMIN DASHBOARD LOGIC (NO SQL OR SETUP CODE ANYWHERE)
-    // ---------------------------------------------------------
     function populateAdminSelects() {
       const taskTargetSelect = document.getElementById('task-target');
       const recordMemberSelect = document.getElementById('record-member-select');
@@ -2001,7 +1915,6 @@
     function renderAdminDashboard() {
       populateAdminSelects();
 
-      // Update KPI counters
       document.getElementById('admin-stat-tasks').textContent = String(tasksState.length);
       document.getElementById('admin-tasks-count-pill').textContent = `${tasksState.length} مهام`;
 
@@ -2011,7 +1924,6 @@
       });
       document.getElementById('admin-stat-present').textContent = `${presentCount} / ${TEAM_MEMBERS.length}`;
 
-      // Render Tasks List for Admin
       const adminTasksList = document.getElementById('admin-tasks-list');
       if (tasksState.length === 0) {
         adminTasksList.innerHTML = `
@@ -2050,7 +1962,6 @@
           .join('');
       }
 
-      // Render Admin Overview Table
       const tbody = document.getElementById('admin-members-table-body');
       tbody.innerHTML = TEAM_MEMBERS.map((m, idx) => {
         const eff = getMemberEffectiveData(m);
@@ -2074,7 +1985,6 @@
       }).join('');
     }
 
-    // Add New Task Handler
     document.getElementById('admin-add-task-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const titleInput = document.getElementById('task-title');
@@ -2083,68 +1993,109 @@
       const deadlineInput = document.getElementById('task-deadline');
       const descInput = document.getElementById('task-desc');
 
-      const newTaskObj = {
-        id: 'task_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+      const payload = {
         title: titleInput.value.trim(),
+        description: descInput.value.trim(),
         assigned_to: targetSelect.value,
         priority: prioritySelect.value,
         deadline: deadlineInput.value.trim() || 'مفتوح',
-        description: descInput.value.trim(),
+      };
+
+      const tempId = 'task_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+      const newTaskObj = {
+        id: tempId,
+        ...payload,
         created_at: new Date().toISOString(),
       };
 
-      tasksState.unshift(newTaskObj);
-      saveLocalCache();
-      renderAdminDashboard();
-
-      if (supabaseClient) {
-        try {
-          const { data, error } = await supabaseClient
-            .from('tasks')
-            .insert([
-              {
-                title: newTaskObj.title,
-                description: newTaskObj.description,
-                assigned_to: newTaskObj.assigned_to,
-                priority: newTaskObj.priority,
-                deadline: newTaskObj.deadline,
-              },
-            ])
-            .select();
-          if (!error && Array.isArray(data) && data[0]?.id) {
-            newTaskObj.id = String(data[0].id);
-            saveLocalCache();
-          }
-        } catch (_) {}
+      if (!supabaseClient) {
+        tasksState.unshift(newTaskObj);
+        saveLocalCache();
+        renderAdminDashboard();
+        titleInput.value = '';
+        deadlineInput.value = '';
+        descInput.value = '';
+        showToast('تم حفظ التاسك محليًا (تعذر الاتصال بـ Supabase)', 'error');
+        return;
       }
 
-      titleInput.value = '';
-      deadlineInput.value = '';
-      descInput.value = '';
-      showToast('تم نشر التاسك بنجاح');
+      try {
+        const { data, error } = await supabaseClient
+          .from('tasks')
+          .insert([payload])
+          .select();
+
+        if (error) {
+          showToast(`تعذر حفظ التاسك في Supabase: ${error.message}`, 'error');
+          return;
+        }
+
+        if (Array.isArray(data) && data[0]) {
+          newTaskObj.id = String(data[0].id);
+          newTaskObj.created_at = data[0].created_at || newTaskObj.created_at;
+        }
+
+        tasksState.unshift(newTaskObj);
+        saveLocalCache();
+        renderAdminDashboard();
+        titleInput.value = '';
+        deadlineInput.value = '';
+        descInput.value = '';
+        showToast('تم نشر التاسك ومزامنته مع Supabase بنجاح');
+      } catch (err) {
+        showToast(`حدث خطأ أثناء إرسال التاسك: ${err?.message || 'خطأ غير متوقع'}`, 'error');
+      }
     });
 
-    // Delete Task Handler
     window.deleteTaskById = async function (taskId) {
+      if (supabaseClient) {
+        try {
+          const { error } = await supabaseClient.from('tasks').delete().eq('id', taskId);
+          if (error) {
+            showToast(`تعذر حذف التاسك من Supabase: ${error.message}`, 'error');
+            return;
+          }
+        } catch (err) {
+          showToast(`خطأ أثناء حذف التاسك: ${err?.message || 'خطأ غير متوقع'}`, 'error');
+          return;
+        }
+      }
+
       tasksState = tasksState.filter((t) => String(t.id) !== String(taskId));
       saveLocalCache();
       renderAdminDashboard();
-
-      if (supabaseClient) {
-        try {
-          await supabaseClient.from('tasks').delete().eq('id', taskId);
-        } catch (_) {}
-      }
-      showToast('تم حذف التاسك');
+      showToast('تم حذف التاسك بنجاح');
     };
 
-    // Save Member Grade & Attendance Handler
     document.getElementById('admin-member-record-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const memberId = document.getElementById('record-member-select').value;
       const gradeVal = Math.min(60, Math.max(0, Number(document.getElementById('record-grade-input').value)));
       const attendanceVal = document.getElementById('record-attendance-select').value;
       const noteVal = document.getElementById('record-note-input').value.trim();
+
+      const recordPayload = {
+        member_id: memberId,
+        grade: gradeVal,
+        attendance: attendanceVal,
+        note: noteVal,
+      };
+
+      if (supabaseClient) {
+        try {
+          const { error } = await supabaseClient
+            .from('grades')
+            .upsert([recordPayload], { onConflict: 'member_id' });
+
+          if (error) {
+            showToast(`تعذر حفظ الدرجة/الحضور في Supabase: ${error.message}`, 'error');
+            return;
+          }
+        } catch (err) {
+          showToast(`خطأ أثناء حفظ البيانات: ${err?.message || 'خطأ غير متوقع'}`, 'error');
+          return;
+        }
+      }
 
       memberOverrides[memberId] = {
         grade: gradeVal,
@@ -2153,29 +2104,9 @@
       };
       saveLocalCache();
       renderAdminDashboard();
-
-      if (supabaseClient) {
-        try {
-          await supabaseClient
-            .from('grades')
-            .upsert(
-              [
-                {
-                  member_id: memberId,
-                  grade: gradeVal,
-                  attendance: attendanceVal,
-                  note: noteVal,
-                },
-              ],
-              { onConflict: 'member_id' }
-            );
-        } catch (_) {}
-      }
-
-      showToast('تم حفظ بيانات العضو بنجاح');
+      showToast('تم حفظ بيانات العضو ومزامنتها بنجاح');
     });
 
-    // Preview as Member Toggle from Admin
     document.getElementById('admin-preview-member-btn').addEventListener('click', () => {
       previewAsMember = TEAM_MEMBERS[0];
       openWorkspace();
@@ -2183,14 +2114,15 @@
     });
 
     document.getElementById('admin-reload-data-btn').addEventListener('click', async () => {
-      await syncFromSupabase();
+      const res = await syncFromSupabase();
       renderAdminDashboard();
-      showToast('تمت مزامنة البيانات');
+      if (res && !res.ok) {
+        showToast(`تمت المزامنة مع تنبيه: ${res.error}`, 'error');
+      } else {
+        showToast('تمت مزامنة البيانات بنجاح');
+      }
     });
 
-    // ---------------------------------------------------------
-    // 7. INTERACTIVE IMAGINARY PROJECT SIMULATION
-    // ---------------------------------------------------------
     (function initProjectSimulation() {
       const statusText = document.getElementById('sim-status-text');
       const actionPill = document.getElementById('sim-action-pill');
@@ -2268,109 +2200,64 @@
       document.getElementById('sim-metal-btn').addEventListener('click', () => runItemTest('metal'));
     })();
 
-    // ---------------------------------------------------------
-    // 8. NEURAL PARTICLE BACKGROUND CANVAS
-    // ---------------------------------------------------------
-    (function initNeuralParticles() {
+    (function initNeuralCanvas() {
       const canvas = document.getElementById('neural-canvas');
+      if (!canvas) return;
       const ctx = canvas.getContext('2d');
       let width = 0;
       let height = 0;
-      let nodes = [];
-      const pointer = { x: null, y: null, radius: 165 };
+      let particles = [];
 
-      window.addEventListener('mousemove', (e) => {
-        pointer.x = e.clientX;
-        pointer.y = e.clientY;
-      });
-
-      window.addEventListener('mouseout', () => {
-        pointer.x = null;
-        pointer.y = null;
-      });
-
-      function setupSize() {
+      function resizeCanvas() {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
-        const count = Math.min(Math.floor((width * height) / 16000), 75);
-        const colors = ['#E5C158', '#10B981', '#FDE047'];
-        nodes = [];
-        for (let i = 0; i < count; i++) {
-          nodes.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 0.45,
-            vy: (Math.random() - 0.5) * 0.45,
-            r: Math.random() * 1.9 + 0.9,
-            color: colors[i % colors.length],
-          });
-        }
+        const count = Math.min(60, Math.max(24, Math.floor((width * height) / 24000)));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.45,
+          vy: (Math.random() - 0.5) * 0.45,
+          r: Math.random() * 1.8 + 0.9,
+          gold: Math.random() > 0.45,
+        }));
       }
 
-      function renderFrame() {
+      function animateCanvas() {
         ctx.clearRect(0, 0, width, height);
-
-        for (let i = 0; i < nodes.length; i++) {
-          const n = nodes[i];
-          n.x += n.vx;
-          n.y += n.vy;
-
-          if (n.x < 0 || n.x > width) n.vx *= -1;
-          if (n.y < 0 || n.y > height) n.vy *= -1;
-
-          if (pointer.x !== null && pointer.y !== null) {
-            const dx = n.x - pointer.x;
-            const dy = n.y - pointer.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < pointer.radius) {
-              ctx.beginPath();
-              ctx.moveTo(n.x, n.y);
-              ctx.lineTo(pointer.x, pointer.y);
-              ctx.strokeStyle = `rgba(229, 193, 88, ${0.26 * (1 - dist / pointer.radius)})`;
-              ctx.lineWidth = 1;
-              ctx.stroke();
-            }
-          }
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
 
           ctx.beginPath();
-          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-          ctx.fillStyle = n.color;
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.gold ? 'rgba(229, 193, 88, 0.55)' : 'rgba(16, 185, 129, 0.55)';
           ctx.fill();
 
-          for (let j = i + 1; j < nodes.length; j++) {
-            const n2 = nodes[j];
-            const dist = Math.hypot(n.x - n2.x, n.y - n2.y);
-            if (dist < 135) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 130) {
               ctx.beginPath();
-              ctx.moveTo(n.x, n.y);
-              ctx.lineTo(n2.x, n2.y);
-              ctx.strokeStyle = `rgba(16, 185, 129, ${0.12 * (1 - dist / 135)})`;
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = `rgba(229, 193, 88, ${(1 - dist / 130) * 0.14})`;
               ctx.lineWidth = 0.8;
               ctx.stroke();
             }
           }
         }
-
-        requestAnimationFrame(renderFrame);
+        requestAnimationFrame(animateCanvas);
       }
 
-      window.addEventListener('resize', setupSize);
-      window.addEventListener('load', () => {
-        loadLocalCache();
-        setupSize();
-        renderFrame();
-      });
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      animateCanvas();
     })();
-
-    // Safe HTML escaping helper
-    function escapeHtml(str) {
-      return String(str || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
   </script>
 </body>
 </html>
