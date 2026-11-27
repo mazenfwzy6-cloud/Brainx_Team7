@@ -1482,16 +1482,36 @@
           lastErrorMsg = gradesErr.message || 'خطأ في قراءة الدرجات';
         } else if (Array.isArray(remoteGrades)) {
           remoteGrades.forEach((row) => {
-            if (!row.member_id) return;
-            const idKey = normalizeDigits(row.member_id);
+            const rawId = row.member_id ?? row.student_id ?? row.member ?? '';
+            const rawName = row.member_name ?? row.name ?? '';
+            let idKey = normalizeDigits(rawId);
+
+            if (!idKey && rawName) {
+              const matched = TEAM_MEMBERS.find(
+                (m) => m.name.trim() === String(rawName).trim()
+              );
+              if (matched) idKey = matched.id;
+            }
+            if (!idKey) return;
+
+            const rawGrade =
+              row.grade !== undefined && row.grade !== null
+                ? row.grade
+                : row.score !== undefined && row.score !== null
+                ? row.score
+                : row.value;
+
+            const rawAttendance = row.attendance ?? row.status ?? row.meeting_status;
+            const rawNote = row.note ?? row.notes ?? row.comment ?? '';
+
             memberOverrides[idKey] = {
               ...(memberOverrides[idKey] || {}),
               grade:
-                row.grade !== undefined && row.grade !== null
-                  ? Number(row.grade)
+                rawGrade !== undefined && rawGrade !== null && rawGrade !== ''
+                  ? Number(rawGrade)
                   : (memberOverrides[idKey]?.grade ?? 60),
-              attendance: row.attendance || memberOverrides[idKey]?.attendance || 'تم الحضور',
-              note: row.note !== undefined ? row.note : (memberOverrides[idKey]?.note || ''),
+              attendance: rawAttendance || memberOverrides[idKey]?.attendance || 'تم الحضور',
+              note: rawNote !== undefined ? String(rawNote) : (memberOverrides[idKey]?.note || ''),
             };
           });
         }
@@ -2068,6 +2088,7 @@
     document.getElementById('admin-member-record-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const memberId = document.getElementById('record-member-select').value;
+      const memberObj = TEAM_MEMBERS.find((m) => m.id === memberId);
       const gradeVal = Math.min(60, Math.max(0, Number(document.getElementById('record-grade-input').value)));
       const attendanceVal = document.getElementById('record-attendance-select').value;
       const noteVal = document.getElementById('record-note-input').value.trim();
@@ -2081,9 +2102,35 @@
 
       if (supabaseClient) {
         try {
-          const { error } = await supabaseClient
+          let { error } = await supabaseClient
             .from('grades')
             .upsert([recordPayload], { onConflict: 'member_id' });
+
+          // Fallback if existing table uses different column names (e.g., score / status / notes)
+          if (error && /column|schema cache/i.test(error.message || '')) {
+            const altPayload = {
+              member_id: memberId,
+              score: gradeVal,
+              status: attendanceVal,
+              notes: noteVal,
+            };
+            const altRes = await supabaseClient
+              .from('grades')
+              .upsert([altPayload], { onConflict: 'member_id' });
+            error = altRes.error;
+
+            if (error && memberObj) {
+              const namePayload = {
+                name: memberObj.name,
+                grade: gradeVal,
+                attendance: attendanceVal,
+              };
+              const nameRes = await supabaseClient
+                .from('grades')
+                .upsert([namePayload], { onConflict: 'name' });
+              error = nameRes.error;
+            }
+          }
 
           if (error) {
             showToast(`تعذر حفظ الدرجة/الحضور في Supabase: ${error.message}`, 'error');
